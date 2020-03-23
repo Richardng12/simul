@@ -1,12 +1,12 @@
 module.exports = {
-  extends: ["airbnb-base", "plugin:prettier/recommended"],
+  extends: ['airbnb-base', 'plugin:prettier/recommended'],
   env: {
     jest: true,
-    node: true
+    node: true,
   },
   rules: {
-    "max-len": [
-      "warn",
+    'max-len': [
+      'warn',
       {
         code: 100,
         tabWidth: 2,
@@ -16,9 +16,9 @@ module.exports = {
         ignoreUrls: true,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true
-      }
+        ignoreRegExpLiterals: true,
+      },
     ],
-    "no-underscore-dangle": "off" // __MONGO_URI__, _id, etc.
-  }
+    'no-underscore-dangle': 'off', // __MONGO_URI__, _id, etc.
+  },
 };
