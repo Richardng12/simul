@@ -1,6 +1,7 @@
 {
   "name": "v1",
   "version": "1.0.0",
+  "proxy": "http://localhost:8080",
   "description": "",
   "main": "server.js",
   "scripts": {
