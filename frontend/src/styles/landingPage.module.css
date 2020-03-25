@@ -1,0 +1,15 @@
+body {
+  height: 100%;
+}
+
+.content {
+  background-image: url('51y6dy0T8sL._AC_SL1000_.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  height: 100vh;
+}
+
+.button {
+  background-color: #1db954 !important;
+}
