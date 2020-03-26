@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
+import { StylesProvider } from '@material-ui/styles';
 import routes from './routes/routes';
 
 const theme = createMuiTheme({
@@ -18,9 +18,11 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
-        <div className="App">{routes}</div>
-      </Router>
+      <StylesProvider injectFirst>
+        <Router>
+          <div className="App">{routes}</div>
+        </Router>
+      </StylesProvider>
     </MuiThemeProvider>
   );
 }

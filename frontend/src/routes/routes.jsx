@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import LandingPage from '../pages/landingPage';
-import LobbyPage from '../pages/lobbyPage';
-import MusicPage from '../pages/musicPage';
+import LandingPage from '../pages/landingPage/landingPage';
+import LobbyPage from '../pages/lobbyPage/lobbyPage';
+import MusicPage from '../pages/musicPage/musicPage';
 
 const paths = {
   LANDING_PAGE: '/',
