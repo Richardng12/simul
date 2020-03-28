@@ -1,12 +1,24 @@
 import React from 'react';
-import SongQueueTable from './components/songQueueTable';
-// import AppBar from './components/appBar';
+import AppBar from './components/appBar';
+import LyricsContainer from './lyricsContainer';
+import QueueContainer from './queueContainer';
+import SocialContainer from './socialContainer';
+
+import styles from './styles/musicPage.module.css';
 
 function MusicPage() {
   return (
-    <div>
-      {/* <AppBar /> */}
-      <SongQueueTable />
+    <div className={styles.root}>
+      <AppBar />
+      <div className={styles.mostStuff}>
+        <div className={styles.playerStuff}>
+          <QueueContainer />
+        </div>
+        <div className={styles.nonPlayerStuff}>
+          <LyricsContainer />
+          <SocialContainer />
+        </div>
+      </div>
     </div>
   );
 }
