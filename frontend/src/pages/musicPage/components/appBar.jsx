@@ -8,7 +8,7 @@ import styles from '../styles/appBar.module.css';
 const ButtonAppBar = () => {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" className={styles.root}>
         <Toolbar className={styles.toolBar}>
           <Typography variant="h6">SIMUL</Typography>
           <Typography variant="h6">LOBBY</Typography>

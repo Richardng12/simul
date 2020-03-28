@@ -1,18 +1,21 @@
 .root {
-  height: 90vh;
+  height: calc(100vh - 65px);
   width: 100vw;
 }
 
 .mostStuff {
   flex-direction: row;
   display: flex;
+  height: 100%;
 }
 
 .playerStuff {
   flex-grow: 1;
-  min-width: 30vw;
+  min-width: 450px;
+  height: 100%;
 }
 
 .nonPlayerStuff {
   flex-grow: 2;
+  height: 100%;
 }

@@ -1,6 +1,5 @@
 .table {
-  max-height: 80vh;
+  max-height: 80%;
   overflow-y: scroll;
   overflow-x: hidden;
-  width: 100%;
 }

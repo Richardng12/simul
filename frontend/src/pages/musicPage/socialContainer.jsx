@@ -1,9 +1,11 @@
 import React from 'react';
+import styles from './styles/socialContainer.module.css';
+import AppBar from './components/appBar';
 
 const SocialContainer = () => {
   return (
-    <div>
-      <p>This is the social container</p>
+    <div className={styles.root}>
+      <AppBar />
     </div>
   );
 };
