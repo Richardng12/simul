@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -22,7 +22,7 @@ const currencies = [
 ];
 
 const SongSearch = () => {
-  const [currency, setCurrency] = React.useState('EUR');
+  const [currency, setCurrency] = useState('EUR');
 
   const handleChange = event => {
     setCurrency(event.target.value);
