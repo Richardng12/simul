@@ -2,13 +2,13 @@ import React from 'react';
 import SongSearch from './components/songSearch';
 import SongQueueTable from './components/songQueueTable';
 
-function QueueContainer() {
+const QueueContainer = () => {
   return (
     <div>
       <SongSearch />
       <SongQueueTable />
     </div>
   );
-}
+};
 
 export default QueueContainer;

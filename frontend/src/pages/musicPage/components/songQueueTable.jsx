@@ -44,7 +44,7 @@ const rows = [
   createData('Miss Independent', 'Ne-Yo'),
 ];
 
-function SongQueueTable() {
+const SongQueueTable = () => {
   return (
     <TableContainer component={Paper} className={styles.table}>
       <Table aria-label="simple table">
@@ -67,6 +67,6 @@ function SongQueueTable() {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default SongQueueTable;

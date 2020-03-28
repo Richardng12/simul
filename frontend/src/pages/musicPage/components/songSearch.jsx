@@ -21,7 +21,7 @@ const currencies = [
   },
 ];
 
-function SongSearch() {
+const SongSearch = () => {
   const [currency, setCurrency] = React.useState('EUR');
 
   const handleChange = event => {
@@ -46,6 +46,6 @@ function SongSearch() {
       </TextField>
     </div>
   );
-}
+};
 
 export default SongSearch;

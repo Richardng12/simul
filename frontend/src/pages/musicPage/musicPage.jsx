@@ -6,7 +6,7 @@ import SocialContainer from './socialContainer';
 
 import styles from './styles/musicPage.module.css';
 
-function MusicPage() {
+const MusicPage = () => {
   return (
     <div className={styles.root}>
       <AppBar />
@@ -21,6 +21,6 @@ function MusicPage() {
       </div>
     </div>
   );
-}
+};
 
 export default MusicPage;

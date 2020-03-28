@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles/lyrics.module.css';
 
-function LyricsContainer() {
+const LyricsContainer = () => {
   return (
     <div className={styles.lyricsContainer}>
       <p>
@@ -54,6 +54,6 @@ function LyricsContainer() {
       </p>
     </div>
   );
-}
+};
 
 export default LyricsContainer;

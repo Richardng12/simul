@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 import styles from '../styles/appBar.module.css';
 
-export default function ButtonAppBar() {
+const ButtonAppBar = () => {
   return (
     <div>
       <AppBar position="static">
@@ -17,4 +17,6 @@ export default function ButtonAppBar() {
       </AppBar>
     </div>
   );
-}
+};
+
+export default ButtonAppBar;
