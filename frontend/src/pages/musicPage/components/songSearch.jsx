@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 import MenuItem from '@material-ui/core/MenuItem';
+import SearchIcon from '@material-ui/icons/Search';
+
+import styles from '../styles/songSearch.module.css';
 
 const currencies = [
   {
@@ -21,6 +25,10 @@ const currencies = [
   },
 ];
 
+const getSearchIcon = () => {
+  return <SearchIcon />;
+};
+
 const SongSearch = () => {
   const [currency, setCurrency] = useState('EUR');
 
@@ -29,14 +37,22 @@ const SongSearch = () => {
   };
 
   return (
-    <div>
+    <div className={styles.root}>
       <TextField
         id="standard-select-currency"
         select
-        label="Select"
         value={currency}
         onChange={handleChange}
-        helperText="Please select your currency"
+        className={styles.textField}
+        InputProps={{ disableUnderline: true }}
+        IconComponent={getSearchIcon}
+        MenuProps={{
+          getContentAnchorEl: null,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+          },
+        }}
       >
         {currencies.map(option => (
           <MenuItem key={option.value} value={option.value}>

@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './styles/socialContainer.module.css';
-import AppBar from './components/appBar';
+import Chat from './components/chat';
+import MembersList from './components/membersList';
 
 const SocialContainer = () => {
   return (
     <div className={styles.root}>
-      <AppBar />
+      <Chat />
+      <MembersList />
     </div>
   );
 };
