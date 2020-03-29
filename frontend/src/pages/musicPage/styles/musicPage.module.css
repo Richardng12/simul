@@ -1,0 +1,18 @@
+.root {
+  height: 90vh;
+  width: 100vw;
+}
+
+.mostStuff {
+  flex-direction: row;
+  display: flex;
+}
+
+.playerStuff {
+  flex-grow: 1;
+  min-width: 30vw;
+}
+
+.nonPlayerStuff {
+  flex-grow: 2;
+}
