@@ -1,66 +1,65 @@
-import React, { useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-array-index-key */
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
-import MenuItem from '@material-ui/core/MenuItem';
-import SearchIcon from '@material-ui/icons/Search';
-
-import styles from '../styles/songSearch.module.css';
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
-const getSearchIcon = () => {
-  return <SearchIcon />;
-};
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import parse from 'autosuggest-highlight/parse';
 
 const SongSearch = () => {
-  const [currency, setCurrency] = useState('EUR');
+  const [setInputValue] = React.useState('');
+  const [options] = React.useState([]);
 
   const handleChange = event => {
-    setCurrency(event.target.value);
+    setInputValue(event.target.value);
   };
 
   return (
-    <div className={styles.root}>
-      <TextField
-        id="standard-select-currency"
-        select
-        value={currency}
-        onChange={handleChange}
-        className={styles.textField}
-        InputProps={{ disableUnderline: true }}
-        IconComponent={getSearchIcon}
-        MenuProps={{
-          getContentAnchorEl: null,
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
-          },
-        }}
-      >
-        {currencies.map(option => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    </div>
+    <Autocomplete
+      style={{ width: 300 }}
+      getOptionLabel={option => (typeof option === 'string' ? option : option.description)}
+      filterOptions={x => x}
+      options={options}
+      autoComplete
+      includeInputInList
+      renderInput={params => (
+        <TextField
+          {...params}
+          label="Add a song"
+          variant="outlined"
+          fullWidth
+          onChange={handleChange}
+        />
+      )}
+      renderOption={option => {
+        const matches = option.structured_formatting.main_text_matched_substrings;
+        const parts = parse(
+          option.structured_formatting.main_text,
+          matches.map(match => [match.offset, match.offset + match.length]),
+        );
+
+        return (
+          <Grid container alignItems="center">
+            <Grid item>
+              <LocationOnIcon />
+            </Grid>
+            <Grid item xs>
+              {parts.map((part, index) => (
+                <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
+                  {part.text}
+                </span>
+              ))}
+
+              <Typography variant="body2" color="textSecondary">
+                {option.structured_formatting.secondary_text}
+              </Typography>
+            </Grid>
+          </Grid>
+        );
+      }}
+    />
   );
 };
 
