@@ -4,6 +4,13 @@ const keys = require('./keys');
 const User = require('../db/models/user-model');
 const util = require('util');
 
+const SpotifyWebApi = require('spotify-web-api-node');
+
+const spotifyApi = new SpotifyWebApi({});
+
+// When our access token will expire
+var tokenExpirationEpoch;
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session. Typically,
@@ -33,7 +40,8 @@ passport.use(
     (accessToken, refreshToken, expires_in, profile, done) => {
       //passport callback function
       console.log('passport callback function fired');
-      console.log(util.inspect(profile, false, null, true /* enable colors */));
+      //  console.log(util.inspect(profile, false, null, true /* enable colors */));
+      console.log(expires_in);
 
       //check if user alrdy exists in db
       User.findOne({
@@ -41,6 +49,8 @@ passport.use(
       }).then(currentUser => {
         if (currentUser) {
           done(null, currentUser);
+          spotifyApi.setAccessToken(currentUser.accessToken);
+          spotifyApi.setRefreshToken(currentUser.refreshToken);
           //user already in db
         } else {
           // user not in db
@@ -58,6 +68,8 @@ passport.use(
             .save()
             .then(newUser => {
               console.log('new user created: ' + newUser);
+              spotifyApi.setAccessToken(newUser.accessToken);
+              spotifyApi.setRefreshToken(newUser.refreshToken);
               done(null, newUser);
             });
         }

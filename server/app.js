@@ -6,12 +6,21 @@ const express = require('express'),
 const authRoutes = require('./src/routes/auth-routes');
 const passportSetup = require('./src/config/passport-setup');
 const consolidate = require('consolidate');
+const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 const keys = require('./src/config/keys');
 const cookieSession = require('cookie-session');
 
+const SpotifyWebApi = require('spotify-web-api-node');
+
 const app = express();
+
+var spotifyApi = new SpotifyWebApi({
+  clientId: keys.spotify.clientId,
+  clientSecret: keys.spotify.clientSecret,
+  redirectUri: '/auth/spotify/callback',
+});
 
 //connect to mongoDB
 mongoose.connect(keys.mongodb.dbURI, {
@@ -38,6 +47,9 @@ app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.engine('html', consolidate.swig);
 
 //set-up auth routes
@@ -56,6 +68,26 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 //login route
 app.get('/login', (req, res) => {
   res.render('login.html', { user: req.user });
+});
+
+app.get('/userinfo', ensureAuthenticated, async (req, res) => {
+  try {
+    var result = await spotifyApi.getMe();
+    console.log(result.body);
+    res.status(200).send(result.body);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+app.get('/playlists', ensureAuthenticated, async (req, res) => {
+  try {
+    var result = await spotifyApi.getUserPlaylists();
+    console.log(result.body);
+    res.status(200).send(result.body);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 // Simple route middleware to ensure user is authenticated.
