@@ -42,7 +42,6 @@ app.use(
   }),
 );
 
-// app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -87,7 +86,7 @@ app.get('/userinfo', ensureAuthenticated, async (req, res) => {
 
 app.get('/playlists', ensureAuthenticated, async (req, res) => {
   console.log('access token at start: (wrong) : ' + req.user.accessToken);
-  var retries = 2;
+  var retries = 3;
 
   var send401Response = () => {
     console.log('401 error');
@@ -125,6 +124,7 @@ app.get('/playlists', ensureAuthenticated, async (req, res) => {
             user.accessToken = accessToken;
 
             user.save(() => {
+              console.log(accessToken + ': ' + retries);
               makeRequest();
               // Retry the request.
             });
