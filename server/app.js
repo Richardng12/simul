@@ -50,7 +50,6 @@ app.use(
   }),
 );
 
-// app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -93,7 +92,7 @@ app.get('/userinfo', ensureAuthenticated, async (req, res) => {
 });
 
 app.get('/playlists', ensureAuthenticated, async (req, res) => {
-  let retries = 2;
+  let retries = 3;
 
   const send401Response = () => {
     return res.status(401).end();
