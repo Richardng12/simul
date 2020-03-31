@@ -4,11 +4,16 @@ const lobbySchema = new mongoose.Schema(
     {
         name: {
             type: String,
+            required: false,
+        },
+        private: {
+            type: Boolean,
             required: true,
         },
-        user_ids: {
+        user_array: {
             type: Array,
-        },
+            require: true,
+        }
     },
 );
 
