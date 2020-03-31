@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const keys = require('../config/keys');
 
 //auth login
 
@@ -42,7 +43,8 @@ router.get(
   '/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: '/login' }),
   (req, res) => {
-    //can access user in db with req.[ ]
+    console.log(req.user.refreshToken);
+    console.log(req.user.accessToken);
     res.redirect('/account');
   },
 );

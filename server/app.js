@@ -13,6 +13,9 @@ const keys = require('./src/config/keys');
 const cookieSession = require('cookie-session');
 
 const SpotifyWebApi = require('spotify-web-api-node');
+var refresh = require('passport-oauth2-refresh');
+
+const User = require('./src/db/models/user-model');
 
 const app = express();
 
@@ -72,6 +75,8 @@ app.get('/login', (req, res) => {
 
 app.get('/userinfo', ensureAuthenticated, async (req, res) => {
   try {
+    spotifyApi.setAccessToken(req.user.accessToken);
+    spotifyApi.setRefreshToken(req.user.refreshToken);
     var result = await spotifyApi.getMe();
     console.log(result.body);
     res.status(200).send(result.body);
@@ -81,13 +86,66 @@ app.get('/userinfo', ensureAuthenticated, async (req, res) => {
 });
 
 app.get('/playlists', ensureAuthenticated, async (req, res) => {
-  try {
-    var result = await spotifyApi.getUserPlaylists();
-    console.log(result.body);
-    res.status(200).send(result.body);
-  } catch (err) {
-    res.status(400).send(err);
-  }
+  console.log('access token at start: (wrong) : ' + req.user.accessToken);
+  var retries = 2;
+
+  var send401Response = () => {
+    console.log('401 error');
+    return res.status(401).end();
+  };
+
+  User.findById(req.user, (err, user) => {
+    if (err || !user) {
+      return send401Response();
+    }
+
+    const makeRequest = async () => {
+      retries--;
+      if (!retries) {
+        // Couldn't refresh the access token. Tried twice.
+        return send401Response();
+      }
+
+      // Set the credentials and make the request.
+      try {
+        spotifyApi.setAccessToken(user.accessToken);
+        spotifyApi.setRefreshToken(user.refreshToken);
+        const result = await spotifyApi.getUserPlaylists();
+        res.status(200).send(result.body);
+      } catch (err) {
+        if (err.statusCode == 401) {
+          // Access token expired.
+          // Try to fetch a new one.
+          refresh.requestNewAccessToken('spotify', user.refreshToken, (err, accessToken) => {
+            if (err || !accessToken) {
+              return send401Response();
+            }
+
+            // Save the new accessToken for future use
+            user.accessToken = accessToken;
+
+            user.save(() => {
+              makeRequest();
+              // Retry the request.
+            });
+
+            User.updateOne(
+              { _id: req.user.id },
+              {
+                accessToken: accessToken,
+              },
+              (err, affected, resp) => {},
+            );
+          });
+        } else {
+          // There was another error, handle it appropriately.
+          return send401Response();
+        }
+      }
+    };
+    // Make the initial request.
+    makeRequest();
+  });
 });
 
 // Simple route middleware to ensure user is authenticated.
