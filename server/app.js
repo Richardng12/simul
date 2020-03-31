@@ -13,7 +13,6 @@ const User = require('./src/db/models/userModel');
 require('./src/config/passportSetup');
 
 const app = express();
-const mongoose = require('mongoose');
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
