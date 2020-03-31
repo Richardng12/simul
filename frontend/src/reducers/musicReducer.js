@@ -1,7 +1,7 @@
 import { UpdateCurrentSong } from '../actions/actionTypes';
 
 const initialState = {
-  currentSong: '',
+  currentSong: 'Contact',
 };
 
 const musicReducer = (state = initialState, action) => {

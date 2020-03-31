@@ -1,4 +1,4 @@
-const UpdateUsername = 'UPDATE_USERNAME';
 const UpdateCurrentSong = 'UPDATE_CURRENT_SONG';
+const UpdateUsername = 'UPDATE_USERNAME';
 
-export { UpdateUsername, UpdateCurrentSong };
+export { UpdateCurrentSong, UpdateUsername };

@@ -1,7 +1,7 @@
 import { UpdateUsername } from '../actions/actionTypes';
 
 const initialState = {
-  username: '',
+  username: 'Richard Ng',
 };
 
 const profileReducer = (state = initialState, action) => {
