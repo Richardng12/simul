@@ -1,12 +1,8 @@
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const keys = require('./keys');
-const User = require('../db/models/user-model');
-const util = require('util');
 const refresh = require('passport-oauth2-refresh');
-
-// When our access token will expire
-var tokenExpirationEpoch;
+const keys = require('./keys');
+const User = require('../db/models/userModel');
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -33,18 +29,16 @@ const strategy = new SpotifyStrategy(
     clientSecret: keys.spotify.clientSecret,
     callbackURL: '/auth/spotify/callback',
   },
-  (accessToken, refreshToken, expires_in, profile, done) => {
-    //passport callback function
-    console.log('passport callback function fired');
-    //  console.log(util.inspect(profile, false, null, true /* enable colors */));
-    //check if user alrdy exists in db
+  (accessToken, refreshToken, expiresIn, profile, done) => {
+    // passport callback function
+    // check if user alrdy exists in db
 
     User.findOne({
       spotifyId: profile.id,
     }).then(currentUser => {
       if (currentUser) {
         done(null, currentUser);
-        //user already in db
+        // user already in db
       } else {
         // user not in db
         new User({
@@ -55,12 +49,11 @@ const strategy = new SpotifyStrategy(
           emails: profile.emails,
           thumbnail: profile.photos[0],
           profileUrl: profile.profileUrl,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
+          accessToken,
+          refreshToken,
         })
           .save()
           .then(newUser => {
-            console.log('new user created: ' + newUser);
             done(null, newUser);
           });
       }
