@@ -8,6 +8,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const refresh = require('passport-oauth2-refresh');
 const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
+const lobbyRoutes = require('./src/routes/lobbyRoutes');
 const User = require('./src/db/models/userModel');
 
 require('./src/config/passportSetup');
@@ -64,6 +65,8 @@ app.engine('html', consolidate.swig);
 
 // set-up auth routes
 app.use('/auth', authRoutes);
+
+app.use('/lobbies', lobbyRoutes);
 
 // home route
 app.get('/', (req, res) => {
