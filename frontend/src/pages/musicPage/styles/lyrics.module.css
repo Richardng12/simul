@@ -1,3 +1,4 @@
 .lyricsContainer {
-  max-height: max-content;
+  overflow-y: scroll;
+  height: 60%;
 }

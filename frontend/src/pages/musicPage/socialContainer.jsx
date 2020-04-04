@@ -1,11 +1,15 @@
 import React from 'react';
+import styles from './styles/socialContainer.module.css';
+import Chat from './components/chat';
+import MembersList from './components/membersList';
 
-function SocialContainer() {
+const SocialContainer = () => {
   return (
-    <div>
-      <p>This is the social container</p>
+    <div className={styles.root}>
+      <Chat />
+      <MembersList />
     </div>
   );
-}
+};
 
 export default SocialContainer;

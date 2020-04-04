@@ -1,3 +1,7 @@
+.root {
+  height: 65px;
+}
+
 .toolBar {
   display: flex;
   justify-content: space-between;
