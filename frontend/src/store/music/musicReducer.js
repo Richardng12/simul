@@ -1,4 +1,4 @@
-import { UpdateCurrentSong } from '../actions/actionTypes';
+import { actionTypes } from './musicActions';
 
 const initialState = {
   currentSong: 'Contact',
@@ -6,7 +6,7 @@ const initialState = {
 
 const musicReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UpdateCurrentSong:
+    case actionTypes.updateCurrentSong:
       return {
         ...state,
         currentSong: action.payload,

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import musicReducer from './reducers/musicReducer';
-import profileReducer from './reducers/profileReducer';
+import musicReducer from './music/musicReducer';
+import profileReducer from './profile/profileReducer';
 
 const rootReducer = combineReducers({
   MusicReducer: musicReducer,

@@ -1,4 +1,4 @@
-import { UpdateUsername } from '../actions/actionTypes';
+import { actionTypes } from './profileActions';
 
 const initialState = {
   username: 'Richard Ng',
@@ -6,7 +6,7 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UpdateUsername:
+    case actionTypes.updateUserName:
       return {
         ...state,
         username: action.payload,
