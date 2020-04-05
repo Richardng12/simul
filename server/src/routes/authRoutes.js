@@ -28,6 +28,7 @@ router.get(
       'user-library-read',
       'playlist-read-private',
       'playlist-modify-public',
+      'playlist-modify-private',
     ],
     showDialog: true,
   }),

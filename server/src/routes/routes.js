@@ -212,4 +212,68 @@ router.get('/savedtracks', ensureAuthenticated, async (req, res) => {
   });
 });
 
+router.post('/createPlaylist', ensureAuthenticated, async (req, res) => {
+  let retries = 3;
+
+  const send401Response = () => {
+    return res.status(401).end();
+  };
+
+  User.findById(req.user, (err, user) => {
+    if (err || !user) {
+      return send401Response();
+    }
+
+    const makeRequest = async () => {
+      retries -= 1;
+      if (!retries) {
+        // Couldn't refresh the access token. Tried twice.
+        return send401Response();
+      }
+
+      // Set the credentials and make the request.
+      try {
+        spotifyApi.setAccessToken(req.user.accessToken);
+        spotifyApi.setRefreshToken(req.user.refreshToken);
+        const result = await spotifyApi.createPlaylist('My Cool Playlist', { public: false });
+        res.status(200).send(result.body);
+      } catch (error) {
+        if (error.statusCode === 401) {
+          // Access token expired.
+          // Try to fetch a new one.
+          refresh.requestNewAccessToken('spotify', user.refreshToken, (tokenError, accessToken) => {
+            if (tokenError || !accessToken) {
+              return send401Response();
+            }
+
+            // Save the new accessToken for future use
+            // eslint-disable-next-line no-param-reassign
+            user.accessToken = accessToken;
+
+            user.save(() => {
+              makeRequest();
+              // Retry the request.
+            });
+
+            User.updateOne(
+              { _id: req.user.id },
+              {
+                accessToken,
+              },
+            );
+            return null;
+          });
+        } else {
+          // There was another error, handle it appropriately.
+          return send401Response();
+        }
+      }
+      return null;
+    };
+    // Make the initial request.
+    makeRequest();
+    return null;
+  });
+});
+
 module.exports = router;
