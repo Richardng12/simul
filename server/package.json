@@ -17,6 +17,7 @@
     "body-parser": "^1.19.0",
     "consolidate": "^0.15.1",
     "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
@@ -25,6 +26,8 @@
     "passport-oauth2-refresh": "^2.0.0",
     "passport-spotify": "^1.1.0",
     "spotify-web-api-node": "^4.0.0",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
     "swig": "^1.4.2"
   },
   "devDependencies": {

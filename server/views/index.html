@@ -3,6 +3,6 @@
 <p><a href="/auth/login">login</a></p>
 {% else %}
 <h2>Hello, {{ user.displayName }}.</h2>
-<p>Your email is {{ user.emails[0].value }}</p>
+<p>Your email is {{ user.email }}</p>
 <p>Your country is {{user.country}}</p>
 {% endif %} {% endblock %}
