@@ -15,7 +15,13 @@ const swaggerDocument = require('./swagger');
 require('./src/config/passportSetup');
 
 const app = express();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }),
+);
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
@@ -71,6 +77,10 @@ app.get('/', (req, res) => {
 // account route
 app.get('/account', ensureAuthenticated, (req, res) => {
   res.render('account.html', { user: req.user });
+});
+
+app.get('/login', (req, res) => {
+  res.render('login.html', { user: req.user });
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

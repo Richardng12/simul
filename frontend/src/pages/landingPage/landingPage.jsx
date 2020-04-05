@@ -16,7 +16,6 @@ const LandingPage = () => {
       <Typography variant="h1">SIMUL</Typography>
       <Link to="/login" style={{ textDecoration: 'none' }}>
         <Button size="large" color="primary" className={styles.button}>
-          {/* <Button size="large" color="primary" className={styles.button} onClick={() => loginSpotify()}> */}
           Login to Spotify
         </Button>
       </Link>

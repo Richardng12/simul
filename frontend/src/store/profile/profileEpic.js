@@ -21,12 +21,12 @@ const getUserInfo = action$ =>
   action$.pipe(
     filter(action => action.type === actionTypes.getUserInfo),
     mergeMap(async action => {
-      console.log('goes here');
-      await fetch('http://localhost:8888/userinfo').then(res => {
-        console.log(res);
-        console.log(res.json());
-        console.log(`goes here`);
-      });
+      const result = await fetch('http://localhost:8888/userinfo', {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      console.log(result);
       return { ...action, type: actionTypes.getUserInfo_success, token: 'placeholder' };
     }),
     catchError(err =>
