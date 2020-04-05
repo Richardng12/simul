@@ -2,6 +2,7 @@ const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const refresh = require('passport-oauth2-refresh');
 const User = require('../db/models/userModel');
+
 const router = express.Router();
 
 const spotifyApi = new SpotifyWebApi({});

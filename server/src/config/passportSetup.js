@@ -3,7 +3,6 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 const refresh = require('passport-oauth2-refresh');
 const keys = require('./keys');
 const User = require('../db/models/userModel');
-const util = require('util');
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -33,7 +32,6 @@ const strategy = new SpotifyStrategy(
   (accessToken, refreshToken, expiresIn, profile, done) => {
     // passport callback function
     // check if user alrdy exists in db
-    console.log(util.inspect(profile, false, null, true /* enable colors */));
     User.findOne({
       spotifyId: profile.id,
     }).then(currentUser => {
