@@ -3,6 +3,7 @@ const passport = require('passport');
 const consolidate = require('consolidate');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const cookieSession = require('cookie-session');
 const SpotifyWebApi = require('spotify-web-api-node');
 const refresh = require('passport-oauth2-refresh');
@@ -13,6 +14,7 @@ const User = require('./src/db/models/userModel');
 require('./src/config/passportSetup');
 
 const app = express();
+app.use(cors());
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If

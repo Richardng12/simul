@@ -4,12 +4,14 @@ import { Route, Switch } from 'react-router-dom';
 import LandingPage from '../pages/landingPage/landingPage';
 import LobbyPage from '../pages/lobbyPage/lobbyPage';
 import MusicPage from '../pages/musicPage/musicPage';
+import Test from '../Test';
 
 const paths = {
   LANDING_PAGE: '/',
   MUSIC_PAGE: '/music',
   LOBBY_PAGE: '/lobbies',
   LOGIN: '/login',
+  TEST: '/test',
 };
 
 const routes = (
@@ -25,6 +27,7 @@ const routes = (
         return null;
       }}
     />
+    <Route exact path={paths.TEST} component={Test} />
   </Switch>
 );
 

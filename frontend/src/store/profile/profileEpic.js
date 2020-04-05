@@ -17,4 +17,25 @@ const login = action$ =>
     ),
   );
 
+const getUserInfo = action$ =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getUserInfo),
+    mergeMap(async action => {
+      console.log('goes here');
+      await fetch('http://localhost:8888/userinfo').then(res => {
+        console.log(res);
+        console.log(res.json());
+        console.log(`goes here`);
+      });
+      return { ...action, type: actionTypes.getUserInfo_success, token: 'placeholder' };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getUserInfo_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
 export default login;
+export { getUserInfo };

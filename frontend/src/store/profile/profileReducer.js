@@ -34,6 +34,10 @@ const profileReducer = (state = initialState, action) => {
         isAuthenticated: true,
         token: 'some token',
       };
+    case actionTypes.getUserInfo:
+      return {
+        ...state,
+      };
     default:
       return state;
   }

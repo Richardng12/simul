@@ -3,8 +3,8 @@ import musicReducer from './music/musicReducer';
 import profileReducer from './profile/profileReducer';
 
 const rootReducer = combineReducers({
-  MusicReducer: musicReducer,
-  ProfileReducer: profileReducer,
+  musicReducer,
+  profileReducer,
 });
 
 export default rootReducer;

@@ -39,7 +39,7 @@ router.get(
   '/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect('http://localhost:8888/account');
+    res.redirect('http://localhost:3000/test');
   },
 );
 

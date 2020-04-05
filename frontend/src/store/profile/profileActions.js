@@ -3,6 +3,9 @@ export const actionTypes = {
   login: 'LOGIN',
   login_success: 'LOGIN_SUCCESS',
   login_fail: 'LOGIN_FAIL',
+  getUserInfo: 'USER_INFO',
+  getUserInfo_success: 'USER_INFO_SUCCESS',
+  getUserInfo_fail: 'USER_INFO_FAIL',
 };
 
 const updateUserName = songId => ({
@@ -24,4 +27,8 @@ const loginSuccess = token => ({
   token,
 });
 
-export { updateUserName, login, loginFail, loginSuccess };
+const getUserInfo = () => ({
+  type: actionTypes.getUserInfo,
+});
+
+export { updateUserName, login, loginFail, loginSuccess, getUserInfo };
