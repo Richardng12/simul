@@ -1,14 +1,15 @@
 import { combineEpics } from 'redux-observable';
-import { delay, filter, mapTo } from 'rxjs/operators';
+// import { delay, filter, mapTo } from 'rxjs/operators';
+import login from './profile/profileEpic';
 
 // does nothing
-const placeholderEpic = action$ =>
-  action$.pipe(
-    filter(action => action.type === 'placeholder'),
-    delay(1000), // Asynchronously wait 1000ms then continue
-    mapTo({ type: 'placeholder', restaurants: [1, 2] }),
-  );
+// const placeholderEpic = action$ =>
+//   action$.pipe(
+//     filter(action => action.type === 'placeholder'),
+//     delay(1000), // Asynchronously wait 1000ms then continue
+//     mapTo({ type: 'placeholder', restaurants: [1, 2] }),
+//   );
 
-const rootEpic = combineEpics(placeholderEpic);
+const rootEpic = combineEpics(login);
 
 export default rootEpic;
