@@ -8,6 +8,10 @@ const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
 const routes = require('./src/routes/routes');
 
+const swaggerDocument = require('./swagger');
+
+const swaggerUi = require('swagger-ui-express');
+
 require('./src/config/passportSetup');
 
 const app = express();
@@ -67,5 +71,8 @@ app.get('/', (req, res) => {
 app.get('/account', ensureAuthenticated, (req, res) => {
   res.render('account.html', { user: req.user });
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//app.use('/api/v1', routes);
 
 module.exports = app;

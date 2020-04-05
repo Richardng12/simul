@@ -2,7 +2,6 @@ const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const refresh = require('passport-oauth2-refresh');
 const User = require('../db/models/userModel');
-
 const router = express.Router();
 
 const spotifyApi = new SpotifyWebApi({});
@@ -20,6 +19,30 @@ function ensureAuthenticated(req, res, next) {
   return null;
 }
 
+/**
+ * @swagger
+ * tags:
+ *  - name: playlists
+ *    description: [Playlist management]
+ *  - name: users
+ *    description: [User management]
+ *  - name: songs
+ *    description: [Song management]
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /playlists/:
+ *    post:
+ *      summary: Get all playlists associated with a user
+ *      tags: [playlists]
+ *      responses:
+ *        "200":
+ *          description: An array of playlist items
+ *          content:
+ *            application/json:
+ */
 router.get('/playlists', ensureAuthenticated, async (req, res) => {
   let retries = 3;
 
@@ -148,6 +171,19 @@ router.get('/userinfo', ensureAuthenticated, async (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * path:
+ *  /savedtracks/:
+ *    get:
+ *      summary: Get all saved tracks associated with a user
+ *      tags: [songs]
+ *      responses:
+ *        "200":
+ *          description: An array of track items
+ *          content:
+ *            application/json:
+ */
 router.get('/savedtracks', ensureAuthenticated, async (req, res) => {
   let retries = 3;
 
@@ -172,7 +208,7 @@ router.get('/savedtracks', ensureAuthenticated, async (req, res) => {
         spotifyApi.setAccessToken(req.user.accessToken);
         spotifyApi.setRefreshToken(req.user.refreshToken);
         const result = await spotifyApi.getMySavedTracks();
-        res.status(200).send(result.body);
+        res.status(200).send(result.body.items);
       } catch (error) {
         if (error.statusCode === 401) {
           // Access token expired.
