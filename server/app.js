@@ -4,9 +4,12 @@ const consolidate = require('consolidate');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
+const swaggerUi = require('swagger-ui-express');
 const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
 const routes = require('./src/routes/routes');
+
+const swaggerDocument = require('./swagger');
 
 require('./src/config/passportSetup');
 
@@ -68,4 +71,5 @@ app.get('/account', ensureAuthenticated, (req, res) => {
   res.render('account.html', { user: req.user });
 });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 module.exports = app;
