@@ -3,6 +3,10 @@ const passport = require('passport');
 
 // auth login
 
+// placeholder for host.
+// TODO: set up environmental variables for this.
+const HOST = 'http://localhost:3000';
+
 router.get('/login', (req, res) => {
   res.render('login.html', { user: req.user });
 });
@@ -44,9 +48,9 @@ router.get(
 //   Handles serializing user, sending  cookie
 router.get(
   '/spotify/callback',
-  passport.authenticate('spotify', { failureRedirect: '/login' }),
+  passport.authenticate('spotify', { failureRedirect: HOST }),
   (req, res) => {
-    res.redirect('http://localhost:8888/account');
+    res.redirect(`${HOST}/test`);
   },
 );
 

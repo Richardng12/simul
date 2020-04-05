@@ -44,17 +44,17 @@ const rows = [
   createData('Miss Independent', 'Ne-Yo'),
 ];
 
-function SongQueueTable() {
+const SongQueueTable = () => {
   return (
     <TableContainer component={Paper} className={styles.table}>
-      <Table aria-label="simple table">
-        <TableHead>
+      <Table stickyHeader aria-label="simple table">
+        <TableHead className={styles.tableHead}>
           <TableRow>
             <TableCell>TITLE</TableCell>
             <TableCell align="left">ARTIST</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody className={styles.tableBody}>
           {rows.map(row => (
             <TableRow key={row.title}>
               <TableCell component="th" scope="row">
@@ -67,6 +67,6 @@ function SongQueueTable() {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default SongQueueTable;

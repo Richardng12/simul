@@ -1,18 +1,18 @@
 module.exports = {
-  extends: ["airbnb", "plugin:prettier/recommended", "prettier/react"],
+  extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
   env: {
     browser: true,
     commonjs: true,
     es6: true,
     jest: true,
-    node: true
+    node: true,
   },
   rules: {
-    "jsx-a11y/href-no-hash": ["off"],
-    "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }],
-    "react/prop-types": ["off"],
-    "max-len": [
-      "warn",
+    'jsx-a11y/href-no-hash': ['off'],
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+    'react/prop-types': ['off'],
+    'max-len': [
+      'warn',
       {
         code: 100,
         tabWidth: 2,
@@ -22,15 +22,13 @@ module.exports = {
         ignoreUrls: true,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true
-      }
-    ]
+        ignoreRegExpLiterals: true,
+      },
+    ],
   },
   settings: {
-    "import/resolver": {
-      node: {
-        moduleDirectory: ["node_modules", "src"]
-      }
-    }
-  }
+    'import/resolver': {
+      node: {},
+    },
+  },
 };
