@@ -32,7 +32,6 @@ const strategy = new SpotifyStrategy(
   (accessToken, refreshToken, expiresIn, profile, done) => {
     // passport callback function
     // check if user alrdy exists in db
-
     User.findOne({
       spotifyId: profile.id,
     }).then(currentUser => {
@@ -46,7 +45,7 @@ const strategy = new SpotifyStrategy(
           displayName: profile.displayName,
           spotifyId: profile.id,
           country: profile.country,
-          emails: profile.emails,
+          emails: profile.emails[0].value,
           thumbnail: profile.photos[0],
           profileUrl: profile.profileUrl,
           accessToken,

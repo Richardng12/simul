@@ -22,7 +22,14 @@ router.get('/logout', (req, res) => {
 router.get(
   '/spotify',
   passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private', 'user-library-read', 'playlist-read-private'],
+    scope: [
+      'user-read-email',
+      'user-read-private',
+      'user-library-read',
+      'playlist-read-private',
+      'playlist-modify-public',
+      'playlist-modify-private',
+    ],
     showDialog: true,
   }),
 );
