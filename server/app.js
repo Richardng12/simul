@@ -8,14 +8,9 @@ const cookieSession = require('cookie-session');
 const swaggerUi = require('swagger-ui-express');
 const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
-<<<<<<< HEAD
-const lobbyRoutes = require('./src/routes/lobbyRoutes');
-const User = require('./src/db/models/userModel');
-=======
 const routes = require('./src/routes/routes');
-
+const lobbyRoutes = require('./src/routes/lobbyRoutes')
 const swaggerDocument = require('./swagger');
->>>>>>> master
 
 require('./src/config/passportSetup');
 
