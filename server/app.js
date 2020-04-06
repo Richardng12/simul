@@ -68,7 +68,6 @@ app.engine('html', consolidate.swig);
 // set-up auth routes
 app.use('/auth', authRoutes);
 app.use(routes);
-
 app.use('/lobbies', lobbyRoutes);
 
 // home route

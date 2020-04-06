@@ -5,8 +5,9 @@ const { Schema } = mongoose;
 const lobbySchema = new Schema(
     {
         name: String,
-        private: Boolean,
-        user_array: [],
+        isPublic: Boolean,
+        createdBy: String,
+        users: [],
     },
 );
 
