@@ -1,5 +1,7 @@
 // add this file to gitignore
+const dotenv = require('dotenv');
 
+dotenv.config();
 module.exports = {
   spotify: {
     clientID: process.env.client_id,
