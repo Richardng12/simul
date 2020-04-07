@@ -74,7 +74,7 @@ router.patch('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
 });
 
 // Add a user into lobby
-router.post(':id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
+router.patch(':id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   res.lobby.users.push(req.user._id);
   try {
     const updatedLobby = await res.lobby.save();
