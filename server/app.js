@@ -9,7 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
 const routes = require('./src/routes/routes');
-
+const lobbyRoutes = require('./src/routes/lobbyRoutes');
 const swaggerDocument = require('./swagger');
 
 require('./src/config/passportSetup');
@@ -68,6 +68,7 @@ app.engine('html', consolidate.swig);
 // set-up auth routes
 app.use('/auth', authRoutes);
 app.use(routes);
+app.use('/lobbies', lobbyRoutes);
 
 // home route
 app.get('/', (req, res) => {
