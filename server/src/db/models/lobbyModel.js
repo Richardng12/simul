@@ -7,6 +7,7 @@ const lobbySchema = new Schema(
         name: String,
         isPublic: Boolean,
         createdBy: String,
+        code: String,
         users: [],
     },
 );
