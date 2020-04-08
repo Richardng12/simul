@@ -1,9 +1,8 @@
 import { actionTypes } from './profileActions';
 
 const initialState = {
-  username: 'Richard Ng',
+  username: '',
   loading: false,
-  token: '',
   isAuthenticated: false,
   message: '',
 };
@@ -32,11 +31,23 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        token: 'some token',
       };
     case actionTypes.getUserInfo:
       return {
         ...state,
+        loading: true,
+      };
+    case actionTypes.getUserInfo_success:
+      return {
+        ...state,
+        username: action.user.display_name,
+        loading: false,
+      };
+    case actionTypes.getUserInfo_fail:
+      return {
+        ...state,
+        message: action.message,
+        loading: false,
       };
     default:
       return state;

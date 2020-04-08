@@ -31,4 +31,22 @@ const getUserInfo = () => ({
   type: actionTypes.getUserInfo,
 });
 
-export { updateUserName, login, loginFail, loginSuccess, getUserInfo };
+const getUserInfoSuccess = user => ({
+  type: actionTypes.getUserInfo_success,
+  user,
+});
+
+const getUserInfoFail = message => ({
+  type: actionTypes.getUserInfo_fail,
+  message,
+});
+
+export {
+  updateUserName,
+  login,
+  loginFail,
+  loginSuccess,
+  getUserInfo,
+  getUserInfoSuccess,
+  getUserInfoFail,
+};

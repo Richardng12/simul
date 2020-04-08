@@ -45,7 +45,7 @@ router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
   const apiCall = async () => {
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
-    const result = await spotifyApi.getUserPlaylists();
+    const result = await spotifyApi.getMe();
     res.status(200).send(result.body);
   };
 

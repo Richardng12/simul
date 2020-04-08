@@ -50,7 +50,7 @@ router.get(
   '/spotify/callback',
   passport.authenticate('spotify', { failureRedirect: HOST }),
   (req, res) => {
-    res.redirect(`${HOST}/test`);
+    res.redirect(`${HOST}/lobbies`);
   },
 );
 

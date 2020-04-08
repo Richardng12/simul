@@ -82,7 +82,7 @@ const LyricsContainer = props => {
 
 const mapStateToProps = state => {
   return {
-    currentSong: state.MusicReducer.currentSong,
+    currentSong: state.musicReducer.currentSong,
   };
 };
 
