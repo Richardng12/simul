@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "npm run lint && jest --runInBand",
+    "test": "npm run lint && mocha --runInBand",
     "lint": "eslint ./src ./test . --ext .js,.jsx",
     "lint-fix": "eslint --fix ./src ./test . --ext .js,.jsx"
   },
@@ -15,17 +15,22 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "consolidate": "^0.15.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "mocha": "^7.1.1",
     "mongoose": "^5.9.6",
     "passport": "^0.4.1",
+    "passport-mock-strategy": "^2.0.0",
+    "passport-mocked": "^1.4.0",
     "passport-oauth2-refresh": "^2.0.0",
     "passport-spotify": "^1.1.0",
     "spotify-web-api-node": "^4.0.0",
+    "superagent": "^5.2.2",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
     "swig": "^1.4.2"
@@ -38,7 +43,6 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2"
