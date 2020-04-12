@@ -74,11 +74,37 @@ router.patch('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
 });
 
 // Add a user into lobby
-router.patch(':id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
+router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   res.lobby.users.push(req.user._id);
   try {
     const updatedLobby = await res.lobby.save();
     res.status(200).json(updatedLobby.users);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// add song to lobby
+router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
+  try {
+    const songData = {
+      spotifyuri: req.query.spotifyuri,
+      added_by: req.user._id,
+    };
+    res.lobby.songs.push(songData);
+    const updatedLobby = await res.lobby.save();
+    res.status(200).json(updatedLobby);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
+  try {
+    await Lobby.findOneAndDelete({
+      songs: req.params.spotifyuri,
+    });
+    res.status(201).json({ message: 'Song has been deleted' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
