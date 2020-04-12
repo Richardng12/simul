@@ -8,6 +8,7 @@ const lobbySchema = new Schema({
   createdBy: String,
   code: String,
   users: [],
+  songs: [],
 });
 
 const Lobby = mongoose.model('lobby', lobbySchema);

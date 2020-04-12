@@ -3,6 +3,7 @@ const access = require('./auth/access');
 
 const router = express.Router();
 const Lobby = require('../db/models/lobbyModel');
+const Song = require('../db/models/songModel');
 
 // middleware fuction
 async function getLobby(req, res, next) {
@@ -73,9 +74,38 @@ router.patch('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
   }
 });
 
+// Add song to lobby queue
+router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
+  const song = new Song({
+    title: req.body.title,
+    artist: req.body.artist,
+    addedBy: req.user._id,
+    spotifyId: req.body.spotifyId,
+  });
+  res.lobby.songs.push(song);
+  try {
+    const updatedQueue = await res.lobby.save();
+    res.status(200).json(updatedQueue.songs);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
+  res.lobby.users.pull(req.user._id);
   res.lobby.users.push(req.user._id);
+  try {
+    const updatedLobby = await res.lobby.save();
+    res.status(200).json(updatedLobby.users);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Delete user from lobby
+router.delete('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
+  res.lobby.users.pull(req.user._id);
   try {
     const updatedLobby = await res.lobby.save();
     res.status(200).json(updatedLobby.users);
