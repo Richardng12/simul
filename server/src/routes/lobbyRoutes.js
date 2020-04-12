@@ -39,6 +39,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
   const lobby = new Lobby({
     name: req.body.name,
     isPublic: req.body.isPublic,
+    createdBy: req.user._id,
     code: req.body.code,
     users: [req.user._id],
     password: req.body.password,
@@ -52,23 +53,24 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
 });
 
 // Delete a lobby
-router.delete('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
+router.delete('/:id', access.ensureAuthenticated, async (req, res) => {
   try {
-    await res.lobby.remove();
-    res.status(201).json({ message: 'Lobby has been deleted' });
+    await Lobby.findOneAndDelete({
+      _id: req.params.id,
+    });
+    res.status(200).send();
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 });
 
-// Update a lobby name
-router.patch('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
-  if (req.body.name != null) {
-    res.lobby.name = req.body.name;
-  }
+// Update a lobby
+router.put('/:id', access.ensureAuthenticated, async (req, res) => {
   try {
-    const updatedLobby = await res.lobby.save();
-    res.status(201).json(updatedLobby);
+    if (req.body != null) {
+      const updatedLobby = await Lobby.update({ _id: req.params.id }, { body: req.body });
+      res.status(200).json(updatedLobby);
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
