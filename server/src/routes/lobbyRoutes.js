@@ -1,10 +1,12 @@
 const express = require('express');
+const SpotifyWebApi = require('spotify-web-api-node');
 const access = require('./auth/access');
 
 const router = express.Router();
 const Lobby = require('../db/models/lobbyModel');
 const Song = require('../db/models/songModel');
 
+const spotifyApi = new SpotifyWebApi({});
 // middleware fuction
 async function getLobby(req, res, next) {
   try {
@@ -79,19 +81,24 @@ router.put('/:id', access.ensureAuthenticated, async (req, res) => {
 
 // Add song to lobby queue
 router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
-  const song = new Song({
-    title: req.body.title,
-    artist: req.body.artist,
-    addedBy: req.user._id,
-    spotifyId: req.body.spotifyId,
-  });
-  res.lobby.songs.push(song);
-  try {
-    const updatedQueue = await res.lobby.save();
-    res.status(200).json(updatedQueue.songs);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  const apiCall = async () => {
+    try {
+      spotifyApi.setAccessToken(req.user.accessToken);
+      spotifyApi.setRefreshToken(req.user.refreshToken);
+      const song = new Song({
+        title: spotifyApi.getTrack(this.spotifyId).title,
+        artist: spotifyApi.getTrack(this.spotifyId).artist,
+        addedBy: req.user._id,
+        spotifyId: req.body.spotifyId,
+      });
+      res.lobby.songs.push(song);
+      const updatedQueue = await res.lobby.save();
+      res.status(200).json(updatedQueue.songs);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  };
+  access.getAccess(apiCall, req, res);
 });
 
 // Add a user into lobby
@@ -105,26 +112,11 @@ router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res
   }
 });
 
-// add song to lobby
-router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
-  try {
-    const songData = {
-      spotifyuri: req.body.spotifyuri,
-      added_by: req.user._id,
-    };
-    res.lobby.songs.push(songData);
-    const updatedLobby = await res.lobby.save();
-    res.status(200).json(updatedLobby);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
 router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   try {
-    await Lobby.updateMany(
+    await Lobby.updateOne(
       { _id: req.params.id },
-      { $pull: { songs: { $elemMatch: { spotifyuri: req.body.spotifyuri } } } },
+      { $pull: { songs: { $elemMatch: { spotifyId: req.body.spotifyId } } } },
     );
     res.status(200).json({ message: 'Song has been deleted' });
   } catch (err) {
