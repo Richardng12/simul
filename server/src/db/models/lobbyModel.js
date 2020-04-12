@@ -22,7 +22,7 @@ const lobbySchema = new Schema({
   password: {
     type: String,
     required: () => {
-      return !this.isPublic;
+      return this.isPublic;
     },
   },
 });
