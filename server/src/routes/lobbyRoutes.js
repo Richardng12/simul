@@ -85,9 +85,10 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
     try {
       spotifyApi.setAccessToken(req.user.accessToken);
       spotifyApi.setRefreshToken(req.user.refreshToken);
+      const songData = await spotifyApi.getTrack(req.body.spotifyId);
       const song = new Song({
-        title: spotifyApi.getTrack(this.spotifyId).title,
-        artist: spotifyApi.getTrack(this.spotifyId).artist,
+        title: songData.body.name,
+        artist: songData.body.artists[0].name,
         addedBy: req.user._id,
         spotifyId: req.body.spotifyId,
       });
