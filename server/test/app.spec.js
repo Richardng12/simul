@@ -8,26 +8,170 @@ const { before } = require('mocha');
 const { expect } = chai;
 const request = require('supertest');
 const app = require('../app');
+const Lobby = require('../src/db/models/lobbyModel');
 
 const authenticatedUser = request.agent(app);
 const unauthenticatedUser = request.agent(app);
 
-describe('GET /account', () => {
-  before(done => {
-    authenticatedUser.get('/auth/spotify').end(() => {
+before(done => {
+  authenticatedUser.get('/auth/spotify').end(() => {
+    done();
+  });
+});
+
+describe('Lobbies', () => {
+  beforeEach(done => {
+    // Before each test we empty the database
+    Lobby.deleteMany({}, () => {
       done();
     });
   });
 
+  // Test the /GET route
+  describe('/GET Lobby', () => {
+    it('it should GET all the books', done => {
+      authenticatedUser.get('/lobbies').end((err, res) => {
+        expect(res.statusCode).to.be.equal(200);
+        expect(res.body.length).to.be.equal(0);
+        done();
+      });
+    });
+  });
+
+  // Test the /POST route
+  describe('/POST Lobby', () => {
+    it('it should not POST a lobby without name field', done => {
+      const lobby = {
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      };
+      authenticatedUser
+        .post('/lobbies')
+        .send(lobby)
+        .end((err, res) => {
+          expect(res.statusCode).to.be.equal(400);
+          expect(res.body).to.be.a('object');
+          done();
+        });
+    });
+    it('it should  POST a lobby with valid body', done => {
+      const lobby = {
+        name: 'name',
+        isPublic: true,
+        createdBy: 'asd',
+        code: 'ABC',
+        users: [],
+      };
+      authenticatedUser
+        .post('/lobbies')
+        .send(lobby)
+        .end((err, res) => {
+          expect(res.statusCode).to.be.equal(201);
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.have.property('name');
+          expect(res.body).to.have.property('isPublic');
+          // expect(res.body).to.have.property('createdBy');
+          expect(res.body).to.have.property('code');
+          expect(res.body).to.have.property('users');
+          done();
+        });
+    });
+  });
+
+  // Test the /GET/:id route
+  describe('GET/:id Lobby', () => {
+    it('it should GET a lobby by the given id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser
+          .get('/lobbies/' + lobbyRes.id)
+          .send(lobby)
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(200);
+            expect(res.body).to.be.a('object');
+            expect(res.body).to.have.property('name');
+            expect(res.body).to.have.property('isPublic');
+            expect(res.body).to.have.property('createdBy');
+            expect(res.body).to.have.property('code');
+            expect(res.body).to.have.property('users');
+            expect(res.body)
+              .to.have.property('_id')
+              .equal(lobby.id);
+            done();
+          });
+      });
+    });
+  });
+
+  // Test the /PUT/:id route
+  describe('/PATCH/:id Lobby', () => {
+    it('it should UPDATE a lobby given the id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser
+          .patch('/lobbies/' + lobbyRes.id)
+          .send({ name: 'updatedTest' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(201);
+            expect(res.body)
+              .to.have.property('name')
+              .equal('updatedTest');
+            done();
+          });
+      });
+    });
+  });
+
+  // Test the /DELETE/:id route
+  describe('/DELETE:id Lobby', () => {
+    it('it should DELETE a lobby given the id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser.delete('/lobbies/' + lobbyRes.id).end((_err, res) => {
+          expect(res.statusCode).to.be.equal(200);
+          expect(res.body).to.be.a('object');
+          expect(res.body)
+            .to.have.property('message')
+            .equal('Lobby has been deleted');
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe('Authentication check', () => {
   it('should return 200 response when user is logged in', done => {
     authenticatedUser.get('/account').end((req, res) => {
       expect(res.statusCode).to.be.equal(200);
+      expect('Location', '/');
       done();
     });
   });
-  it('should return 302 response when user is logged in', done => {
+  it('should return 302 response unauthenticated user accesses /acount', done => {
     unauthenticatedUser.get('/account').end((req, res) => {
       expect(res.statusCode).to.be.equal(302);
+      expect('Location', '/');
       done();
     });
   });

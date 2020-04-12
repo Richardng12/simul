@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "npm run lint && mocha --runInBand",
+    "test": "npm run lint && mocha --timeout 120000 --runInBand",
     "lint": "eslint ./src ./test . --ext .js,.jsx",
     "lint-fix": "eslint --fix ./src ./test . --ext .js,.jsx"
   },

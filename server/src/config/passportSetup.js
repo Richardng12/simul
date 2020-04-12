@@ -5,6 +5,7 @@ const MockStrategy = require('passport-mock-strategy');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const keys = require('./keys');
 const User = require('../db/models/userModel');
+const mockUser = require('../../test/mocks/mockUser');
 
 let AppropriateStrategy;
 let options;
@@ -18,12 +19,10 @@ let verifyCallback;
 
 if (process.env.NODE_ENV === 'test') {
   passport.serializeUser((user, done) => {
-    console.log('serializeUser');
     done(null, user);
   });
 
   passport.deserializeUser((user, done) => {
-    console.log('deserializeUser');
     done(null, user);
   });
 } else {
@@ -46,18 +45,11 @@ if (process.env.NODE_ENV === 'test') {
 if (process.env.NODE_ENV === 'test') {
   AppropriateStrategy = MockStrategy;
   options = {
-    username: 'Bob12',
-    displayName: 'Bob',
-    spotifyId: '123123123',
-    country: 'NZ',
-    email: 'Apple',
-    thumbnail: 'asdf',
-    profileUrl: 'asdfasdf',
-    accessToken: 'asda',
-    refreshToken: 'zxczxc',
+    name: 'mock',
+    user: mockUser,
   };
   verifyCallback = (user, done) => {
-    return done(null, user);
+    done(null, user);
   };
 } else {
   AppropriateStrategy = SpotifyStrategy;
@@ -84,7 +76,7 @@ if (process.env.NODE_ENV === 'test') {
           spotifyId: profile.id,
           country: profile.country,
           email: profile.emails[0].value,
-          thumbnail: profile.photos[0] == null,
+          thumbnail: profile.photos[0] === null ? '' : profile.photos[0],
           profileUrl: profile.profileUrl,
           accessToken,
           refreshToken,
