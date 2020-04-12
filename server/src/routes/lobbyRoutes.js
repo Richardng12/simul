@@ -107,7 +107,7 @@ router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, re
     await Lobby.findOneAndDelete({
       songs: req.body.spotifyuri,
     });
-    res.status(201).json({ message: 'Song has been deleted' });
+    res.status(200).json({ message: 'Song has been deleted' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
