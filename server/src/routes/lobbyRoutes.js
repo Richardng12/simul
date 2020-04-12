@@ -89,7 +89,7 @@ router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res
 router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
     const songData = {
-      spotifyuri: req.query.spotifyuri,
+      spotifyuri: req.body.spotifyuri,
       added_by: req.user._id,
     };
     res.lobby.songs.push(songData);
@@ -103,7 +103,7 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
     await Lobby.findOneAndDelete({
-      songs: req.params.spotifyuri,
+      songs: req.body.spotifyuri,
     });
     res.status(201).json({ message: 'Song has been deleted' });
   } catch (err) {
