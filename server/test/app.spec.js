@@ -29,10 +29,20 @@ describe('Lobbies', () => {
 
   // Test the /GET route
   describe('/GET Lobby', () => {
-    it('it should GET all the books', done => {
+    it('it should GET all the lobbies', done => {
       authenticatedUser.get('/lobbies').end((err, res) => {
         expect(res.statusCode).to.be.equal(200);
         expect(res.body.length).to.be.equal(0);
+        done();
+      });
+    });
+  });
+
+  // Test the /GET route unauthenticated
+  describe('/GET Lobby Unauthenticated', () => {
+    it('it should GET all the lobbies', done => {
+      unauthenticatedUser.get('/lobbies').end((err, res) => {
+        expect(res.statusCode).to.be.equal(302);
         done();
       });
     });
@@ -111,7 +121,7 @@ describe('Lobbies', () => {
     });
   });
 
-  // Test the /PUT/:id route
+  // Test the /PATCH/:id Lobby route
   describe('/PATCH/:id Lobby', () => {
     it('it should UPDATE a lobby given the id', done => {
       const lobby = new Lobby({
@@ -135,6 +145,41 @@ describe('Lobbies', () => {
       });
     });
   });
+
+  // Test the /PATCH/:id User route
+  // describe('/PATCH/:id User', () => {
+  //   let lobbyId;
+  //   it('it should  POST a lobby with valid body', done => {
+  //     const lobby = {
+  //       name: 'name',
+  //       isPublic: true,
+  //       createdBy: 'asd',
+  //       code: 'ABC',
+  //       users: [],
+  //     };
+  //     authenticatedUser
+  //       .post('/lobbies')
+  //       .send(lobby)
+  //       .end((err, res) => {
+  //         lobbyId = res.body._id;
+  //         expect(res.statusCode).to.be.equal(201);
+  //         expect(res.body).to.be.a('object');
+  //         expect(res.body).to.have.property('name');
+  //         expect(res.body).to.have.property('isPublic');
+  //         // expect(res.body).to.have.property('createdBy');
+  //         expect(res.body).to.have.property('code');
+  //         expect(res.body).to.have.property('users');
+  //         done();
+  //       });
+  //   });
+  //   it('it should add a user to a lobby given the id', done => {
+  //     authenticatedUser.patch('/lobbies/' + lobbyId + '/users').end((err, res) => {
+  //       expect(res.statusCode).to.be.equal(201);
+  //       expect(res.body.property('users').length.to.be.equal(1));
+  //       done();
+  //     });
+  //   });
+  // });
 
   // Test the /DELETE/:id route
   describe('/DELETE:id Lobby', () => {
