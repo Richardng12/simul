@@ -41,6 +41,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     isPublic: req.body.isPublic,
     code: req.body.code,
     users: [req.user._id],
+    password: req.body.password,
   });
   try {
     const newLobby = await lobby.save();
