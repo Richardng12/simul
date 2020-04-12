@@ -3,10 +3,11 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 
-const { before } = require('mocha');
+const { before, after } = require('mocha');
 
 const { expect } = chai;
 const request = require('supertest');
+const mongoose = require('mongoose');
 const app = require('../app');
 const Lobby = require('../src/db/models/lobbyModel');
 
@@ -213,7 +214,7 @@ describe('Authentication check', () => {
       done();
     });
   });
-  it('should return 302 response unauthenticated user accesses /acount', done => {
+  it('should return 302 response unauthenticated user accesses /account', done => {
     unauthenticatedUser.get('/account').end((req, res) => {
       expect(res.statusCode).to.be.equal(302);
       expect('Location', '/');
@@ -244,4 +245,8 @@ describe('Authentication check', () => {
       done();
     });
   });
+});
+
+after(async () => {
+  mongoose.connection.close();
 });
