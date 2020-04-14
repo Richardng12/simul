@@ -9,9 +9,10 @@ import Test from '../Test';
 const paths = {
   LANDING_PAGE: '/',
   MUSIC_PAGE: '/music',
-  LOBBY_PAGE: '/lobbies',
+  LOBBY_PAGE: '/lobby',
   LOGIN: '/login',
   TEST: '/test',
+  LOBBY: '/lobby/:id',
 };
 
 const routes = (
@@ -19,6 +20,7 @@ const routes = (
     <Route exact path={paths.LANDING_PAGE} component={LandingPage} />
     <Route exact path={paths.LOBBY_PAGE} component={LobbyPage} />
     <Route exact path={paths.MUSIC_PAGE} component={MusicPage} />
+    <Route path={paths.LOBBY} component={MusicPage} />
     <Route
       exact
       path={paths.LOGIN}

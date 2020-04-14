@@ -5,6 +5,7 @@ import SimulAppBar from '../musicPage/components/appBar';
 import { getUserInfo } from '../../store/profile/profileActions';
 import { getAllLobbies } from '../../store/lobby/lobbyActions';
 import style from './lobbyPage.module.css';
+import LobbyTile from './LobbyTile';
 
 const LobbyPage = props => {
   const { userInfo, getLobbies, lobbies, profileLoader, lobbyLoader } = props;
@@ -14,24 +15,26 @@ const LobbyPage = props => {
     getLobbies();
   }, []);
 
+  lobbies.push({ users: '210345sasvb', _id: '1234567', name: 'testing' });
+  lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
+  lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
+  lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
+
   return profileLoader || lobbyLoader ? (
     <div>Loading</div>
   ) : (
     <div className={style.lobbyParent}>
-      <SimulAppBar />
+      <SimulAppBar title="LOBBY" />
       <div className={style.lobbyContainer}>
         {lobbies.length === 0 ? (
           <p>No Lobbies :(</p>
         ) : (
           lobbies.map(lobby => (
             // eslint-disable-next-line no-underscore-dangle
-            <div key={lobby._id} className={style.lobbyCard}>
-              {lobby.name}
-            </div>
+            <LobbyTile name={lobby.name} key={lobby._id} />
           ))
         )}
       </div>
-      <p>This is the lobbies Page</p>
     </div>
   );
 };
