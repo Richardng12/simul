@@ -25,14 +25,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         mongotest_db_uri: ${{ secrets.mongotest_db_uri }}
-      env: 
-        mongotest_db_uri: ${{ secrets.mongotest_db_uri }}   
+    - run: echo "::set-env name= mongotest_db_uri::${{ secrets.mongotest_db_uri }}"
     - run: ${{ env.mongotest_db_uri }}    
     - run: cd frontend && npm ci
     - run: cd frontend && npm run build --if-present
     - run: cd frontend && CI=true npm test
     - run: cd server && npm ci
-    - run: cd server && npm run build --if-present mongotest_db_uri=${{ secrets.mongotest_db_uri }} 
+    - run: cd server && npm run build --if-present 
     - run: cd server && CI=true npm test
       env:
         CI: true
+        mongotest_db_uri: ${{ secrets.mongotest_db_uri }}  
