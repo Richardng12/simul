@@ -21,13 +21,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@
+      env: 
+         mongotest_db_uri: ${{ secrets.mongotest_db_uri }} 
       with:
         node-version: ${{ matrix.node-version }}
         mongotest_db_uri: ${{ secrets.mongotest_db_uri }}
-      env: 
-         mongotest_db_uri: ${{ secrets.mongotest_db_uri }} 
-        
+    - run : ${{ env.mongotest_db_uri }}    
     - run: cd frontend && npm ci
     - run: cd frontend && npm run build --if-present
     - run: cd frontend && CI=true npm test
