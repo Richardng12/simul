@@ -19,11 +19,11 @@ jobs:
         node-version: [12.x]
 
     steps:
+      env: 
+        mongotest_db_uri: ${{ secrets.mongotest_db_uri }} 
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@
-      env: 
-        mongotest_db_uri: ${{ secrets.mongotest_db_uri }} 
       with:
         node-version: ${{ matrix.node-version }}
         mongotest_db_uri: ${{ secrets.mongotest_db_uri }}
