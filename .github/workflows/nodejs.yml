@@ -24,6 +24,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        mongotest_db_uri: ${{ secrets.mongotest_db_uri }}
+        
+    - run: process.env.mongotest_db_uri = ${{ secrets.mongotest_db_uri }}
     - run: cd frontend && npm ci
     - run: cd frontend && npm run build --if-present
     - run: cd frontend && CI=true npm test
