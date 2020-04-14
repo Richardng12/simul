@@ -25,7 +25,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         mongotest_db_uri: ${{ secrets.mongotest_db_uri }}
+        cookie_key: ${{ secrets.cookie_key }}
     - run: echo "::set-env name= mongotest_db_uri::${{ secrets.mongotest_db_uri }}"
+    - run: echo "::set-env name= cookie_key::${{ secrets.cookie_key }}"
     - run: ${{ env.mongotest_db_uri }}    
     - run: cd frontend && npm ci
     - run: cd frontend && npm run build --if-present
@@ -36,3 +38,4 @@ jobs:
       env:
         CI: true
         mongotest_db_uri: ${{ secrets.mongotest_db_uri }}  
+        cookie_key: ${{ secrets.cookie_key }}
