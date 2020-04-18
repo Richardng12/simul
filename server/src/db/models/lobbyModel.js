@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const lobbySchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   isPublic: Boolean,
   createdBy: String,
   code: String,

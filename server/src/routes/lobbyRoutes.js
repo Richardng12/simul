@@ -54,7 +54,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
 router.delete('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
     await res.lobby.remove();
-    res.status(201).json({ message: 'Lobby has been deleted' });
+    res.status(200).json({ message: 'Lobby has been deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
