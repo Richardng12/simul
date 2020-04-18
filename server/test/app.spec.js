@@ -67,7 +67,7 @@ describe('Lobbies', () => {
           done();
         });
     });
-    it('it should  POST a lobby with valid body', done => {
+    it('it should POST a lobby with valid body', done => {
       const lobby = {
         name: 'name',
         isPublic: true,
@@ -196,9 +196,6 @@ describe('Lobbies', () => {
         authenticatedUser.delete('/lobbies/' + lobbyRes.id).end((_err, res) => {
           expect(res.statusCode).to.be.equal(200);
           expect(res.body).to.be.a('object');
-          expect(res.body)
-            .to.have.property('message')
-            .equal('Lobby has been deleted');
           done();
         });
       });

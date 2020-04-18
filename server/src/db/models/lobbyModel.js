@@ -21,9 +21,7 @@ const lobbySchema = new Schema({
   songs: [],
   password: {
     type: String,
-    required: () => {
-      return this.isPublic;
-    },
+    required: false,
   },
 });
 
