@@ -19,10 +19,7 @@ const lobbySchema = new Schema({
   code: String,
   users: [],
   songs: [],
-  password: {
-    type: String,
-    required: false,
-  },
+  password: String,
 });
 
 const Lobby = mongoose.model('lobby', lobbySchema);
