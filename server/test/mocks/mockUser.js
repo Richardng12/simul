@@ -1,4 +1,5 @@
 const mockUser = {
+  _id: '123',
   username: 'testuser12',
   displayName: 'testuser',
   profileUrl: 'www.testuser.com',

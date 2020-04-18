@@ -71,7 +71,7 @@ describe('Lobbies', () => {
       const lobby = {
         name: 'name',
         isPublic: true,
-        createdBy: 'asd',
+        createdBy: authenticatedUser._id,
         code: 'ABC',
         users: [],
       };
