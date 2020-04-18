@@ -33,8 +33,13 @@ router.get('/', access.ensureAuthenticated, async (req, res) => {
 });
 
 // Get one lobby
-router.get('/:id', access.ensureAuthenticated, getLobby, async (req, res) => {
-  res.status(200).send(res.lobby);
+router.get('/:id', access.ensureAuthenticated, async (req, res) => {
+  try {
+    const lobby = await Lobby.findById(req.params.id);
+    res.status(200).json(lobby);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 // Create a lobby and add the creator to list of users
@@ -67,11 +72,12 @@ router.delete('/:id', access.ensureAuthenticated, async (req, res) => {
   }
 });
 
-// Update a lobby
+// Update a lobby name
 router.put('/:id', access.ensureAuthenticated, async (req, res) => {
   try {
-    if (req.body != null) {
-      const updatedLobby = await Lobby.update({ _id: req.params.id }, { body: req.body });
+    if (req.body.name != null) {
+      await Lobby.updateOne({ _id: req.params.id }, { $set: { name: req.body.name } });
+      const updatedLobby = await Lobby.findById(req.params.id);
       res.status(200).json(updatedLobby);
     }
   } catch (err) {

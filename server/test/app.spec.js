@@ -71,7 +71,7 @@ describe('Lobbies', () => {
       const lobby = {
         name: 'name',
         isPublic: true,
-        createdBy: authenticatedUser._id,
+        createdBy: 'asdf',
         code: 'ABC',
         users: [],
       };
@@ -83,7 +83,7 @@ describe('Lobbies', () => {
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('name');
           expect(res.body).to.have.property('isPublic');
-          // expect(res.body).to.have.property('createdBy');
+          expect(res.body).to.have.property('createdBy');
           expect(res.body).to.have.property('code');
           expect(res.body).to.have.property('users');
           done();
@@ -134,10 +134,10 @@ describe('Lobbies', () => {
       });
       lobby.save((err, lobbyRes) => {
         authenticatedUser
-          .patch('/lobbies/' + lobbyRes.id)
+          .put('/lobbies/' + lobbyRes.id)
           .send({ name: 'updatedTest' })
           .end((_err, res) => {
-            expect(res.statusCode).to.be.equal(201);
+            expect(res.statusCode).to.be.equal(200);
             expect(res.body)
               .to.have.property('name')
               .equal('updatedTest');
