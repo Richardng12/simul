@@ -44,10 +44,17 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // connect to mongoDB
-mongoose.connect(keys.mongodb.dbURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+if (process.env.NODE_ENV === 'test') {
+  mongoose.connect(keys.mongodbtest.dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+} else {
+  mongoose.connect(keys.mongodb.dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+}
 
 // configure Express
 app.set('views', `${__dirname}/views`);
@@ -84,6 +91,7 @@ app.get('/', (req, res) => {
 
 // account route
 app.get('/account', ensureAuthenticated, (req, res) => {
+  console.log(req.user);
   res.render('account.html', { user: req.user });
 });
 

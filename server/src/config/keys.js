@@ -10,6 +10,9 @@ module.exports = {
   mongodb: {
     dbURI: process.env.mongo_db_uri,
   },
+  mongodbtest: {
+    dbURI: process.env.mongotest_db_uri,
+  },
   session: {
     cookieKey: process.env.cookie_key,
   },
