@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
 const swaggerUi = require('swagger-ui-express');
-const https = require('https');
-const socketio = require('socket.io');
 const keys = require('./src/config/keys');
 const authRoutes = require('./src/routes/authRoutes');
 const routes = require('./src/routes/routes');
@@ -17,11 +15,6 @@ const swaggerDocument = require('./swagger');
 require('./src/config/passportSetup');
 
 const app = express();
-const io = socketio(https.Server(app));
-
-io.on('connection', () => {
-  console.log('a user connected');
-});
 
 app.use(
   cors({
