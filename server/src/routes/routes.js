@@ -63,7 +63,7 @@ router.get('/songs', access.ensureAuthenticated, async (req, res) => {
         return {
           title: song.name,
           artist: song.artists[0].name,
-          spotifyId: song.uri.split(':')[2],
+          spotifySongId: song.uri.split(':')[2],
         };
       });
       res.status(200).json(responseList);

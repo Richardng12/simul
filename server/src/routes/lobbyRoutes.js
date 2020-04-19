@@ -100,13 +100,13 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
     try {
       spotifyApi.setAccessToken(req.user.accessToken);
       spotifyApi.setRefreshToken(req.user.refreshToken);
-      const songData = await spotifyApi.getTrack(req.body.spotifyId);
+      const songData = await spotifyApi.getTrack(req.body.spotifySongId);
 
       const song = new Song({
         title: songData.body.name,
         artist: songData.body.artists[0].name,
         addedBy: req.user._id,
-        spotifyId: req.body.spotifyId,
+        spotifySongId: req.body.spotifySongId,
       });
       res.lobby.songs.push(song);
       const updatedQueue = await res.lobby.save();

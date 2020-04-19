@@ -6,7 +6,7 @@ const songSchema = new Schema({
   title: String,
   artist: String,
   addedBy: String,
-  spotifyId: String,
+  spotifySongId: String,
 });
 
 const Song = mongoose.model('song', songSchema);
