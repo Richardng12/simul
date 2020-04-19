@@ -122,8 +122,8 @@ describe('Lobbies', () => {
     });
   });
 
-  // Test the /PATCH/:id Lobby route
-  describe('/PATCH/:id Lobby', () => {
+  // Test the /PUT/:id Lobby route
+  describe('/PUT/:id Lobby', () => {
     it('it should UPDATE a lobby given the id', done => {
       const lobby = new Lobby({
         name: 'test',
@@ -145,42 +145,137 @@ describe('Lobbies', () => {
           });
       });
     });
+    it('it should not update a lobby when given the wrong id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save(() => {
+        authenticatedUser
+          .put('/lobbies/asdfasldkfj')
+          .send({ name: 'updatedTest' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(404);
+            done();
+          });
+      });
+    });
+    it('it should not update a lobby when given an empty request body', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser
+          .put('/lobbies/' + lobbyRes.id)
+          .send({})
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(202);
+            done();
+          });
+      });
+    });
   });
 
   // Test the /PATCH/:id User route
-  // describe('/PATCH/:id User', () => {
-  //   let lobbyId;
-  //   it('it should  POST a lobby with valid body', done => {
-  //     const lobby = {
-  //       name: 'name',
-  //       isPublic: true,
-  //       createdBy: 'asd',
-  //       code: 'ABC',
-  //       users: [],
-  //     };
-  //     authenticatedUser
-  //       .post('/lobbies')
-  //       .send(lobby)
-  //       .end((err, res) => {
-  //         lobbyId = res.body._id;
-  //         expect(res.statusCode).to.be.equal(201);
-  //         expect(res.body).to.be.a('object');
-  //         expect(res.body).to.have.property('name');
-  //         expect(res.body).to.have.property('isPublic');
-  //         // expect(res.body).to.have.property('createdBy');
-  //         expect(res.body).to.have.property('code');
-  //         expect(res.body).to.have.property('users');
-  //         done();
-  //       });
-  //   });
-  //   it('it should add a user to a lobby given the id', done => {
-  //     authenticatedUser.patch('/lobbies/' + lobbyId + '/users').end((err, res) => {
-  //       expect(res.statusCode).to.be.equal(201);
-  //       expect(res.body.property('users').length.to.be.equal(1));
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('/PATCH/:id User', () => {
+    it('it should add a user to a lobby given the id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser.patch('/lobbies/' + lobbyRes.id + '/users').end((_err, res) => {
+          expect(res.statusCode).to.be.equal(200);
+          expect(res.body).to.have.length(1);
+          done();
+        });
+      });
+    });
+    it('it should not add a user to a lobby given the wrong id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save(() => {
+        authenticatedUser.patch('/lobbies/asdfdsfas/users').end((_err, res) => {
+          expect(res.statusCode).to.be.equal(404);
+          done();
+        });
+      });
+    });
+  });
+
+  // Test the /PATCH/:id Song route
+  describe('/PATCH/:id Song', () => {
+    // it('it should add a song to a lobby given the id', done => {
+    //   const lobby = new Lobby({
+    //     name: 'test',
+    //     isPublic: true,
+    //     createdBy: 'Richard',
+    //     code: 'ABC',
+    //     users: [],
+    //   });
+    //   lobby.save((err, lobbyRes) => {
+    //     authenticatedUser
+    //       .patch('/lobbies/' + lobbyRes.id + '/songs')
+    //       .send({ spotifyId: '2hnxrRNzF74mdDzpQZQukQ' })
+    //       .end((_err, res) => {
+    //         expect(res.statusCode).to.be.equal(200);
+    //         expect(res.body).to.have.length(1);
+    //         done();
+    //       });
+    //   });
+    // });
+    it('it should not add a song to a lobby given the wrong id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save(() => {
+        authenticatedUser
+          .patch('/lobbies/asdfdsfas/songs')
+          .send({ spotifyId: '2hnxrRNzF74mdDzpQZQukQ' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(404);
+            done();
+          });
+      });
+    });
+    // it('it should not add a song to a lobby given a bad spotifyId', done => {
+    //   const lobby = new Lobby({
+    //     name: 'test',
+    //     isPublic: true,
+    //     createdBy: 'Richard',
+    //     code: 'ABC',
+    //     users: [],
+    //   });
+    //   lobby.save((err, lobbyRes) => {
+    //     authenticatedUser
+    //       .patch('/lobbies/' + lobbyRes.id + '/songs')
+    //       .send({ spotifyId: 'asdfasdf' })
+    //       .end((_err, res) => {
+    //         expect(res.statusCode).to.be.equal(400);
+    //         done();
+    //       });
+    //   });
+    // });
+  });
 
   // Test the /DELETE/:id route
   describe('/DELETE:id Lobby', () => {
@@ -201,6 +296,21 @@ describe('Lobbies', () => {
       });
     });
   });
+  // it('it should not DELETE a lobby when given the wrong id', done => {
+  //   const lobby = new Lobby({
+  //     name: 'test',
+  //     isPublic: true,
+  //     createdBy: 'Richard',
+  //     code: 'ABC',
+  //     users: [],
+  //   });
+  //   lobby.save(() => {
+  //     authenticatedUser.delete('/lobbies/asdfasdfasdf').end((_err, res) => {
+  //       expect(res.statusCode).to.be.equal(404);
+  //       done();
+  //     });
+  //   });
+  // });
 });
 
 describe('Authentication check', () => {

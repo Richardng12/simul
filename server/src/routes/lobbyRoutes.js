@@ -11,12 +11,9 @@ const spotifyApi = new SpotifyWebApi({});
 async function getLobby(req, res, next) {
   try {
     const lobby = await Lobby.findById(req.params.id);
-    if (lobby == null) {
-      return res.status(404).json({ message: 'Lobby not found' });
-    }
     res.lobby = lobby;
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(404).json({ message: err.message });
   }
   next();
   return null;
@@ -115,7 +112,7 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
       const updatedQueue = await res.lobby.save();
       res.status(200).json(updatedQueue.songs);
     } catch (err) {
-      res.status(400).json({ message: 'no songs added' });
+      res.status(400).json({ message: err.message });
     }
   };
   access.getAccess(apiCall, req, res);
