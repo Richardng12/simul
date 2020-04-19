@@ -52,38 +52,25 @@ router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
   access.getAccess(apiCall, req, res);
 });
 
-/**
- * @swagger
- * path:
- *  /savedtracks/:
- *    get:
- *      summary: Get all saved tracks associated with a user
- *      tags: [songs]
- *      responses:
- *        "200":
- *          description: An array of track items
- *          content:
- *            application/json:
- */
-router.get('/savedtracks', access.ensureAuthenticated, async (req, res) => {
+// search songs
+router.get('/songs', access.ensureAuthenticated, async (req, res) => {
   const apiCall = async () => {
-    spotifyApi.setAccessToken(req.user.accessToken);
-    spotifyApi.setRefreshToken(req.user.refreshToken);
-    const result = await spotifyApi.getMySavedTracks();
-    res.status(200).send(result.body.items);
+    try {
+      spotifyApi.setAccessToken(req.user.accessToken);
+      spotifyApi.setRefreshToken(req.user.refreshToken);
+      const songList = await spotifyApi.searchTracks(req.body.value, { limit: req.body.limit });
+      const responseList = songList.body.tracks.items.map(song => {
+        return {
+          title: song.name,
+          artist: song.artists[0].name,
+          spotifySongId: song.uri.split(':')[2],
+        };
+      });
+      res.status(200).json(responseList);
+    } catch (err) {
+      res.status(400).json({ message: 'no songs found' });
+    }
   };
-
-  access.getAccess(apiCall, req, res);
-});
-
-router.post('/createPlaylist', access.ensureAuthenticated, async (req, res) => {
-  const apiCall = async () => {
-    spotifyApi.setAccessToken(req.user.accessToken);
-    spotifyApi.setRefreshToken(req.user.refreshToken);
-    const result = await spotifyApi.createPlaylist('My Cool Playlist', { public: false });
-    res.status(200).send(result.body);
-  };
-
   access.getAccess(apiCall, req, res);
 });
 

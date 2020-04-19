@@ -7,10 +7,19 @@ const lobbySchema = new Schema({
     type: String,
     required: true,
   },
-  isPublic: Boolean,
-  createdBy: String,
+  url: String,
+  isPublic: {
+    type: Boolean,
+    required: true,
+  },
+  createdBy: {
+    type: String,
+    required: true,
+  },
   code: String,
   users: [],
+  songs: [],
+  password: String,
 });
 
 const Lobby = mongoose.model('lobby', lobbySchema);

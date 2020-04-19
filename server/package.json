@@ -29,6 +29,7 @@
     "passport-mocked": "^1.4.0",
     "passport-oauth2-refresh": "^2.0.0",
     "passport-spotify": "^1.1.0",
+    "socket.io": "^2.3.0",
     "spotify-web-api-node": "^4.0.0",
     "superagent": "^5.2.2",
     "swagger-jsdoc": "^4.0.0",
