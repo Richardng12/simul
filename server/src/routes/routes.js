@@ -59,7 +59,14 @@ router.get('/songs', access.ensureAuthenticated, async (req, res) => {
       spotifyApi.setAccessToken(req.user.accessToken);
       spotifyApi.setRefreshToken(req.user.refreshToken);
       const songList = await spotifyApi.searchTracks(req.body.value, { limit: 10 });
-      res.status(200).json(songList.body.tracks.items);
+      const responseList = songList.body.tracks.items.map(song => {
+        return {
+          title: song.name,
+          artist: song.artists[0].name,
+          spotifyId: song.uri.split(':')[2],
+        };
+      });
+      res.status(200).json(responseList);
     } catch (err) {
       res.status(400).json({ message: 'no songs found' });
     }
