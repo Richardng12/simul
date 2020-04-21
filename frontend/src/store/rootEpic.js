@@ -1,7 +1,7 @@
 import { combineEpics } from 'redux-observable';
 // import { delay, filter, mapTo } from 'rxjs/operators';
 import login, { getUserInfo } from './profile/profileEpic';
-import getLobbies from './lobby/lobbyEpic';
+import getLobbies, { addLobby } from './lobby/lobbyEpic';
 
 // does nothing
 // const placeholderEpic = action$ =>
@@ -11,6 +11,6 @@ import getLobbies from './lobby/lobbyEpic';
 //     mapTo({ type: 'placeholder', restaurants: [1, 2] }),
 //   );
 
-const rootEpic = combineEpics(login, getUserInfo, getLobbies);
+const rootEpic = combineEpics(login, getUserInfo, getLobbies, addLobby);
 
 export default rootEpic;

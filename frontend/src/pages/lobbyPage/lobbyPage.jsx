@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 import SimulAppBar from '../musicPage/components/appBar';
 import { getUserInfo } from '../../store/profile/profileActions';
-import { getAllLobbies } from '../../store/lobby/lobbyActions';
+import { addLobby, getAllLobbies } from '../../store/lobby/lobbyActions';
 import style from './lobbyPage.module.css';
 import LobbyTile from './LobbyTile';
 
 const LobbyPage = props => {
-  const { userInfo, getLobbies, lobbies, profileLoader, lobbyLoader } = props;
+  const { userInfo, getLobbies, lobbies, profileLoader, lobbyLoader, createLobby } = props;
 
   useEffect(() => {
     userInfo();
@@ -25,6 +26,9 @@ const LobbyPage = props => {
   ) : (
     <div className={style.lobbyParent}>
       <SimulAppBar title="LOBBY" />
+      <div>
+        <Button onClick={() => createLobby()}>Add</Button>
+      </div>
       <div className={style.lobbyContainer}>
         {lobbies.length === 0 ? (
           <p>No Lobbies :(</p>
@@ -48,6 +52,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   userInfo: bindActionCreators(getUserInfo, dispatch),
   getLobbies: bindActionCreators(getAllLobbies, dispatch),
+  createLobby: bindActionCreators(addLobby, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyPage);

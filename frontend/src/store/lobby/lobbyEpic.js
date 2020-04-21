@@ -21,4 +21,38 @@ const getLobbies = action$ =>
     ),
   );
 
+// eslint-disable-next-line no-unused-vars
+const addLobby = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.addLobby),
+    mergeMap(async action => {
+      console.log('GOES HERE!');
+      const name = 'testName';
+      const password = 'testpassword';
+
+      const create = await fetch(LOBBY, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          password,
+        }),
+      }).then(res => res.json());
+
+      return { ...action, type: actionTypes.addLobby_success, create };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getAllLobbies_fail,
+        message: err.message,
+      }),
+    ),
+  );
 export default getLobbies;
+
+export { addLobby };
