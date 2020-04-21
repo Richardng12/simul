@@ -46,6 +46,8 @@ router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
     const result = await spotifyApi.getMe();
+    // console.log(result);
+    result.body.accessToken = req.user.accessToken;
     res.status(200).send(result.body);
   };
 
