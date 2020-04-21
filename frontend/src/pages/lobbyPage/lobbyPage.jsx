@@ -15,10 +15,10 @@ const LobbyPage = props => {
     getLobbies();
   }, []);
 
-  lobbies.push({ users: '210345sasvb', _id: '1234567', name: 'testing' });
-  lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
-  lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
-  lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
+  // lobbies.push({ users: '210345sasvb', _id: '1234567', name: 'testing' });
+  // lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
+  // lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
+  // lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
 
   return profileLoader || lobbyLoader ? (
     <div>Loading</div>
