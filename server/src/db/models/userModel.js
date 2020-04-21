@@ -3,13 +3,19 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  username: String,
+  username: {
+    type: String,
+    required: true,
+  },
   displayName: String,
   profileUrl: String,
   country: String,
   email: String,
   thumbnail: String,
-  spotifyId: String,
+  spotifyId: {
+    type: String,
+    required: true,
+  },
   accessToken: String,
   refreshToken: String,
 });

@@ -3,11 +3,23 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const lobbySchema = new Schema({
-  name: String,
-  isPublic: Boolean,
-  createdBy: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  url: String,
+  isPublic: {
+    type: Boolean,
+    required: true,
+  },
+  createdBy: {
+    type: String,
+    required: true,
+  },
   code: String,
   users: [],
+  songs: [],
+  password: String,
 });
 
 const Lobby = mongoose.model('lobby', lobbySchema);
