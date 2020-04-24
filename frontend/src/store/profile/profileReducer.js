@@ -1,7 +1,18 @@
 import { actionTypes } from './profileActions';
 
 const initialState = {
-  username: '',
+  user: {
+    _id: '',
+    username: '',
+    displayName: '',
+    spotifyId: '',
+    country: '',
+    email: '',
+    thumbnail: '',
+    profileUrl: '',
+    accessToken: '',
+    refreshToken: '',
+  },
   loading: false,
   isAuthenticated: false,
   message: '',
@@ -9,11 +20,11 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.updateUserName:
-      return {
-        ...state,
-        username: action.payload,
-      };
+    // case actionTypes.updateUserName:
+    //   return {
+    //     ...state,
+    //     username: action.payload,
+    //   };
     case actionTypes.login:
       return {
         ...state,
@@ -40,7 +51,7 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.getUserInfo_success:
       return {
         ...state,
-        username: action.user.display_name,
+        user: action.user,
         loading: false,
       };
     case actionTypes.getUserInfo_fail:
