@@ -2,5 +2,7 @@ const HOST = 'http://localhost:8888';
 
 const USER_INFO = `${HOST}/userinfo`;
 const SPOTIFY_AUTH = `${HOST}/auth/spotify`;
+const CHAT_SERVER = `${HOST}/getChats`;
+const FILE_SERVER = `${HOST}/uploadFiles`;
 
-export { USER_INFO, SPOTIFY_AUTH };
+export { USER_INFO, SPOTIFY_AUTH, CHAT_SERVER, FILE_SERVER };

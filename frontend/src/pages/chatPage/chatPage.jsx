@@ -1,117 +1,182 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-underscore-dangle */
-import React, { Component } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
-import { EnterOutlined, MessageOutlined } from '@ant-design/icons';
+import { EnterOutlined, MessageOutlined, UploadOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Dropzone from 'react-dropzone';
+import Axios from 'axios';
+import ChatCard from './ChatCard';
+import { getChats, afterPostMessage } from '../../store/chat/chatActions';
 
-export class ChatPage extends Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    chatMessage: '',
+// connect
+const server = 'http://localhost:8888';
+const socket = io(server);
+
+const ChatPage = props => {
+  // user obj,
+  const { user, chats, allChats, message } = props;
+
+  // message the user types
+
+  const [chatMessage, setChatMessage] = useState('');
+
+  // Deals with automatic scroll of chat with overflowing text
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  componentDidMount() {
-    const server = 'http://localhost:8888';
+  useEffect(scrollToBottom, [allChats]);
 
-    this.socket = io(server);
+  useEffect(() => {
+    // get all chats
+    chats();
 
-    this.socket.on('Output Chat Message', messageFromBackEnd => {
-      console.log(messageFromBackEnd);
+    // when backend receives a message, it sends it back up to frontend, and we append that new message to the state. (so the state has all messages now)
+    socket.on('Output Chat Message', messageFromBackEnd => {
+      message(messageFromBackEnd);
     });
-  }
+  }, []);
 
-  handleSearchChange = e => {
-    this.setState({
-      chatMessage: e.target.value,
+  const handleSearchChange = e => {
+    setChatMessage(e.target.value);
+  };
+
+  // handles file upload
+  const handleDrop = files => {
+    const formData = new FormData();
+
+    const config = {
+      header: { 'content-type': 'multipart/form-data' },
+    };
+    formData.append('file', files[0]);
+
+    Axios.post('http://localhost:8888/uploadFiles', formData, config).then(response => {
+      console.log(response.data.success);
+      if (response.data.success) {
+        // eslint-disable-next-line no-shadow
+        const chatMessage = response.data.url;
+        const userId = user._id;
+        const userName = user.username;
+        const { thumbnail } = user;
+        const nowTime = moment();
+        const type = 'VideoOrImage';
+
+        socket.emit('Input Chat Message', {
+          chatMessage,
+          userId,
+          userName,
+          thumbnail,
+          nowTime,
+          type,
+        });
+      }
+      setChatMessage('');
     });
   };
 
-  submitChatMessage = e => {
+  // map all chats in database and render it
+  const renderCards = () => allChats && allChats.map(chat => <ChatCard key={chat._id} {...chat} />);
+
+  // send this data to backend
+  const submitChatMessage = e => {
     e.preventDefault();
 
-    // eslint-disable-next-line prefer-destructuring
-    // eslint-disable-next-line react/destructuring-assignment
-    const { chatMessage } = this.state;
-    // eslint-disable-next-line no-underscore-dangle
-    // eslint-disable-next-line react/destructuring-assignment
-    const userId = this.props._id;
-    // eslint-disable-next-line react/destructuring-assignment
-    const userName = this.props.username;
-    // eslint-disable-next-line react/destructuring-assignment
+    const userId = user._id;
+
+    const userName = user.username;
+
+    const { thumbnail } = user;
 
     const nowTime = moment();
-    const type = 'Image';
+    const type = 'Text';
 
-    this.socket.emit('Input Chat Message', {
+    socket.emit('Input Chat Message', {
       chatMessage,
       userId,
       userName,
+      thumbnail,
       nowTime,
       type,
     });
-    this.setState({ chatMessage: '' });
+    setChatMessage('');
   };
 
-  render() {
-    return (
-      // eslint-disable-next-line react/jsx-fragments
-      <React.Fragment>
-        <div>
-          <p style={{ fontSize: '2rem', textAlign: 'center' }}> Real Time Chat</p>
+  return (
+    <>
+      <div>
+        <p style={{ fontSize: '2rem', textAlign: 'center' }}> Chat</p>
+      </div>
+
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div className="infinite-container" style={{ height: '500px', overflowY: 'scroll' }}>
+          {chats && <div>{renderCards()}</div>}
+          <div ref={messagesEndRef} style={{ float: 'left', clear: 'both' }} />
         </div>
 
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div className="infinite-container">
-            {/* {this.props.chats && (
-                            <div>{this.renderCards()}</div>
-                        )} */}
-            <div
-              ref={el => {
-                this.messagesEnd = el;
-              }}
-              style={{ float: 'left', clear: 'both' }}
-            />
-          </div>
+        <Row>
+          <Form layout="inline" onSubmit={submitChatMessage}>
+            <Col span={18}>
+              <Input
+                id="message"
+                prefix={<MessageOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Let's start talking"
+                type="text"
+                value={chatMessage}
+                onChange={handleSearchChange}
+              />
+            </Col>
+            <Col span={2}>
+              <Dropzone onDrop={handleDrop}>
+                {({ getRootProps, getInputProps }) => (
+                  <section>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <Button>
+                        <UploadOutlined />
+                      </Button>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+            </Col>
 
-          <Row>
-            <Form layout="inline" onSubmit={this.submitChatMessage}>
-              <Col span={18}>
-                <Input
-                  id="message"
-                  prefix={<MessageOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Let's start talking"
-                  type="text"
-                  // eslint-disable-next-line react/destructuring-assignment
-                  value={this.state.chatMessage}
-                  onChange={this.handleSearchChange}
-                />
-              </Col>
-              <Col span={2} />
+            <Col span={6}>
+              <Button
+                type="primary"
+                style={{ width: '100%' }}
+                onClick={submitChatMessage}
+                htmlType="submit"
+              >
+                <EnterOutlined />
+              </Button>
+            </Col>
+          </Form>
+        </Row>
+      </div>
+    </>
+  );
+};
 
-              <Col span={4}>
-                <Button
-                  type="primary"
-                  style={{ width: '100%' }}
-                  onClick={this.submitChatMessage}
-                  htmlType="submit"
-                >
-                  <EnterOutlined />
-                </Button>
-              </Col>
-            </Form>
-          </Row>
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+// chats -> get all chats into state, message -> append that message and concat with all msgs currently in database
+const mapDispatchToProps = dispatch => ({
+  chats: bindActionCreators(getChats, dispatch),
+  message: messageFromBackEnd => {
+    dispatch(afterPostMessage(messageFromBackEnd));
+  },
+});
 
+// user -> get user object, allChats -> get all chats from database
 const mapStateToProps = state => {
   return {
     user: state.profileReducer.user,
+    allChats: state.chatReducer.chats,
   };
 };
 
-export default connect(mapStateToProps)(ChatPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);

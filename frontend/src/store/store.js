@@ -17,6 +17,7 @@ const configureStore = () => {
 
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+  // redux devtools (chrome debug) + redux persist so user object is accessible from all pages
   const store = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(observableMiddleware)),
