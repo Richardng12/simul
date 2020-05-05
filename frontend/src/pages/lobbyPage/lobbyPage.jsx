@@ -20,7 +20,8 @@ const LobbyPage = props => {
   // lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
   // lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
   // lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
-
+  // eslint-disable-next-line no-underscore-dangle
+  console.log(lobbies[0] != null ? lobbies : 'null');
   return profileLoader || lobbyLoader ? (
     <div>Loading</div>
   ) : (
@@ -35,7 +36,7 @@ const LobbyPage = props => {
         ) : (
           lobbies.map(lobby => (
             // eslint-disable-next-line no-underscore-dangle
-            <LobbyTile name={lobby.name} key={lobby._id} />
+            <LobbyTile name={lobby.name} id={lobby._id} key={lobby._id} />
           ))
         )}
       </div>

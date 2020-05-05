@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import SpotifyWebPlayer from 'react-spotify-web-playback';
 import { connect } from 'react-redux';
 import AppBar from './components/appBar';
 import LyricsContainer from './lyricsContainer';
@@ -9,24 +8,22 @@ import SocialContainer from './socialContainer';
 
 import styles from './styles/musicPage.module.css';
 
+const getLobbyInfo = (id, lobbies) => {
+  // eslint-disable-next-line no-underscore-dangle
+  return lobbies.find(lobby => lobby._id === id);
+};
+
 const MusicPage = props => {
-  const { accessToken } = props;
+  const { lobbies } = props;
   const { id } = useParams();
+  const lobbyInfo = getLobbyInfo(id, lobbies);
+  console.log(lobbyInfo);
   return (
     <div className={styles.root}>
-      <AppBar title={id} />
+      <AppBar title={lobbyInfo.name} />
       <div className={styles.mostStuff}>
         <div className={styles.playerStuff}>
-          <QueueContainer />
-          <SpotifyWebPlayer
-            token={accessToken}
-            uris={[
-              'spotify:track:6Ozh9Ok6h4Oi1wUSLtBseN',
-              'spotify:track:6HbI4e2Y2f6HYVV6r04M4W',
-              'spotify:track:7m9OqQk4RVRkw9JJdeAw96',
-            ]}
-            autoPlay
-          />
+          <QueueContainer songs={lobbyInfo != null ? lobbyInfo.songs : []} />
         </div>
         <div className={styles.nonPlayerStuff}>
           <LyricsContainer />
@@ -38,7 +35,7 @@ const MusicPage = props => {
 };
 
 const mapStateToProps = state => ({
-  accessToken: state.profileReducer.token,
+  lobbies: state.lobbyReducer.lobbies,
 });
 
 export default connect(mapStateToProps)(MusicPage);
