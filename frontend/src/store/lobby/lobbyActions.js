@@ -5,6 +5,10 @@ export const actionTypes = {
   addLobby: 'ADD_LOBBY',
   addLobby_success: 'ADD_LOBBY_SUCCESS',
   addLobby_fail: 'ADD_LOBBY_FAIL',
+  getSingleLobby: 'GET_SINGLE_LOBBY',
+  getSingleLobby_success: 'GET_SINGLE_LOBBY_SUCCESS',
+  getSingleLobby_fail: 'GET_SINGLE_LOBBY_FAIL',
+  setCurrentLobbyId: 'CURRENT_LOBBY_ID',
 };
 
 const getAllLobbies = () => ({
@@ -21,8 +25,36 @@ const getAllLobbiesFail = message => ({
   message,
 });
 
+const getSingleLobby = () => ({
+  type: actionTypes.getSingleLobby,
+});
+
+const getSingleLobbySuccess = lobby => ({
+  type: actionTypes.getSingleLobby_success,
+  lobby,
+});
+
+const getSingleLobbyFail = message => ({
+  type: actionTypes.getSingleLobby,
+  message,
+});
+
 const addLobby = () => ({
   type: actionTypes.addLobby,
 });
 
-export { getAllLobbies, getAllLobbiesSuccess, getAllLobbiesFail, addLobby };
+const setCurrentLobbyId = lobbyId => ({
+  type: actionTypes.setCurrentLobbyId,
+  lobbyId,
+});
+
+export {
+  getAllLobbies,
+  getAllLobbiesSuccess,
+  getAllLobbiesFail,
+  addLobby,
+  getSingleLobby,
+  getSingleLobbySuccess,
+  getSingleLobbyFail,
+  setCurrentLobbyId,
+};

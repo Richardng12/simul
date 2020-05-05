@@ -21,12 +21,31 @@ const getLobbies = action$ =>
     ),
   );
 
+const getSingleLobby = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getSingleLobby),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const lobby = await fetch(`${LOBBY}/${id}`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.getSingleLobby_success, lobby };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getSingleLobby_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
 // eslint-disable-next-line no-unused-vars
 const addLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.addLobby),
     mergeMap(async action => {
-      console.log('GOES HERE!');
       const name = 'testName';
       const password = 'testpassword';
 
@@ -55,4 +74,4 @@ const addLobby = (action$, store) =>
   );
 export default getLobbies;
 
-export { addLobby };
+export { addLobby, getSingleLobby };
