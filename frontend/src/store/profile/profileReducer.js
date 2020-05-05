@@ -39,6 +39,7 @@ const profileReducer = (state = initialState, action) => {
         loading: true,
       };
     case actionTypes.getUserInfo_success:
+      console.log(action.user.accessToken);
       return {
         ...state,
         username: action.user.display_name,
