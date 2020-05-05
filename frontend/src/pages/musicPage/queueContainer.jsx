@@ -4,12 +4,11 @@ import SongQueueTable from './components/songQueueTable';
 import MusicPlayer from './components/musicPlayer';
 import styles from './styles/queueContainer.module.css';
 
-const QueueContainer = props => {
-  const { songs } = props;
+const QueueContainer = () => {
   return (
     <div className={styles.root}>
       <SongSearch />
-      <SongQueueTable songs={songs} />
+      <SongQueueTable />
       <MusicPlayer />
     </div>
   );

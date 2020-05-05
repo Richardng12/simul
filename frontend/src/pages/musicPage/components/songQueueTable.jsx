@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import { connect } from 'react-redux';
 import styles from '../styles/songQueueTable.module.css';
 
 function createData(title, artist) {
@@ -45,7 +46,8 @@ function createData(title, artist) {
 // ];
 
 const SongQueueTable = props => {
-  const { songs } = props;
+  const { lobby } = props;
+  const { songs } = lobby;
   const rows = songs.map(song => createData(song.title, song.artist));
   return (
     <TableContainer component={Paper} className={styles.table}>
@@ -71,4 +73,8 @@ const SongQueueTable = props => {
   );
 };
 
-export default SongQueueTable;
+const mapStateToProps = state => ({
+  lobby: state.lobbyReducer.currentLobby,
+});
+
+export default connect(mapStateToProps)(SongQueueTable);

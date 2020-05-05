@@ -3,23 +3,20 @@ import SpotifyWebPlayer from 'react-spotify-web-playback';
 import { connect } from 'react-redux';
 
 const MusicPlayer = props => {
-  const { accessToken } = props;
-  return (
-    <SpotifyWebPlayer
-      token={accessToken}
-      persistDeviceSelection
-      uris={[
-        'spotify:track:6Ozh9Ok6h4Oi1wUSLtBseN',
-        'spotify:track:6HbI4e2Y2f6HYVV6r04M4W',
-        'spotify:track:7m9OqQk4RVRkw9JJdeAw96',
-      ]}
-      autoPlay
-    />
-  );
+  const { accessToken, lobby } = props;
+
+  console.log(lobby);
+  // const songs = lobby.songs.map(song => `spotify:track:${song.spotifyId}`);
+  const currentSongs = [
+    'spotify:track:2hnxrRNzF74mdDzpQZQukQ',
+    // 'spotify:track:7m9OqQk4RVRkw9JJdeAw96',
+  ];
+  return <SpotifyWebPlayer token={accessToken} uris={currentSongs} autoPlay />;
 };
 
 const mapStateToProps = state => ({
   accessToken: state.profileReducer.token,
+  lobby: state.lobbyReducer.currentLobby,
 });
 
 export default connect(mapStateToProps)(MusicPlayer);
