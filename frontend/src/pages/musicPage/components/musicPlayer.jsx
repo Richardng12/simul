@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 const MusicPlayer = props => {
   const { accessToken, lobby } = props;
-
   console.log(lobby);
   // const songs = lobby.songs.map(song => `spotify:track:${song.spotifyId}`);
   const currentSongs = [
