@@ -23,10 +23,7 @@ const PlaybackTest = ({ accessToken }) => {
 
     setWebPlayer(player);
   };
-
-  console.log(webPlayer);
   const test = () => {
-    console.log(scriptLoaded);
     setScriptLoaded(true);
   };
 
@@ -63,6 +60,22 @@ const PlaybackTest = ({ accessToken }) => {
     });
   };
 
+  const skipToOneMin = () => {
+    fetch(`https://api.spotify.com/v1/me/player/seek?position_ms=10000&device_id${deviceId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then(res => {
+      console.log(res);
+    });
+  };
+
+  // TODO: only allow the above functions to be made when the webplayer and script has been loaded.
+  console.log(webPlayer);
+  console.log(scriptLoaded);
+
   return (
     <div>
       <Script
@@ -72,10 +85,15 @@ const PlaybackTest = ({ accessToken }) => {
         onLoad={() => test()}
       />
       <p>hello</p>
-      {/* eslint-disable-next-line react/button-has-type */}
-      <button onClick={() => startPlayback()}>start</button>
-      {/* eslint-disable-next-line react/button-has-type */}
-      <button onClick={() => pausePlayback()}>stop</button>
+      <button type="button" onClick={() => startPlayback()}>
+        start
+      </button>
+      <button type="button" onClick={() => pausePlayback()}>
+        stop
+      </button>
+      <button type="button" onClick={() => skipToOneMin()}>
+        skip to one min
+      </button>
     </div>
   );
 };
