@@ -19,7 +19,6 @@ const LobbyPage = props => {
   // lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
   // lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
   // lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
-  // eslint-disable-next-line no-underscore-dangle
   console.log(lobbies[0] != null ? lobbies : 'null');
   return lobbyLoader ? (
     <div>Loading</div>
