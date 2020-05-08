@@ -48,6 +48,21 @@ const lobbyReducer = (state = initialState, action) => {
         ...state,
         lobbyId: action.lobbyId,
       };
+    case actionTypes.addLobby:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.addLobby_success:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actionTypes.addLobby_fail:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return {
         ...state,

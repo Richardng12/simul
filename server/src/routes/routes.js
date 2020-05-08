@@ -60,7 +60,8 @@ router.get('/songs', access.ensureAuthenticated, async (req, res) => {
     try {
       spotifyApi.setAccessToken(req.user.accessToken);
       spotifyApi.setRefreshToken(req.user.refreshToken);
-      const songList = await spotifyApi.searchTracks(req.body.value, { limit: req.body.limit });
+      console.log(req.query);
+      const songList = await spotifyApi.searchTracks(req.query.value, { limit: req.query.limit });
       const responseList = songList.body.tracks.items.map(song => {
         return {
           title: song.name,

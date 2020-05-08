@@ -46,9 +46,8 @@ const addLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.addLobby),
     mergeMap(async action => {
-      const name = 'bruh wtf why is this not working';
-      const isPublic = false;
-      const password = 'password';
+      const name = 'testtestest';
+      const isPublic = true;
       const response = await fetch(LOBBY, {
         method: 'POST',
         mode: 'cors',
@@ -60,11 +59,9 @@ const addLobby = (action$, store) =>
         body: JSON.stringify({
           name,
           isPublic,
-          password,
         }),
       });
       const create = await response.json();
-      console.log(create);
       return { ...action, type: actionTypes.addLobby_success, create };
     }),
     catchError(err =>

@@ -43,6 +43,15 @@ const addLobby = () => ({
   type: actionTypes.addLobby,
 });
 
+const addLobbySuccess = newLobby => ({
+  type: actionTypes.addLobby_success,
+  newLobby,
+});
+
+const addLobbyFail = () => ({
+  type: actionTypes.addLobby_fail,
+});
+
 const setCurrentLobbyId = lobbyId => ({
   type: actionTypes.setCurrentLobbyId,
   lobbyId,
@@ -53,6 +62,8 @@ export {
   getAllLobbiesSuccess,
   getAllLobbiesFail,
   addLobby,
+  addLobbySuccess,
+  addLobbyFail,
   getSingleLobby,
   getSingleLobbySuccess,
   getSingleLobbyFail,
