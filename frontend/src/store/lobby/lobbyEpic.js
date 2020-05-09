@@ -70,13 +70,14 @@ const addSongToQueue = (action$, store) =>
     ),
   );
 
-// eslint-disable-next-line no-unused-vars
-const addLobby = (action$, store) =>
+const addLobby = action$ =>
   action$.pipe(
     filter(action => action.type === actionTypes.addLobby),
     mergeMap(async action => {
-      const name = 'testtestest';
-      const isPublic = true;
+      const { name, isPublic, password } = action;
+      console.log(name);
+      console.log(isPublic);
+      console.log(password);
       const response = await fetch(LOBBY, {
         method: 'POST',
         mode: 'cors',
@@ -88,6 +89,7 @@ const addLobby = (action$, store) =>
         body: JSON.stringify({
           name,
           isPublic,
+          password,
         }),
       });
       const create = await response.json();

@@ -1,0 +1,7 @@
+.body {
+  background-color: white;
+  height: 500px;
+  width: 500px;
+  text-align: center;
+  position: fixed;
+}

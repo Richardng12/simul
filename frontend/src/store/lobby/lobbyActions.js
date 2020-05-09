@@ -41,8 +41,11 @@ const getSingleLobbyFail = message => ({
   message,
 });
 
-const addLobby = () => ({
+const addLobby = (name, isPublic, password) => ({
   type: actionTypes.addLobby,
+  name,
+  isPublic,
+  password,
 });
 
 const addLobbySuccess = newLobby => ({
