@@ -41,14 +41,14 @@ const getSingleLobby = (action$, store) =>
     ),
   );
 
-const addSongToQueue = action$ =>
+const addSongToQueue = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.addSongToQueue),
     mergeMap(async action => {
       const { spotifySongId } = action;
-      console.log('sasdfasdf');
-      await fetch(LOBBY, {
-        method: 'POST',
+      const id = store.value.lobbyReducer.lobbyId;
+      const response = await fetch(`${LOBBY}/${id}/songs`, {
+        method: 'PATCH',
         mode: 'cors',
         credentials: 'include',
         headers: {
@@ -59,6 +59,8 @@ const addSongToQueue = action$ =>
           spotifySongId,
         }),
       });
+      const queue = await response.json();
+      return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),
     catchError(err =>
       Promise.resolve({

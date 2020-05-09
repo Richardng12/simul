@@ -67,6 +67,10 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.addSongToQueue_success:
+      return {
+        ...state,
+      };
     default:
       return {
         ...state,

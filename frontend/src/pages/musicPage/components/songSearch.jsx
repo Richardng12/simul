@@ -8,12 +8,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
 
-const SongSearch = () => {
+const SongSearch = props => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [input, setInput] = useState('');
   const loading = open && options.length === 0;
-
+  const { addSong } = props;
   useEffect(() => {
     let active = true;
 
@@ -60,7 +60,7 @@ const SongSearch = () => {
       loading={loading}
       onChange={(event, value) => {
         if (value !== null) {
-          addSongToQueue(value.spotifySongId);
+          addSong(value.spotifySongId);
         }
       }}
       renderInput={params => (
@@ -87,7 +87,7 @@ const SongSearch = () => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addSongToQueue: bindActionCreators(addSongToQueue, dispatch),
+  addSong: bindActionCreators(addSongToQueue, dispatch),
 });
 
-export default connect(mapDispatchToProps)(SongSearch);
+export default connect(null, mapDispatchToProps)(SongSearch);

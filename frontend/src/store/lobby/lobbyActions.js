@@ -10,6 +10,7 @@ export const actionTypes = {
   getSingleLobby_fail: 'GET_SINGLE_LOBBY_FAIL',
   setCurrentLobbyId: 'CURRENT_LOBBY_ID',
   addSongToQueue: 'ADD_SONG_TO_QUEUE',
+  addSongToQueue_success: 'ADD_SONG_TO_QUEUE_SUCCESS',
 };
 
 const getAllLobbies = () => ({
@@ -63,6 +64,11 @@ const addSongToQueue = spotifySongId => ({
   spotifySongId,
 });
 
+const addSongToQueueSuccess = queue => ({
+  type: actionTypes.addSongToQueue_success,
+  queue,
+});
+
 export {
   getAllLobbies,
   getAllLobbiesSuccess,
@@ -75,4 +81,5 @@ export {
   getSingleLobbyFail,
   setCurrentLobbyId,
   addSongToQueue,
+  addSongToQueueSuccess,
 };
