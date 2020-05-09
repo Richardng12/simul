@@ -14,6 +14,7 @@ const LobbyPage = props => {
   const { getLobbies, lobbies, lobbyLoader } = props;
   const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     getLobbies();
   }, []);
@@ -44,7 +45,7 @@ const LobbyPage = props => {
         {lobbies.length === 0 ? (
           <p>No Lobbies :(</p>
         ) : (
-          lobbies.map(lobby => {
+          [...lobbies].reverse().map(lobby => {
             return (
               lobby.name.includes(filter) && (
                 <LobbyTile
