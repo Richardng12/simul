@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
 
@@ -12,7 +11,7 @@ const SongSearch = props => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [input, setInput] = useState('');
-  const loading = open && options.length === 0;
+  const loading = open && input !== '';
   const { addSong } = props;
   useEffect(() => {
     let active = true;
@@ -73,12 +72,7 @@ const SongSearch = props => {
           }}
           InputProps={{
             ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+            endAdornment: <>{params.InputProps.endAdornment}</>,
           }}
         />
       )}
