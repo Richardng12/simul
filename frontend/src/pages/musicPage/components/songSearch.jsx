@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
 
 const SongSearch = () => {
@@ -19,7 +21,6 @@ const SongSearch = () => {
       return undefined;
     }
     (async () => {
-      console.log(input);
       const response = await fetch(`${SONGS}?${new URLSearchParams({ value: input, limit: 10 })}`, {
         method: 'GET',
         mode: 'cors',
@@ -57,6 +58,11 @@ const SongSearch = () => {
       getOptionLabel={option => `${option.title}-${option.artist}`}
       options={options}
       loading={loading}
+      onChange={(event, value) => {
+        if (value !== null) {
+          addSongToQueue(value.spotifySongId);
+        }
+      }}
       renderInput={params => (
         <TextField
           {...params}
@@ -80,4 +86,8 @@ const SongSearch = () => {
   );
 };
 
-export default SongSearch;
+const mapDispatchToProps = dispatch => ({
+  addSongToQueue: bindActionCreators(addSongToQueue, dispatch),
+});
+
+export default connect(mapDispatchToProps)(SongSearch);

@@ -41,6 +41,33 @@ const getSingleLobby = (action$, store) =>
     ),
   );
 
+const addSongToQueue = action$ =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.addSongToQueue),
+    mergeMap(async action => {
+      const { spotifySongId } = action;
+      console.log('sasdfasdf');
+      await fetch(LOBBY, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          spotifySongId,
+        }),
+      });
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getAllLobbies_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
 // eslint-disable-next-line no-unused-vars
 const addLobby = (action$, store) =>
   action$.pipe(
@@ -73,4 +100,4 @@ const addLobby = (action$, store) =>
   );
 export default getLobbies;
 
-export { addLobby, getSingleLobby };
+export { addLobby, getSingleLobby, addSongToQueue };
