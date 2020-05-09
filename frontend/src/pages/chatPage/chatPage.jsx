@@ -2,13 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
-import { EnterOutlined, MessageOutlined, UploadOutlined } from '@ant-design/icons';
+import { EnterOutlined, MessageOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import Dropzone from 'react-dropzone';
-import Axios from 'axios';
 import ChatCard from './ChatCard';
 import { getChats, afterPostMessage } from '../../store/chat/chatActions';
 
@@ -47,39 +45,6 @@ const ChatPage = props => {
     setChatMessage(e.target.value);
   };
 
-  // handles file upload
-  const handleDrop = files => {
-    const formData = new FormData();
-
-    const config = {
-      header: { 'content-type': 'multipart/form-data' },
-    };
-    formData.append('file', files[0]);
-
-    Axios.post('http://localhost:8888/uploadFiles', formData, config).then(response => {
-      console.log(response.data.success);
-      if (response.data.success) {
-        // eslint-disable-next-line no-shadow
-        const chatMessage = response.data.url;
-        const userId = user._id;
-        const userName = user.username;
-        const { thumbnail } = user;
-        const nowTime = moment();
-        const type = 'VideoOrImage';
-
-        socket.emit('Input Chat Message', {
-          chatMessage,
-          userId,
-          userName,
-          thumbnail,
-          nowTime,
-          type,
-        });
-      }
-      setChatMessage('');
-    });
-  };
-
   // map all chats in database and render it
   const renderCards = () => allChats && allChats.map(chat => <ChatCard key={chat._id} {...chat} />);
 
@@ -110,7 +75,7 @@ const ChatPage = props => {
   return (
     <>
       <div>
-        <p style={{ fontSize: '2rem', textAlign: 'center' }}> Chat</p>
+        <p style={{ fontSize: '2rem', textAlign: 'center' }}> </p>
       </div>
 
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -131,21 +96,6 @@ const ChatPage = props => {
                 onChange={handleSearchChange}
               />
             </Col>
-            <Col span={2}>
-              <Dropzone onDrop={handleDrop}>
-                {({ getRootProps, getInputProps }) => (
-                  <section>
-                    <div {...getRootProps()}>
-                      <input {...getInputProps()} />
-                      <Button>
-                        <UploadOutlined />
-                      </Button>
-                    </div>
-                  </section>
-                )}
-              </Dropzone>
-            </Col>
-
             <Col span={6}>
               <Button
                 type="primary"
