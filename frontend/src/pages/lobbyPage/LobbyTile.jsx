@@ -7,18 +7,18 @@ import style from './LobbyTile.module.css';
 const LobbyTile = props => {
   const { name, id, isPublic, password } = props;
   const history = useHistory();
-  const [open, setOpen] = useState(false);
+  const [open, setModal] = useState(false);
 
   const changeHistory = path => {
     if (isPublic) {
       history.push(path);
     } else {
-      setOpen(true);
+      setModal(true);
     }
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setModal(false);
   };
 
   return (

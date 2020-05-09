@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { addLobby } from '../../store/lobby/lobbyActions';
-import style from './modal.module.css';
+import styles from './modal.module.css';
 
 const AddLobbyModal = props => {
   const { open, onClose, createLobby } = props;
@@ -21,8 +21,8 @@ const AddLobbyModal = props => {
   };
   return (
     <div>
-      <Modal open={open} onClose={onClose} className={style.body}>
-        <div>
+      <Modal open={open} onClose={onClose}>
+        <div className={styles.modal}>
           <TextField label="Lobby Name" onChange={event => setLobbyName(event.target.value)} />
           <FormControlLabel
             control={<Checkbox checked={privateLobby} onChange={handlePrivateChange} />}
