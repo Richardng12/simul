@@ -51,6 +51,7 @@ const LobbyPage = props => {
                   name={lobby.name}
                   id={lobby._id}
                   isPublic={lobby.isPublic}
+                  password={lobby.password}
                   key={lobby._id}
                 />
               )

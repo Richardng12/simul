@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import EnterPasswordModal from './enterPasswordModal';
 import style from './LobbyTile.module.css';
 
 const LobbyTile = props => {
-  const { name, id, isPublic } = props;
+  const { name, id, isPublic, password } = props;
   const history = useHistory();
+  const [open, setOpen] = useState(false);
 
-  // eslint-disable-next-line consistent-return
   const changeHistory = path => {
     if (isPublic) {
       history.push(path);
     } else {
-      return <EnterPasswordModal />;
+      setOpen(true);
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={style.lobbyTile} onClick={() => changeHistory(`/lobby/${id}`)}>
       {name}
       {!isPublic && <LockOutlinedIcon />}
+      <EnterPasswordModal
+        open={open}
+        onClose={handleClose}
+        name={name}
+        password={password}
+        lobbyId={id}
+      />
     </div>
   );
 };
