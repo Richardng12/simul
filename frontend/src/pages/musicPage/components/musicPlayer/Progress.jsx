@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import style from './musicPlayer.module.css';
 
 const Progress = props => {
-  const { songTime, currentProgress } = props;
+  const { songTime, setCurrentTime, currentTime } = props;
   const [musicProgress, setMusicProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(currentProgress);
 
   useEffect(() => {
     if (songTime === 0) return;
-
     const interval = setInterval(() => {
       setCurrentTime(currentTime + 10);
       const percent = (currentTime / songTime) * 100;

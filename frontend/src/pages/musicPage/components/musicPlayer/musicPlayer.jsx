@@ -7,21 +7,23 @@ import Progress from './Progress';
 
 const MusicPlayer = props => {
   const { accessToken } = props;
+  const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [currentSong, setCurrentSong] = useState(null);
   const [currentSongId, setCurrentSongId] = useState('');
+  const [currentTime, setCurrentTime] = useState(startingTime);
+
   // const [songTime, setSongTime] = useState(0);
 
   // const songs = lobby.songs.map(song => `spotify:track:${song.spotifyId}`);
 
   // todo: replace with call to API
-  const startingTime = 0;
 
   const currentSongs = [
-    'spotify:track:2O9KgUsmuon6Gycdmagc6t',
     'spotify:track:24zYR2ozYbnhhwulk2NLD4',
+    'spotify:track:2O9KgUsmuon6Gycdmagc6t',
   ];
 
   const handleScriptLoad = () => {
@@ -33,6 +35,12 @@ const MusicPlayer = props => {
       },
     });
 
+    player.addListener('player_state_changed', state => {
+      console.log('playerState changed');
+      console.log(state);
+      setCurrentTime(0);
+      setCurrentSong(state.track_window.current_track);
+    });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       setDeviceId(device_id);
@@ -62,8 +70,8 @@ const MusicPlayer = props => {
 
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
+    console.log('here first');
     getSongInfo(accessToken, currentSongId).then(res => {
-      console.log(res);
       setCurrentSong(res);
       // setSongTime(res.duration_ms);
     });
@@ -79,8 +87,9 @@ const MusicPlayer = props => {
       />
       <div className={style.player}>
         <Progress
+          currentTime={currentTime}
+          setCurrentTime={setCurrentTime}
           songTime={currentSong ? currentSong.duration_ms : 0}
-          currentProgress={startingTime}
         />
       </div>
       <button type="button" onClick={() => handleStartClick()}>
