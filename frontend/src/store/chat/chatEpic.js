@@ -7,7 +7,8 @@ const getChats = action$ =>
   action$.pipe(
     filter(action => action.type === actionTypes.getChats),
     mergeMap(async action => {
-      const chats = await fetch(CHAT_SERVER, {
+      const { lobbyId } = action;
+      const chats = await fetch(`${CHAT_SERVER}/${lobbyId}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -22,4 +23,35 @@ const getChats = action$ =>
     ),
   );
 
+// const afterPostMessage = (action$, store) =>
+//   action$.pipe(
+//     filter(action => action.type === actionTypes.afterPostMessage),
+//     mergeMap(async action => {
+//       const { data } = action;
+//       const id = store.value.lobbyReducer.lobbyId;
+//       const response = await fetch(`http://localhost:8888/afterPostMessage/${id}`, {
+//         method: 'PATCH',
+//         mode: 'cors',
+//         credentials: 'include',
+//         headers: {
+//           Accept: 'application/json, text/plain, */*',
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           data,
+//         }),
+//       });
+//       const addedData = await response.json();
+//       console.log(addedData);
+//       return { ...action, type: actionTypes.afterPostMessage_success, addedData };
+//     }),
+//     catchError(err =>
+//       Promise.resolve({
+//         type: actionTypes.afterPostMessage_fail,
+//         message: err.message,
+//       }),
+//     ),
+//   );
+
 export default getChats;
+// export { getChats, afterPostMessage };

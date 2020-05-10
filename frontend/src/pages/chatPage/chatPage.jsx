@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { EnterOutlined, MessageOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ChatCard from './ChatCard';
@@ -16,7 +16,7 @@ const socket = io(server);
 
 const ChatPage = props => {
   // user obj,
-  const { user, chats, allChats, message } = props;
+  const { user, chats, allChats, message, lobbyId } = props;
 
   // message the user types
 
@@ -32,12 +32,14 @@ const ChatPage = props => {
   useEffect(scrollToBottom, [allChats]);
 
   useEffect(() => {
-    // get all chats
-    chats();
+    // get all chats for a lobby
+    chats(lobbyId);
+    console.log(lobbyId);
 
     // when backend receives a message, it sends it back up to frontend, and we append that new message to the state. (so the state has all messages now)
     socket.on('Output Chat Message', messageFromBackEnd => {
       message(messageFromBackEnd);
+      console.log();
     });
   }, []);
 
@@ -64,6 +66,7 @@ const ChatPage = props => {
     socket.emit('Input Chat Message', {
       chatMessage,
       userId,
+      lobbyId,
       userName,
       thumbnail,
       nowTime,
@@ -115,7 +118,10 @@ const ChatPage = props => {
 
 // chats -> get all chats into state, message -> append that message and concat with all msgs currently in database
 const mapDispatchToProps = dispatch => ({
-  chats: bindActionCreators(getChats, dispatch),
+  chats: lobbyId => {
+    dispatch(getChats(lobbyId));
+  },
+  // chats: bindActionCreators(getChats, dispatch),
   message: messageFromBackEnd => {
     dispatch(afterPostMessage(messageFromBackEnd));
   },
@@ -126,6 +132,7 @@ const mapStateToProps = state => {
   return {
     user: state.profileReducer.user,
     allChats: state.chatReducer.chats,
+    lobbyId: state.lobbyReducer.lobbyId,
   };
 };
 

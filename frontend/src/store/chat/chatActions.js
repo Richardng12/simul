@@ -3,10 +3,13 @@ export const actionTypes = {
   getChats_success: 'GET_CHATS_SUCCESS',
   getChats_fail: 'GET_CHATS_FAIL',
   afterPostMessage: 'AFTER_POST_MESSAGE',
+  // afterPostMessage_success: 'AFTER_POST_MESSAGE_SUCCESS',
+  // afterPostMessage_fail: 'AFTER_POST_MESSAGE_FAIL',
 };
 
-const getChats = () => ({
+const getChats = lobbyId => ({
   type: actionTypes.getChats,
+  lobbyId,
 });
 
 const getChatsSuccess = chats => ({
@@ -24,4 +27,21 @@ const afterPostMessage = data => ({
   data,
 });
 
-export { getChats, afterPostMessage, getChatsSuccess, getChatsFail };
+// const afterPostMessageSuccess = addedData => ({
+//   type: actionTypes.afterPostMessage,
+//   addedData,
+// });
+
+// const afterPostMessageFail = message => ({
+//   type: actionTypes.afterPostMessage,
+//   message,
+// });
+
+export {
+  getChats,
+  afterPostMessage,
+  getChatsSuccess,
+  getChatsFail,
+  // afterPostMessageSuccess,
+  // afterPostMessageFail,
+};
