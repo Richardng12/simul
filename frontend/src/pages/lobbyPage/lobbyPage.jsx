@@ -1,42 +1,63 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import SimulAppBar from '../musicPage/components/appBar';
+import AddLobbyModal from './addLobbyModal';
 import { getUserInfo } from '../../store/profile/profileActions';
-import { addLobby, getAllLobbies } from '../../store/lobby/lobbyActions';
+import { getAllLobbies } from '../../store/lobby/lobbyActions';
 import style from './lobbyPage.module.css';
 import LobbyTile from './LobbyTile';
 
 const LobbyPage = props => {
-  const { getLobbies, lobbies, lobbyLoader, createLobby } = props;
+  const { getLobbies, lobbies, lobbyLoader } = props;
+  const [filter, setFilter] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getLobbies();
   }, []);
 
-  // lobbies.push({ users: '210345sasvb', _id: '1234567', name: 'testing' });
-  // lobbies.push({ users: '210345sasvb', _id: 'asdf', name: 'oneoenoen' });
-  // lobbies.push({ users: '210345sasvb', _id: 'aaaaaa', name: 'ROCK SONG' });
-  // lobbies.push({ users: '210345sasvb', _id: '3333333', name: 'bbebebe' });
-  // eslint-disable-next-line no-underscore-dangle
-  console.log(lobbies[0] != null ? lobbies : 'null');
+  const filterLobbies = event => {
+    setFilter(event.target.value);
+  };
+
+  const displayModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return lobbyLoader ? (
     <div>Loading</div>
   ) : (
     <div className={style.lobbyParent}>
       <SimulAppBar title="LOBBY" />
+      <AddLobbyModal open={showModal} onClose={closeModal} />
       <div>
-        <Button onClick={() => createLobby()}>Add</Button>
+        <Button onClick={displayModal}>Add</Button>
+        <TextField label="Search lobbies" onChange={filterLobbies} />
       </div>
       <div className={style.lobbyContainer}>
         {lobbies.length === 0 ? (
           <p>No Lobbies :(</p>
         ) : (
-          lobbies.map(lobby => (
-            // eslint-disable-next-line no-underscore-dangle
-            <LobbyTile name={lobby.name} id={lobby._id} key={lobby._id} />
-          ))
+          [...lobbies].reverse().map(lobby => {
+            return (
+              lobby.name.includes(filter) && (
+                <LobbyTile
+                  name={lobby.name}
+                  id={lobby._id}
+                  isPublic={lobby.isPublic}
+                  password={lobby.password}
+                  key={lobby._id}
+                />
+              )
+            );
+          })
         )}
       </div>
     </div>
@@ -52,7 +73,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   userInfo: bindActionCreators(getUserInfo, dispatch),
   getLobbies: bindActionCreators(getAllLobbies, dispatch),
-  createLobby: bindActionCreators(addLobby, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyPage);

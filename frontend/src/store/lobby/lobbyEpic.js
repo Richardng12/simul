@@ -41,28 +41,55 @@ const getSingleLobby = (action$, store) =>
     ),
   );
 
-// eslint-disable-next-line no-unused-vars
-const addLobby = (action$, store) =>
+const addSongToQueue = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.addSongToQueue),
+    mergeMap(async action => {
+      const { spotifySongId } = action;
+      const id = store.value.lobbyReducer.lobbyId;
+      const response = await fetch(`${LOBBY}/${id}/songs`, {
+        method: 'PATCH',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          spotifySongId,
+        }),
+      });
+      const queue = await response.json();
+      return { ...action, type: actionTypes.addSongToQueue_success, queue };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getAllLobbies_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const addLobby = action$ =>
   action$.pipe(
     filter(action => action.type === actionTypes.addLobby),
     mergeMap(async action => {
-      const name = 'testName';
-      const password = 'testpassword';
-
-      const create = await fetch(LOBBY, {
+      const { name, isPublic, password } = action;
+      const response = await fetch(LOBBY, {
         method: 'POST',
         mode: 'cors',
-        credentials: 'same-origin',
+        credentials: 'include',
         headers: {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name,
+          isPublic,
           password,
         }),
-      }).then(res => res.json());
-
+      });
+      const create = await response.json();
       return { ...action, type: actionTypes.addLobby_success, create };
     }),
     catchError(err =>
@@ -74,4 +101,4 @@ const addLobby = (action$, store) =>
   );
 export default getLobbies;
 
-export { addLobby, getSingleLobby };
+export { addLobby, getSingleLobby, addSongToQueue };
