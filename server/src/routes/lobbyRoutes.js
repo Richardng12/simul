@@ -122,31 +122,49 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
     res.lobby.users.push(req.user._id);
-    const updatedLobby = await res.lobby.save();
-    res.status(200).json(updatedLobby.users);
+    await res.lobby.save();
+    res.status(200).json({ message: 'User has been deleted' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// delete user from lobby
-router.delete('/:id/users', access.ensureAuthenticated, async (req, res) => {
+// Remove user from lobby
+router.delete('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    await Lobby.updateOne({ _id: req.params.id }, { $pull: { users: { _id: req.body.id } } });
+    await res.lobby.users.pull(req.body.id);
+    const updatedUsers = await res.lobby.save();
+    res.status(200).json(updatedUsers);
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
   }
 });
 
-// delete song from lobby
+// Remove song from lobby queue
 router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    res.lobby.songs.pull({ _id: req.body.id });
-    await res.lobby.save();
-    res.status(200).json({ message: 'Song has been deleted' });
+    // res.lobby.update({}, { $pull: { songs: { artist: 'BTS' } } });
+    await Lobby.updateOne(
+      { _id: req.params.id },
+      { $pull: { songs: { $elemMatch: { _id: req.body.id } } } },
+    );
+    const updatedSongs = await Lobby.findById(req.params.id);
+    // res.status(200).json({ message: 'Song has been deleted' });
+    res.status(200).json(updatedSongs.songs);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
+router.get('/:id/test', access.ensureAuthenticated, getLobby, async (req, res) => {
+  try {
+    const song = await Lobby.findOne(
+      { _id: req.params.id },
+      { songs: { $elemMatch: { _id: req.body.id } } },
+    );
+    res.status(200).json(song);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 module.exports = router;
