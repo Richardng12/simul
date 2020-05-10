@@ -75,9 +75,6 @@ const addLobby = action$ =>
     filter(action => action.type === actionTypes.addLobby),
     mergeMap(async action => {
       const { name, isPublic, password } = action;
-      console.log(name);
-      console.log(isPublic);
-      console.log(password);
       const response = await fetch(LOBBY, {
         method: 'POST',
         mode: 'cors',

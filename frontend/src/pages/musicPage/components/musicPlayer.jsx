@@ -3,8 +3,7 @@ import SpotifyWebPlayer from 'react-spotify-web-playback';
 import { connect } from 'react-redux';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby } = props;
-  console.log(lobby);
+  const { accessToken } = props;
   // const songs = lobby.songs.map(song => `spotify:track:${song.spotifyId}`);
   const currentSongs = [
     'spotify:track:2hnxrRNzF74mdDzpQZQukQ',
