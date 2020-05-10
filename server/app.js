@@ -62,7 +62,12 @@ if (process.env.NODE_ENV === 'test') {
     socket.on('Input Chat Message', msg => {
       connect.then(() => {
         try {
-          const chat = new Chat({ message: msg.chatMessage, sender: msg.userId, type: msg.type });
+          const chat = new Chat({
+            message: msg.chatMessage,
+            lobbyId: msg.lobbyId,
+            sender: msg.userId,
+            type: msg.type,
+          });
           // eslint-disable-next-line consistent-return
           // save chat msg to db
           chat.save((err, doc) => {
@@ -74,6 +79,7 @@ if (process.env.NODE_ENV === 'test') {
               .populate('sender')
               .exec((err, doc) => {
                 // send message back to frontend
+                console.log(doc);
                 return io.emit('Output Chat Message', doc);
               });
           });

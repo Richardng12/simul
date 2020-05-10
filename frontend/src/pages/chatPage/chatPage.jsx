@@ -19,7 +19,6 @@ const ChatPage = props => {
   const { user, chats, allChats, message, lobbyId } = props;
 
   // message the user types
-
   const [chatMessage, setChatMessage] = useState('');
 
   // Deals with automatic scroll of chat with overflowing text
@@ -34,20 +33,22 @@ const ChatPage = props => {
   useEffect(() => {
     // get all chats for a lobby
     chats(lobbyId);
-    console.log(lobbyId);
 
     // when backend receives a message, it sends it back up to frontend, and we append that new message to the state. (so the state has all messages now)
     socket.on('Output Chat Message', messageFromBackEnd => {
       message(messageFromBackEnd);
-      console.log();
+      console.log('connected once');
     });
+    return () => {
+      socket.off();
+    };
   }, []);
 
   const handleSearchChange = e => {
     setChatMessage(e.target.value);
   };
 
-  // map all chats in database and render it
+  // map all chats in lobby and render it
   const renderCards = () => allChats && allChats.map(chat => <ChatCard key={chat._id} {...chat} />);
 
   // send this data to backend

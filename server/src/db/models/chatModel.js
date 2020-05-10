@@ -7,16 +7,16 @@ const chatSchema = new Schema(
     message: {
       type: String,
     },
+    lobbyId: {
+      type: Schema.Types.ObjectId,
+      ref: 'lobby',
+    },
     sender: {
       type: Schema.Types.ObjectId,
       ref: 'user',
     },
     type: {
       type: String,
-    },
-    lobby: {
-      type: Schema.Types.ObjectId,
-      ref: 'lobby',
     },
   },
   { timestamps: true },

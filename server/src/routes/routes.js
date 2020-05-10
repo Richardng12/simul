@@ -91,13 +91,24 @@ router.get('/songs', access.ensureAuthenticated, async (req, res) => {
 });
 
 // get all chats from db -> will need to extend to have lobbies somehow
-router.get('/getChats', async (req, res) => {
-  await Chat.find()
+router.get('/getChats/:id', async (req, res) => {
+  await Chat.find({ lobbyId: req.params.id })
     .populate('sender')
     // eslint-disable-next-line consistent-return
     .exec((err, chats) => {
       if (err) return res.status(400).send(err);
       res.status(200).send(chats);
+    });
+});
+
+router.patch('/afterPostMessage/:id', async (req, res) => {
+  const { data } = req.body;
+  await Chat.find({ lobbyId: req.params.id })
+    .populate('sender')
+    // eslint-disable-next-line consistent-return
+    .exec((err, chats) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).send(chats.concat(data));
     });
 });
 
