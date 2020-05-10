@@ -9,6 +9,7 @@ import SocialContainer from './socialContainer';
 
 import styles from './styles/musicPage.module.css';
 import { getSingleLobby, setCurrentLobbyId } from '../../store/lobby/lobbyActions';
+import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 
 // const getLobbyInfo = (id, lobbies) => {
 //   // eslint-disable-next-line no-underscore-dangle
@@ -38,6 +39,7 @@ const MusicPage = props => {
           <SocialContainer />
         </div>
       </div>
+      <MusicPlayerContainer />
     </div>
   );
 };

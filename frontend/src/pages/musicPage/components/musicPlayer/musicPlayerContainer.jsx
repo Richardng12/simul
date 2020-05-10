@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserInfo } from '../../../store/profile/profileActions';
+import { getUserInfo } from '../../../../store/profile/profileActions';
 import MusicPlayer from './musicPlayer';
 
 const MusicPlayerContainer = props => {
