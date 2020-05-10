@@ -2,6 +2,7 @@ import { combineEpics } from 'redux-observable';
 // import { delay, filter, mapTo } from 'rxjs/operators';
 import login, { getUserInfo } from './profile/profileEpic';
 import getLobbies, { addLobby, getSingleLobby, addSongToQueue } from './lobby/lobbyEpic';
+import getChats from './chat/chatEpic';
 
 // does nothing
 // const placeholderEpic = action$ =>
@@ -18,6 +19,7 @@ const rootEpic = combineEpics(
   addLobby,
   getSingleLobby,
   addSongToQueue,
+  getChats,
 );
 
 export default rootEpic;

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.0.6",
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.47",
@@ -10,13 +11,16 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.1.4",
     "autosuggest-highlight": "^3.1.1",
     "cross-fetch": "^3.0.4",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-load-script": "0.0.6",
+    "react-dropzone": "^11.0.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
@@ -25,8 +29,10 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.2.0",
+    "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.3",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "cross-env EXTEND_ESLINT=true react-scripts start",
