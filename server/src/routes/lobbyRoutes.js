@@ -1,5 +1,6 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
+const mongodb = require('mongodb');
 const access = require('./auth/access');
 
 const router = express.Router();
@@ -19,7 +20,6 @@ async function getLobby(req, res, next) {
   return null;
 }
 
-// Get all lobbies
 router.get('/', access.ensureAuthenticated, async (req, res) => {
   try {
     const lobby = await Lobby.find();
@@ -121,9 +121,9 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    res.lobby.users.push(req.user._id);
+    await res.lobby.users.push(req.user._id);
     await res.lobby.save();
-    res.status(200).json({ message: 'User has been deleted' });
+    res.status(200).json({ message: 'User has been added' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -133,38 +133,22 @@ router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res
 router.delete('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
     await res.lobby.users.pull(req.body.id);
-    const updatedUsers = await res.lobby.save();
-    res.status(200).json(updatedUsers);
+    await res.lobby.save();
+    res.status(200).json({ message: 'User has been deleted' });
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
   }
 });
 
 // Remove song from lobby queue
-router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
+router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   try {
-    // res.lobby.update({}, { $pull: { songs: { artist: 'BTS' } } });
-    await Lobby.updateOne(
-      { _id: req.params.id },
-      { $pull: { songs: { $elemMatch: { _id: req.body.id } } } },
-    );
-    const updatedSongs = await Lobby.findById(req.params.id);
-    // res.status(200).json({ message: 'Song has been deleted' });
-    res.status(200).json(updatedSongs.songs);
+    const objectId = new mongodb.ObjectID(req.body.id);
+    await Lobby.updateOne({ _id: req.params.id }, { $pull: { songs: { _id: objectId } } });
+    res.status(200).json({ message: 'Song has been deleted' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-router.get('/:id/test', access.ensureAuthenticated, getLobby, async (req, res) => {
-  try {
-    const song = await Lobby.findOne(
-      { _id: req.params.id },
-      { songs: { $elemMatch: { _id: req.body.id } } },
-    );
-    res.status(200).json(song);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
 module.exports = router;
