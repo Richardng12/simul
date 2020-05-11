@@ -94,7 +94,7 @@ const MusicPlayer = props => {
         <div className={style.player}>
           <div className={style.leftSide}>
             {currentSong ? (
-              <img src={currentSong.album.images[0].url} alt="thumbnail" height="70px" />
+              <img src={currentSong.album.images[0].url} alt="thumbnail" height="71px" />
             ) : (
               <p>image goes here</p>
             )}
