@@ -1,20 +1,74 @@
 .parentPlayer {
     width: 100%;
-    height: 100px;
+    height: 70px;
     position: absolute;
-    background-color: red;
+    background-color: gray;
 }
 
 .player {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+}
+
+.leftSide {
+    height: 100%;
+    width: 100%;
+}
+
+.mainContent {
+    text-align: center;
+    display: grid;
+    grid-template-rows: 20px 15px 30px;
+}
+
+
+.rightSide {
 
 }
 
 .progress {
-    height: 20px;
-    background-color: blue;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
 }
 
+.loaderContainer {
+    height: 100%;
+    background-color: green;
+}
 .loader {
-    height: 20px;
+    height: 100%;
     background-color: yellow;
+}
+
+.playerText {
+    margin: 0;
+    padding: 0;
+}
+
+.songText {
+    font-size: 15px;
+}
+
+.authorText {
+    font-size: 10px;
+}
+
+.timeContainer {
+    display: grid;
+    grid-template-columns: 30px 1fr 30px;
+    grid-template-areas: 'current . end';
+}
+
+.currentTime {
+    grid-area: current;
+    font-size: 10px;
+
+}
+
+.endTime {
+    grid-area: end;
+    font-size: 10px;
+
 }

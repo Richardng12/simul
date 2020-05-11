@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import style from './musicPlayer.module.css';
 
 const Progress = props => {
   const { songTime, setCurrentTime, currentTime } = props;
   const [musicProgress, setMusicProgress] = useState(0);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (songTime === 0) return;
-    const interval = setInterval(() => {
-      setCurrentTime(currentTime + 10);
-      const percent = (currentTime / songTime) * 100;
-      setMusicProgress(percent);
-    }, 10);
+    if (songTime !== 0) {
+      const interval = setInterval(() => {
+        setCurrentTime(currentTime + 10);
+        const percent = (currentTime / songTime) * 100;
+        setMusicProgress(percent);
+      }, 10);
 
-    // eslint-disable-next-line consistent-return
-    return () => {
-      clearInterval(interval);
-    };
+      return () => clearInterval(interval);
+    }
   }, [currentTime, songTime]);
 
   const millisToMinutesAndSeconds = millis => {
@@ -25,22 +25,19 @@ const Progress = props => {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  // const startTimer = useCallback(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentTime(currentTime + 1000);
-  //     const percent = (currentTime / songTime) * 100;
-  //     setMusicProgress(percent);
-  //   }, 1000);
-  //
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [currentTime]);
   return (
     <div className={style.progress}>
-      <div className={style.loader} style={{ width: `${musicProgress}%` }} />
-      <p>{millisToMinutesAndSeconds(currentTime)}</p>
-      <p>{millisToMinutesAndSeconds(songTime)}</p>
+      <div className={style.loaderContainer}>
+        <div className={style.loader} style={{ width: `${musicProgress}%` }} />
+      </div>
+      <div className={style.timeContainer}>
+        <p className={classNames(style.playerText, style.currentTime)}>
+          {millisToMinutesAndSeconds(currentTime)}
+        </p>
+        <p className={classNames(style.playerText, style.endTime)}>
+          {millisToMinutesAndSeconds(songTime)}
+        </p>
+      </div>
     </div>
   );
 };

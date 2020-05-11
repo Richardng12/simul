@@ -24,14 +24,22 @@ const startSong = async (accessToken, deviceId, currentSongs) => {
   return x;
 };
 
+const changeVolume = (accessToken, volumePercent) => {
+  fetch(`${API_ENDPOINT}/volume?volume_percent=${volumePercent}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then(r => console.log(r));
+};
 const startPlayback = (accessToken, deviceId, currentSongs, currentTime) => {
-  startSong(accessToken, deviceId, currentSongs)
-    .then(res => console.log(res))
-    .then(() => {
-      setTimeout(() => {
-        skipTo(accessToken, deviceId, currentTime);
-      }, 500); // sometimes the skipping occurs before the player
-    });
+  startSong(accessToken, deviceId, currentSongs).then(() => {
+    setTimeout(() => {
+      skipTo(accessToken, deviceId, currentTime);
+      changeVolume(accessToken, 20);
+    }, 500); // sometimes the skipping occurs before the player
+  });
 };
 
 const pausePlayback = (accessToken, deviceId) => {
@@ -59,4 +67,4 @@ const getSongInfo = async (accessToken, trackId) => {
   return result.json();
 };
 
-export { startPlayback, pausePlayback, skipTo, getSongInfo };
+export { startPlayback, pausePlayback, skipTo, getSongInfo, changeVolume };

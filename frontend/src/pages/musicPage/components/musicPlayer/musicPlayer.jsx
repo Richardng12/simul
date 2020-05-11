@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
-import { getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
+import Slider from '@material-ui/core/Slider';
+import classNames from 'classnames';
+import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
 
 const MusicPlayer = props => {
-  const { accessToken } = props;
+  const { accessToken, lobby } = props;
   const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
@@ -14,17 +16,17 @@ const MusicPlayer = props => {
   const [currentSong, setCurrentSong] = useState(null);
   const [currentSongId, setCurrentSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(startingTime);
-
+  const [volume, setVolume] = useState(0);
   // const [songTime, setSongTime] = useState(0);
 
-  // const songs = lobby.songs.map(song => `spotify:track:${song.spotifyId}`);
+  const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
   // todo: replace with call to API
 
-  const currentSongs = [
-    'spotify:track:24zYR2ozYbnhhwulk2NLD4',
-    'spotify:track:2O9KgUsmuon6Gycdmagc6t',
-  ];
+  // const currentSongs = [
+  //   'spotify:track:24zYR2ozYbnhhwulk2NLD4',
+  //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
+  // ];
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
@@ -36,9 +38,7 @@ const MusicPlayer = props => {
     });
 
     player.addListener('player_state_changed', state => {
-      console.log('playerState changed');
-      console.log(state);
-      setCurrentTime(0);
+      setCurrentTime(state.position);
       setCurrentSong(state.track_window.current_track);
     });
     // eslint-disable-next-line camelcase
@@ -47,7 +47,6 @@ const MusicPlayer = props => {
     });
 
     player.connect();
-
     setWebPlayer(player);
   };
 
@@ -70,12 +69,16 @@ const MusicPlayer = props => {
 
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
-    console.log('here first');
     getSongInfo(accessToken, currentSongId).then(res => {
       setCurrentSong(res);
       // setSongTime(res.duration_ms);
     });
     startPlayback(accessToken, deviceId, currentSongs, startingTime);
+  };
+
+  const handleVolumeChange = (event, newValue) => {
+    setVolume(newValue);
+    changeVolume(accessToken, volume);
   };
 
   return (
@@ -85,23 +88,47 @@ const MusicPlayer = props => {
         onError={() => onError()}
         onLoad={() => onLoad()}
       />
-      <div className={style.player}>
-        <Progress
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
-          songTime={currentSong ? currentSong.duration_ms : 0}
-        />
-      </div>
-      <button type="button" onClick={() => handleStartClick()}>
-        start
-      </button>
-      <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
-        stop
-      </button>
-      <div>
-        <p>{currentSong ? currentSong.artists[0].name : ''}</p>
-        <p>{currentSong ? currentSong.name : ''}</p>
-      </div>
+      {deviceId == null ? (
+        <div>Loading...</div>
+      ) : (
+        <div className={style.player}>
+          <div className={style.leftSide}>
+            {currentSong ? (
+              <img src={currentSong.album.images[0].url} alt="thumbnail" height="70px" />
+            ) : (
+              <p>image goes here</p>
+            )}
+          </div>
+          <div className={style.mainContent}>
+            <p className={classNames(style.playerText, style.songText)}>
+              {currentSong ? currentSong.name : '---'}
+            </p>
+            <p className={classNames(style.playerText, style.authorText)}>
+              {currentSong ? currentSong.artists[0].name : '---'}
+            </p>
+            <Progress
+              currentTime={currentTime}
+              setCurrentTime={setCurrentTime}
+              songTime={currentSong ? currentSong.duration_ms : 0}
+            />
+          </div>
+          <div className={style.rightSide}>
+            <Slider
+              value={volume}
+              onChange={handleVolumeChange}
+              aria-labelledby="continuous-slider"
+            />
+
+            {/* TODO: remove these buttons */}
+            <button type="button" onClick={() => handleStartClick()}>
+              start
+            </button>
+            <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
+              stop
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
