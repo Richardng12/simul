@@ -6,9 +6,10 @@ import classNames from 'classnames';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
+import { setDevice } from '../../../../store/music/musicActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby } = props;
+  const { accessToken, lobby, addDeviceId } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
@@ -43,6 +44,7 @@ const MusicPlayer = props => {
     });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
+      addDeviceId(device_id);
       setDeviceId(device_id);
     });
 
@@ -51,8 +53,12 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    setCurrentSongId(currentSongs.shift().substring(14));
+    if (currentSongs.length > 0) {
+      setCurrentSongId(currentSongs.shift().substring(14));
+    }
+    // eslint-disable-next-line no-console
     console.log(scriptLoaded);
+    // eslint-disable-next-line no-console
     console.log(webPlayer);
     window.onSpotifyWebPlaybackSDKReady = () => {
       handleScriptLoad();
@@ -64,6 +70,7 @@ const MusicPlayer = props => {
 
   const onError = () => {
     // todo
+    // eslint-disable-next-line no-console
     console.log('Error');
   };
 
@@ -136,6 +143,11 @@ const MusicPlayer = props => {
 
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
+  deviceId: state.musicReducer.deviceId,
 });
 
-export default connect(mapStateToProps)(MusicPlayer);
+const mapDispatchToProps = dispatch => ({
+  addDeviceId: deviceId => dispatch(setDevice(deviceId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

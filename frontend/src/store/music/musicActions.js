@@ -1,5 +1,6 @@
 export const actionTypes = {
   updateCurrentSong: 'UPDATE_CURRENT_SONG',
+  setDevice: 'SET_DEVICE',
 };
 
 const updateCurrentSong = songId => ({
@@ -7,4 +8,9 @@ const updateCurrentSong = songId => ({
   payload: songId,
 });
 
-export { updateCurrentSong };
+const setDevice = deviceId => ({
+  type: actionTypes.setDevice,
+  deviceId,
+});
+
+export { updateCurrentSong, setDevice };

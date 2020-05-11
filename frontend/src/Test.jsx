@@ -7,7 +7,6 @@ const Test = () => {
   const seconds = 1000;
   const [timeLeft, setTimeLeft] = useState(seconds);
 
-  console.log(timeLeft);
   useEffect(() => {
     // exit early when we reach 0
     // save intervalId to clear the interval when the

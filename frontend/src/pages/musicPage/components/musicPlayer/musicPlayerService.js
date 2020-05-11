@@ -31,7 +31,7 @@ const changeVolume = (accessToken, volumePercent) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
-  }).then(r => console.log(r));
+  }).then(r => r);
 };
 const startPlayback = (accessToken, deviceId, currentSongs, currentTime) => {
   startSong(accessToken, deviceId, currentSongs).then(() => {
@@ -49,9 +49,7 @@ const pausePlayback = (accessToken, deviceId) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
-  }).then(res => {
-    console.log(res);
-  });
+  }).then(r => r);
 };
 
 // todo: probably should store this as a state with redux...
