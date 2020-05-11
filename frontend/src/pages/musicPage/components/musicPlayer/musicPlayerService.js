@@ -37,8 +37,8 @@ const startPlayback = (accessToken, deviceId, currentSongs, currentTime) => {
   startSong(accessToken, deviceId, currentSongs).then(() => {
     setTimeout(() => {
       skipTo(accessToken, deviceId, currentTime);
-      changeVolume(accessToken, 20);
-    }, 500); // sometimes the skipping occurs before the player
+      changeVolume(accessToken, 10);
+    }, 200); // sometimes the skipping occurs before the player
   });
 };
 

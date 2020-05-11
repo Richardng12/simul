@@ -9,14 +9,14 @@ import Progress from './Progress';
 
 const MusicPlayer = props => {
   const { accessToken, lobby } = props;
-  const startingTime = 0;
+  const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [currentSong, setCurrentSong] = useState(null);
   const [currentSongId, setCurrentSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(startingTime);
-  const [volume, setVolume] = useState(0);
+  const [volume, setVolume] = useState(10);
   // const [songTime, setSongTime] = useState(0);
 
   const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
@@ -50,7 +50,7 @@ const MusicPlayer = props => {
     setWebPlayer(player);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     setCurrentSongId(currentSongs.shift().substring(14));
     console.log(scriptLoaded);
     console.log(webPlayer);
@@ -115,6 +115,7 @@ const MusicPlayer = props => {
           <div className={style.rightSide}>
             <Slider
               value={volume}
+              disabled={!currentSong}
               onChange={handleVolumeChange}
               aria-labelledby="continuous-slider"
             />
