@@ -130,10 +130,10 @@ router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res
 });
 
 // Remove user from lobby
-router.delete('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
+router.delete('/:id/users', access.ensureAuthenticated, async (req, res) => {
   try {
-    await res.lobby.users.pull(req.body.id);
-    await res.lobby.save();
+    const objectId = new mongodb.ObjectID(req.body.id);
+    await Lobby.updateOne({ _id: req.params.id }, { $pull: { users: { _id: objectId } } });
     res.status(200).json({ message: 'User has been deleted' });
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
