@@ -107,10 +107,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// use this to show the image you have in node js server to client (react js)
-// https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
-app.use('/public', express.static('public'));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
