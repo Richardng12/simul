@@ -27,7 +27,6 @@ const removeSongFromQueue = (action$, store) =>
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
       const { songId } = action;
-      console.log(songId);
       await fetch(`${LOBBY}/${id}/songs`, {
         method: 'DELETE',
         mode: 'cors',
@@ -41,9 +40,6 @@ const removeSongFromQueue = (action$, store) =>
         }),
       }).then(res => res.json());
       return { ...action, type: actionTypes.removeSongFromQueue_success };
-    }),
-    catchError(err => {
-      console.log(err);
     }),
   );
 
