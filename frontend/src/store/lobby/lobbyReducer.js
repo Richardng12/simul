@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   currentLobby: null,
   lobbyId: '',
+  users: [],
 };
 
 const lobbyReducer = (state = initialState, action) => {
@@ -78,6 +79,15 @@ const lobbyReducer = (state = initialState, action) => {
     case actionTypes.removeSongFromQueue_success:
       return {
         ...state,
+      };
+    case actionTypes.setUsersInLobby:
+      return {
+        ...state,
+      };
+    case actionTypes.setUsersInLobby_success:
+      return {
+        ...state,
+        users: action.users,
       };
     default:
       return {

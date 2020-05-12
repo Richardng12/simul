@@ -11,11 +11,11 @@ import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import styles from '../styles/membersList.module.css';
 
 const MembersList = props => {
-  const { currentLobby } = props;
+  const { currentLobby, users } = props;
   return (
     <Grid item xs={12} md={6} className={styles.root}>
       <List>
-        {currentLobby.users.map(user => (
+        {users.map(user => (
           <ListItem key={user._id}>
             {user._id === currentLobby.createdBy ? (
               <Badge
@@ -43,6 +43,7 @@ const MembersList = props => {
 
 const mapStateToProps = state => ({
   currentLobby: state.lobbyReducer.currentLobby,
+  users: state.lobbyReducer.users,
 });
 
 export default connect(mapStateToProps, null)(MembersList);

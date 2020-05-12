@@ -123,4 +123,18 @@ const addLobby = action$ =>
   );
 export default getLobbies;
 
-export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue };
+const setUsers = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.setUsersInLobby),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const users = await fetch(`${LOBBY}/${id}/users`, {
+        method: 'PATCH',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.setUsersInLobby_success, users };
+    }),
+  );
+
+export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue, setUsers };

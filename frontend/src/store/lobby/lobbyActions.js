@@ -13,6 +13,8 @@ export const actionTypes = {
   addSongToQueue_success: 'ADD_SONG_TO_QUEUE_SUCCESS',
   removeSongFromQueue: 'REMOVE_SONG_FROM_QUEUE',
   removeSongFromQueue_success: 'REMOVE_SONG_FROM_QUEUE_SUCCESS',
+  setUsersInLobby: 'SET_USERS_IN_LOBBY',
+  setUsersInLobby_success: 'SET_USERS_IN_LOBBY_SUCCESS',
 };
 
 const getAllLobbies = () => ({
@@ -83,6 +85,16 @@ const removeSongFromQueueSuccess = () => ({
   type: actionTypes.removeSongFromQueue_success,
 });
 
+const setUsersInLobby = lobbyId => ({
+  type: actionTypes.setUsersInLobby,
+  lobbyId,
+});
+
+const setUsersInLobbySuccess = users => ({
+  type: actionTypes.setUsersInLobby_success,
+  users,
+});
+
 export {
   getAllLobbies,
   getAllLobbiesSuccess,
@@ -98,4 +110,6 @@ export {
   addSongToQueueSuccess,
   removeSongFromQueue,
   removeSongFromQueueSuccess,
+  setUsersInLobby,
+  setUsersInLobbySuccess,
 };
