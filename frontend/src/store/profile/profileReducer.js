@@ -53,7 +53,7 @@ const profileReducer = (state = initialState, action) => {
         // username: action.user.display_name,
         // token: action.user.accessToken,
         // userId: action.userId,
-        // loading: false,
+        loading: false,
       };
     case actionTypes.getUserInfo_fail:
       return {

@@ -84,7 +84,7 @@ const ChatPage = props => {
         <p style={{ fontSize: '2rem', textAlign: 'center' }}> </p>
       </div>
 
-      <div style={{ width: '800px' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="infinite-container" style={{ height: '500px', overflowY: 'scroll' }}>
           {chats && <div>{renderCards()}</div>}
           <div ref={messagesEndRef} style={{ float: 'left', clear: 'both' }} />
