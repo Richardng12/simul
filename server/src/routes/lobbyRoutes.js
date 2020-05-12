@@ -1,5 +1,6 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
+const mongodb = require('mongodb');
 const access = require('./auth/access');
 
 const router = express.Router();
@@ -19,7 +20,6 @@ async function getLobby(req, res, next) {
   return null;
 }
 
-// Get all lobbies
 router.get('/', access.ensureAuthenticated, async (req, res) => {
   try {
     const lobby = await Lobby.find();
@@ -121,28 +121,30 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    res.lobby.users.push(req.user);
-    const updatedLobby = await res.lobby.save();
-    res.status(200).json(updatedLobby.users);
+    await res.lobby.users.push(req.user);
+    await res.lobby.save();
+    res.status(200).json({ message: 'User has been added' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// delete user from lobby
-router.delete('/:id/users', access.ensureAuthenticated, async (req, res) => {
+// Remove user from lobby
+router.delete('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    await Lobby.updateOne({ _id: req.params.id }, { $pull: { users: { _id: req.body.id } } });
+    await res.lobby.users.pull(req.body.id);
+    await res.lobby.save();
+    res.status(200).json({ message: 'User has been deleted' });
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
   }
 });
 
-// delete song from lobby
-router.delete('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res) => {
+// Remove song from lobby queue
+router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   try {
-    res.lobby.songs.pull({ _id: req.body.id });
-    await res.lobby.save();
+    const objectId = new mongodb.ObjectID(req.body.id);
+    await Lobby.updateOne({ _id: req.params.id }, { $pull: { songs: { _id: objectId } } });
     res.status(200).json({ message: 'Song has been deleted' });
   } catch (err) {
     res.status(400).json({ message: err.message });
