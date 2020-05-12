@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router';
-import AppBar from './components/appBar';
+import SimulAppBar from './components/appBar';
 import LyricsContainer from './lyricsContainer';
 import QueueContainer from './queueContainer';
 import SocialContainer from './socialContainer';
 
 import styles from './styles/musicPage.module.css';
 import { getSingleLobby, setCurrentLobbyId } from '../../store/lobby/lobbyActions';
+import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 
 // const getLobbyInfo = (id, lobbies) => {
 //   // eslint-disable-next-line no-underscore-dangle
@@ -28,7 +29,7 @@ const MusicPage = props => {
     <p>Loading...</p>
   ) : (
     <div className={styles.root}>
-      <AppBar title={lobby.title} />
+      <SimulAppBar title={lobby.name} />
       <div className={styles.mostStuff}>
         <div className={styles.playerStuff}>
           <QueueContainer songs={lobby.songs} />
@@ -38,6 +39,7 @@ const MusicPage = props => {
           <SocialContainer />
         </div>
       </div>
+      <MusicPlayerContainer />
     </div>
   );
 };

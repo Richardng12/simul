@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.1.4",
     "autosuggest-highlight": "^3.1.1",
+    "classnames": "^2.2.6",
     "cross-fetch": "^3.0.4",
     "history": "^4.10.1",
     "lodash": "^4.17.15",

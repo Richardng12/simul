@@ -21,6 +21,28 @@ const getLobbies = action$ =>
     ),
   );
 
+const removeSongFromQueue = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.removeSongFromQueue),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const { songId } = action;
+      await fetch(`${LOBBY}/${id}/songs`, {
+        method: 'DELETE',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: songId,
+        }),
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.removeSongFromQueue_success };
+    }),
+  );
+
 const getSingleLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.getSingleLobby),
@@ -101,4 +123,4 @@ const addLobby = action$ =>
   );
 export default getLobbies;
 
-export { addLobby, getSingleLobby, addSongToQueue };
+export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue };

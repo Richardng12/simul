@@ -1,6 +1,7 @@
 import { actionTypes } from './profileActions';
 
 const initialState = {
+<<<<<<< HEAD
   user: {
     _id: '',
     username: '',
@@ -13,6 +14,11 @@ const initialState = {
     accessToken: '',
     refreshToken: '',
   },
+=======
+  username: '',
+  token: '',
+  userId: '',
+>>>>>>> master
   loading: false,
   isAuthenticated: false,
   message: '',
@@ -51,7 +57,13 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.getUserInfo_success:
       return {
         ...state,
+<<<<<<< HEAD
         user: action.user,
+=======
+        username: action.user.display_name,
+        token: action.user.accessToken,
+        userId: action.userId,
+>>>>>>> master
         loading: false,
       };
     case actionTypes.getUserInfo_fail:

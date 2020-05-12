@@ -4,8 +4,6 @@ Simul is a Spotify music syncing application. It allows you to join lobbies to l
 
 ## Getting Started
 
----
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing.
 
 ### Prerequisites
@@ -43,8 +41,6 @@ npx eslint --fix src
 
 ## Authors
 
----
-
 | Name         | upi     |
 | ------------ | ------- |
 | Allen Nian   | ania716 |
@@ -53,7 +49,5 @@ npx eslint --fix src
 | Brian Nguyen | bugn877 |
 
 ## License
-
----
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

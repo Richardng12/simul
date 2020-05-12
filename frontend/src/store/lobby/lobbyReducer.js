@@ -71,6 +71,14 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.removeSongFromQueue:
+      return {
+        ...state,
+      };
+    case actionTypes.removeSongFromQueue_success:
+      return {
+        ...state,
+      };
     default:
       return {
         ...state,
