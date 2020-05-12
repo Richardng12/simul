@@ -84,7 +84,6 @@ app.get('/', (req, res) => {
 
 // account route
 app.get('/account', ensureAuthenticated, (req, res) => {
-  console.log(req.user);
   res.render('account.html', { user: req.user });
 });
 

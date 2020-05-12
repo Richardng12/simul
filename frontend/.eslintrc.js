@@ -9,6 +9,8 @@ module.exports = {
   },
   rules: {
     'jsx-a11y/href-no-hash': ['off'],
+    'no-underscore-dangle': ['off'],
+    'jsx-a11y/click-events-have-key-events': ['off'],
     'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     'react/prop-types': ['off'],
     'max-len': [
@@ -28,7 +30,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      node: {},
+      node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     },
   },
 };

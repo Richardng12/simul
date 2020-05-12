@@ -1,0 +1,16 @@
+.lobbyParent {
+    display: grid;
+    grid-template-columns: auto;
+    grid-row-gap: 30px;
+}
+
+.lobbyContainer {
+    display: grid;
+    height: 600px;
+    grid-row-gap: 15px;
+    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 20px;
+    margin-right: 20px;
+}
