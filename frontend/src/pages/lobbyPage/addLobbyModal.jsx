@@ -34,7 +34,12 @@ const AddLobbyModal = props => {
               onChange={event => setLobbyPassword(event.target.value)}
             />
           )}
-          <Button onClick={() => createLobby(lobbyName, !privateLobby, lobbyPassword)}>
+          <Button
+            onClick={() => {
+              createLobby(lobbyName, !privateLobby, lobbyPassword);
+              onClose();
+            }}
+          >
             Create Lobby
           </Button>
         </div>

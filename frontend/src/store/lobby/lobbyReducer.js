@@ -58,6 +58,7 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        lobbies: [...state.lobbies, action.newLobby],
       };
     case actionTypes.addLobby_fail:
       return {

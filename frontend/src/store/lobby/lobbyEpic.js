@@ -111,8 +111,12 @@ const addLobby = action$ =>
           password,
         }),
       });
-      const create = await response.json();
-      return { ...action, type: actionTypes.addLobby_success, create };
+      if (response.status === 202) {
+        return { ...action, type: actionTypes.addLobby_fail };
+      }
+      const newLobby = await response.json();
+      console.log(newLobby);
+      return { ...action, type: actionTypes.addLobby_success, newLobby };
     }),
     catchError(err =>
       Promise.resolve({
