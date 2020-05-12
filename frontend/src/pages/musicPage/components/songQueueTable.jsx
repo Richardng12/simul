@@ -14,37 +14,6 @@ function createData(title, artist) {
   return { title, artist };
 }
 
-// const rows = [
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('Versace on the Floor', 'Bruno Mars'),
-//   createData('Marry you', 'Bruno Mars'),
-//   createData('Girls Like You (feat. Cardi B)', 'Maroon 5, Cardi B'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('Versace on the Floor', 'Bruno Mars'),
-//   createData('Marry you', 'Bruno Mars'),
-//   createData('Girls Like You (feat. Cardi B)', 'Maroon 5, Cardi B'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('Versace on the Floor', 'Bruno Mars'),
-//   createData('Marry you', 'Bruno Mars'),
-//   createData('Girls Like You (feat. Cardi B)', 'Maroon 5, Cardi B'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-//   createData('Versace on the Floor', 'Bruno Mars'),
-//   createData('Marry you', 'Bruno Mars'),
-//   createData('Girls Like You (feat. Cardi B)', 'Maroon 5, Cardi B'),
-//   createData('It Girl', 'Jason Derulo'),
-//   createData('Miss Independent', 'Ne-Yo'),
-// ];
-
 const SongQueueTable = props => {
   const { lobby } = props;
   const { songs } = lobby;

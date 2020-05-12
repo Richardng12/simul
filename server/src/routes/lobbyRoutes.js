@@ -46,7 +46,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     isPublic: req.body.isPublic,
     createdBy: req.user._id,
     code: req.body.code,
-    users: [req.user._id],
+    users: [req.user],
     password: req.body.password,
   });
   try {
@@ -121,7 +121,7 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    res.lobby.users.push(req.user._id);
+    res.lobby.users.push(req.user);
     const updatedLobby = await res.lobby.save();
     res.status(200).json(updatedLobby.users);
   } catch (err) {
