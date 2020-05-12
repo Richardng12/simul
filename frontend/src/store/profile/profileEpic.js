@@ -1,5 +1,5 @@
 import { catchError, filter, mergeMap } from 'rxjs/operators';
-import { USER_INFO, SPOTIFY_AUTH } from '../../config/config';
+import { USER_INFO, SPOTIFY_AUTH, USER } from '../../config/config';
 import { actionTypes } from './profileActions';
 
 const login = action$ =>
@@ -26,7 +26,14 @@ const getUserInfo = action$ =>
         mode: 'cors',
         credentials: 'include',
       }).then(res => res.json());
-      return { ...action, type: actionTypes.getUserInfo_success, user };
+      const userId = await fetch(USER, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      })
+        .then(res => res.json())
+        .then(res => res._id);
+      return { ...action, type: actionTypes.getUserInfo_success, user, userId };
     }),
     catchError(err =>
       Promise.resolve({
