@@ -57,7 +57,7 @@ const SongQueueTable = props => {
 
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
-  userId: state.profileReducer.userId,
+  userId: state.profileReducer.user._id,
 });
 
 const mapDispatchToProps = dispatch => ({

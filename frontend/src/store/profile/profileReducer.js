@@ -13,9 +13,9 @@ const initialState = {
     accessToken: '',
     refreshToken: '',
   },
-  username: '',
-  token: '',
-  userId: '',
+  // username: '',
+  // token: '',
+  // userId: '',
   loading: false,
   isAuthenticated: false,
   message: '',
@@ -50,10 +50,10 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
-        username: action.user.display_name,
-        token: action.user.accessToken,
-        userId: action.userId,
-        loading: false,
+        // username: action.user.display_name,
+        // token: action.user.accessToken,
+        // userId: action.userId,
+        // loading: false,
       };
     case actionTypes.getUserInfo_fail:
       return {

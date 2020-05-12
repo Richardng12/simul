@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import SPOTIFY_AUTH from '../config/config';
+import { SPOTIFY_AUTH } from '../config/config';
 
 import LandingPage from '../pages/landingPage/landingPage';
 import LobbyPage from '../pages/lobbyPage/lobbyPage';

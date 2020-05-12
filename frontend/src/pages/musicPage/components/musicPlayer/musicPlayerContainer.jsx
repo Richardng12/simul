@@ -21,7 +21,7 @@ const MusicPlayerContainer = props => {
 };
 
 const mapStateToProps = state => ({
-  accessToken: state.profileReducer.token,
+  accessToken: state.profileReducer.user.accessToken,
   loading: state.profileReducer.loading,
 });
 
