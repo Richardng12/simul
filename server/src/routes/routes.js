@@ -60,12 +60,19 @@ router.get('/spotifyuserinfo', access.ensureAuthenticated, async (req, res) => {
 
 // get user info from db
 router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  const apiCall = async () => {
+    try {
+      spotifyApi.setAccessToken(req.user.accessToken);
+      spotifyApi.setRefreshToken(req.user.refreshToken);
+      // eslint-disable-next-line no-unused-vars
+      const result = await spotifyApi.getMe();
+      const user = await User.findById(req.user.id);
+      res.status(200).json(user);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  access.getAccess(apiCall, req, res);
 });
 
 // search songs
