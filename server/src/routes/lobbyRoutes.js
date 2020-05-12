@@ -121,9 +121,16 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    await res.lobby.users.push(req.user);
-    await res.lobby.save();
-    res.status(200).json({ message: 'User has been added' });
+    const findUserInLobby = res.lobby.users.find(user => {
+      return JSON.stringify(user._id) === JSON.stringify(req.user._id);
+    });
+    if (findUserInLobby !== undefined) {
+      res.status(202).json({ message: 'User already in lobby' });
+    } else {
+      await res.lobby.users.push(req.user);
+      await res.lobby.save();
+      res.status(200).json({ message: 'User has been added' });
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
