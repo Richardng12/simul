@@ -1,6 +1,8 @@
 import { combineEpics } from 'redux-observable';
 // import { delay, filter, mapTo } from 'rxjs/operators';
 import login, { getUserInfo } from './profile/profileEpic';
+// eslint-disable-next-line import/named
+import getChats from './chat/chatEpic';
 import getLobbies, {
   addLobby,
   getSingleLobby,
@@ -23,6 +25,7 @@ const rootEpic = combineEpics(
   addLobby,
   getSingleLobby,
   addSongToQueue,
+  getChats,
   removeSongFromQueue,
 );
 

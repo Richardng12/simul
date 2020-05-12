@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { SPOTIFY_AUTH } from '../config/config';
 
 import LandingPage from '../pages/landingPage/landingPage';
 import LobbyPage from '../pages/lobbyPage/lobbyPage';
@@ -25,7 +26,7 @@ const routes = (
       exact
       path={paths.LOGIN}
       component={() => {
-        window.location.href = 'http://localhost:8888/auth/spotify';
+        window.location.href = SPOTIFY_AUTH;
         return null;
       }}
     />

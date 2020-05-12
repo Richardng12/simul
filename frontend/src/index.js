@@ -5,6 +5,7 @@ import configureStore from './store/store';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'antd/dist/antd.css';
 
 const { store } = configureStore();
 ReactDOM.render(

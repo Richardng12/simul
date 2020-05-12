@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-shadow */
 const express = require('express');
 const passport = require('passport');
 const consolidate = require('consolidate');
@@ -15,6 +17,12 @@ const swaggerDocument = require('./swagger');
 require('./src/config/passportSetup');
 
 const app = express();
+
+// eslint-disable-next-line import/order
+const server = require('http').createServer(app);
+// eslint-disable-next-line import/order
+const io = require('socket.io')(server);
+const Chat = require('./src/db/models/chatModel');
 
 app.use(
   cors({
@@ -43,9 +51,43 @@ if (process.env.NODE_ENV === 'test') {
     useUnifiedTopology: true,
   });
 } else {
-  mongoose.connect(keys.mongodb.dbURI, {
+  const connect = mongoose.connect(keys.mongodb.dbURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+  });
+
+  // connect to socket io connection on frontend
+  io.on('connection', socket => {
+    // when message is receive from backend
+    socket.on('Input Chat Message', msg => {
+      connect.then(() => {
+        try {
+          const chat = new Chat({
+            message: msg.chatMessage,
+            lobbyId: msg.lobbyId,
+            sender: msg.userId,
+            type: msg.type,
+          });
+          // eslint-disable-next-line consistent-return
+          // save chat msg to db
+          chat.save((err, doc) => {
+            if (err) {
+              console.log(err);
+            }
+            // find that particular id, and the sender's info who sent it
+            Chat.find({ _id: doc._id })
+              .populate('sender')
+              .exec((err, doc) => {
+                // send message back to frontend
+                console.log(doc);
+                return io.emit('Output Chat Message', doc);
+              });
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
   });
 }
 
@@ -64,8 +106,6 @@ app.use(
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(express.static(`${__dirname}/public`));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -92,4 +132,4 @@ app.get('/login', (req, res) => {
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-module.exports = app;
+module.exports = server;

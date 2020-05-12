@@ -38,7 +38,7 @@ const SimulAppBar = props => {
 
 const mapStateToProps = state => {
   return {
-    username: state.profileReducer.username,
+    username: state.profileReducer.user.displayName,
   };
 };
 

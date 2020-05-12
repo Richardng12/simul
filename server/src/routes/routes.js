@@ -1,7 +1,10 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
+
+// const fs = require('fs');
 const access = require('./auth/access');
 const User = require('../db/models/userModel');
+const Chat = require('../db/models/chatModel');
 
 const router = express.Router();
 
@@ -42,26 +45,44 @@ router.get('/playlists', access.ensureAuthenticated, async (req, res) => {
   access.getAccess(apiCall, req, res);
 });
 
+// get spotify user info
+// router.get('/spotifyuserinfo', access.ensureAuthenticated, async (req, res) => {
+//   const apiCall = async () => {
+//     spotifyApi.setAccessToken(req.user.accessToken);
+//     spotifyApi.setRefreshToken(req.user.refreshToken);
+//     const result = await spotifyApi.getMe();
+//     result.body.accessToken = req.user.accessToken;
+//     res.status(200).send(result.body);
+//   };
+
+//   access.getAccess(apiCall, req, res);
+// });
+
+// get user info from db
 router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
-  const apiCall = async () => {
-    spotifyApi.setAccessToken(req.user.accessToken);
-    spotifyApi.setRefreshToken(req.user.refreshToken);
-    const result = await spotifyApi.getMe();
-    result.body.accessToken = req.user.accessToken;
-    res.status(200).send(result.body);
-  };
-
-  access.getAccess(apiCall, req, res);
-});
-
-router.get('/user', access.ensureAuthenticated, async (req, res) => {
+  // const apiCall = async () => {
   try {
-    const result = await User.findById(req.user._id);
-    res.status(200).send(result);
+    // spotifyApi.setAccessToken(req.user.accessToken);
+    // spotifyApi.setRefreshToken(req.user.refreshToken);
+    // eslint-disable-next-line no-unused-vars
+    // const result = await spotifyApi.getMe();
+    const user = await User.findById(req.user.id);
+    res.status(200).json(user);
   } catch (err) {
-    res.status(400);
+    res.status(500).json({ message: err.message });
   }
+  // };
+  // access.getAccess(apiCall, req, res);
 });
+
+// router.get('/user', access.ensureAuthenticated, async (req, res) => {
+//   try {
+//     const result = await User.findById(req.user._id);
+//     res.status(200).send(result);
+//   } catch (err) {
+//     res.status(400);
+//   }
+// });
 
 // search songs
 router.get('/songs', access.ensureAuthenticated, async (req, res) => {
@@ -83,6 +104,28 @@ router.get('/songs', access.ensureAuthenticated, async (req, res) => {
     }
   };
   access.getAccess(apiCall, req, res);
+});
+
+// get all chats from db -> will need to extend to have lobbies somehow
+router.get('/getChats/:id', async (req, res) => {
+  await Chat.find({ lobbyId: req.params.id })
+    .populate('sender')
+    // eslint-disable-next-line consistent-return
+    .exec((err, chats) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).send(chats);
+    });
+});
+
+router.patch('/afterPostMessage/:id', async (req, res) => {
+  const { data } = req.body;
+  await Chat.find({ lobbyId: req.params.id })
+    .populate('sender')
+    // eslint-disable-next-line consistent-return
+    .exec((err, chats) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).send(chats.concat(data));
+    });
 });
 
 module.exports = router;
