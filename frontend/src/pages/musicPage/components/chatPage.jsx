@@ -36,10 +36,10 @@ const ChatPage = props => {
     // get all chats for a lobby
     chats(lobbyId);
 
-    // when backend receives a message, it sends it back up to frontend, and we append that new message to the state. (so the state has all messages now)
+    // when backend receives a message, it sends it back up to frontend, and we append that new message to the state.
+    //  (so the state has all messages now)
     socket.on('Output Chat Message', messageFromBackEnd => {
       message(messageFromBackEnd);
-      console.log('connected once');
     });
     return () => {
       socket.off();
@@ -119,7 +119,8 @@ const ChatPage = props => {
   );
 };
 
-// chats -> get all chats into state, message -> append that message and concat with all msgs currently in database
+// chats -> get all chats into state
+// message -> append that message and concat with all msgs currently in database
 const mapDispatchToProps = dispatch => ({
   chats: lobbyId => {
     dispatch(getChats(lobbyId));

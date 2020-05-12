@@ -7,7 +7,6 @@ const login = action$ =>
     filter(action => action.type === actionTypes.login),
     mergeMap(async action => {
       await fetch(SPOTIFY_AUTH).then(res => res.json());
-      console.log('hello2');
       return { ...action, type: actionTypes.login_success, token: 'placeholder' };
     }),
     catchError(err =>
