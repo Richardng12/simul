@@ -7,4 +7,5 @@ const SONGS = `${HOST}/songs`;
 const CHAT_SERVER = `${HOST}/getChats`;
 const FILE_SERVER = `${HOST}/uploadFiles`;
 
+export default HOST;
 export { USER_INFO, SPOTIFY_AUTH, CHAT_SERVER, FILE_SERVER, LOBBY, SONGS };

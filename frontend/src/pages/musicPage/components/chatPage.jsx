@@ -7,11 +7,13 @@ import io from 'socket.io-client';
 // import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+// import styles from '../styles/chat.module.css';
 import ChatCard from './ChatCard';
-import { getChats, afterPostMessage } from '../../store/chat/chatActions';
+import HOST from '../../../config/config';
+import { getChats, afterPostMessage } from '../../../store/chat/chatActions';
 
 // connect
-const server = 'http://localhost:8888';
+const server = HOST;
 const socket = io(server);
 
 const ChatPage = props => {
@@ -82,7 +84,7 @@ const ChatPage = props => {
         <p style={{ fontSize: '2rem', textAlign: 'center' }}> </p>
       </div>
 
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ width: '800px' }}>
         <div className="infinite-container" style={{ height: '500px', overflowY: 'scroll' }}>
           {chats && <div>{renderCards()}</div>}
           <div ref={messagesEndRef} style={{ float: 'left', clear: 'both' }} />
