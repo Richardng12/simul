@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router';
-import AppBar from './components/appBar';
+import SimulAppBar from './components/appBar';
 import LyricsContainer from './lyricsContainer';
 import QueueContainer from './queueContainer';
 import SocialContainer from './socialContainer';
@@ -29,7 +29,7 @@ const MusicPage = props => {
     <p>Loading...</p>
   ) : (
     <div className={styles.root}>
-      <AppBar title={lobby.title} />
+      <SimulAppBar title={lobby.name} />
       <div className={styles.mostStuff}>
         <div className={styles.playerStuff}>
           <QueueContainer songs={lobby.songs} />

@@ -10,7 +10,7 @@ import styles from '../styles/appBar.module.css';
 import { getUserInfo } from '../../../store/profile/profileActions';
 
 const SimulAppBar = props => {
-  const { username, userInfo, currentLobby } = props;
+  const { username, title, userInfo } = props;
   const history = useHistory();
   useEffect(() => {
     userInfo();
@@ -28,7 +28,7 @@ const SimulAppBar = props => {
           >
             SIMUL
           </Typography>
-          <Typography variant="h6">{currentLobby.name}</Typography>
+          <Typography variant="h6">{title}</Typography>
           <Typography variant="h6">{username}</Typography>
         </Toolbar>
       </AppBar>
@@ -39,7 +39,6 @@ const SimulAppBar = props => {
 const mapStateToProps = state => {
   return {
     username: state.profileReducer.username,
-    currentLobby: state.lobbyReducer.currentLobby,
   };
 };
 
