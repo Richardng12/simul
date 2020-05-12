@@ -31,9 +31,10 @@ const getUserInfo = () => ({
   type: actionTypes.getUserInfo,
 });
 
-const getUserInfoSuccess = user => ({
+const getUserInfoSuccess = (user, userId) => ({
   type: actionTypes.getUserInfo_success,
   user,
+  userId,
 });
 
 const getUserInfoFail = message => ({

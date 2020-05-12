@@ -196,7 +196,6 @@ describe('Lobbies', () => {
       lobby.save((err, lobbyRes) => {
         authenticatedUser.patch('/lobbies/' + lobbyRes.id + '/users').end((_err, res) => {
           expect(res.statusCode).to.be.equal(200);
-          expect(res.body).to.have.length(1);
           done();
         });
       });

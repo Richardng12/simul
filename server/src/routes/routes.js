@@ -1,6 +1,7 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const access = require('./auth/access');
+const User = require('../db/models/userModel');
 
 const router = express.Router();
 
@@ -51,6 +52,15 @@ router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
   };
 
   access.getAccess(apiCall, req, res);
+});
+
+router.get('/user', access.ensureAuthenticated, async (req, res) => {
+  try {
+    const result = await User.findById(req.user._id);
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(400);
+  }
 });
 
 // search songs

@@ -35,7 +35,7 @@ const LobbyPage = props => {
     <div>Loading</div>
   ) : (
     <div className={style.lobbyParent}>
-      <SimulAppBar title="LOBBY" />
+      <SimulAppBar title="LOBBIES" />
       <AddLobbyModal open={showModal} onClose={closeModal} />
       <div>
         <Button onClick={displayModal}>Add</Button>
