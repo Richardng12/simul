@@ -36,7 +36,8 @@ const ChatPage = props => {
     // get all chats for a lobby
     chats(lobbyId);
 
-    // when backend receives a message, it sends it back up to frontend, and we append that new message to the state.
+    // when backend receives a message, it sends it back up to frontend,
+    // and we append that new message to the state.
     //  (so the state has all messages now)
     socket.on('Output Chat Message', messageFromBackEnd => {
       message(messageFromBackEnd);
