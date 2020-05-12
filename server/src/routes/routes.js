@@ -1,5 +1,6 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
+const refresh = require('passport-oauth2-refresh');
 
 // const fs = require('fs');
 const access = require('./auth/access');
@@ -46,33 +47,46 @@ router.get('/playlists', access.ensureAuthenticated, async (req, res) => {
 });
 
 // get spotify user info
-// router.get('/spotifyuserinfo', access.ensureAuthenticated, async (req, res) => {
-//   const apiCall = async () => {
-//     spotifyApi.setAccessToken(req.user.accessToken);
-//     spotifyApi.setRefreshToken(req.user.refreshToken);
-//     const result = await spotifyApi.getMe();
-//     result.body.accessToken = req.user.accessToken;
-//     res.status(200).send(result.body);
-//   };
+router.get('/spotifyuserinfo', access.ensureAuthenticated, async (req, res) => {
+  const apiCall = async () => {
+    spotifyApi.setAccessToken(req.user.accessToken);
+    spotifyApi.setRefreshToken(req.user.refreshToken);
+    const result = await spotifyApi.getMe();
+    result.body.accessToken = req.user.accessToken;
+    res.status(200).send(result.body);
+  };
 
-//   access.getAccess(apiCall, req, res);
-// });
+  access.getAccess(apiCall, req, res);
+});
 
 // get user info from db
 router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
-  // const apiCall = async () => {
-  try {
-    // spotifyApi.setAccessToken(req.user.accessToken);
-    // spotifyApi.setRefreshToken(req.user.refreshToken);
-    // eslint-disable-next-line no-unused-vars
-    // const result = await spotifyApi.getMe();
-    const user = await User.findById(req.user.id);
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-  // };
-  // access.getAccess(apiCall, req, res);
+  refresh.requestNewAccessToken(
+    'spotify',
+    req.user.refreshToken,
+    async (tokenError, accessToken) => {
+      // Save the new accessToken for future use
+      // eslint-disable-next-line no-param-reassign
+      User.updateOne(
+        { _id: req.user.id },
+        {
+          accessToken,
+        },
+      );
+      try {
+        const user = await User.findById(req.user.id);
+        user.accessToken = accessToken;
+        user.save(() => {
+          // Retry the request.
+        });
+
+        res.status(200).json(user);
+      } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+      return null;
+    },
+  );
 });
 
 // router.get('/user', access.ensureAuthenticated, async (req, res) => {
