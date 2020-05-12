@@ -12,12 +12,11 @@ import styles from '../styles/membersList.module.css';
 
 const MembersList = props => {
   const { currentLobby } = props;
-
   return (
     <Grid item xs={12} md={6} className={styles.root}>
       <List>
         {currentLobby.users.map(user => (
-          <ListItem>
+          <ListItem key={user._id}>
             {user._id === currentLobby.createdBy ? (
               <Badge
                 overlap="circle"

@@ -17,11 +17,7 @@ const lobbySchema = new Schema({
     required: true,
   },
   code: String,
-  users: [
-    {
-      type: String,
-    },
-  ],
+  users: [],
   songs: [],
   password: String,
 });
