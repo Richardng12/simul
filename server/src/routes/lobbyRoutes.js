@@ -73,7 +73,7 @@ router.delete('/:id', access.ensureAuthenticated, async (req, res) => {
     await Lobby.findOneAndDelete({
       _id: req.params.id,
     });
-    res.status(200).send();
+    res.status(200).send(await Lobby.find());
   } catch (err) {
     res.status(404).json({ message: 'lobby not found' });
   }

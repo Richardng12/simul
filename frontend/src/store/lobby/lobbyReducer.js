@@ -90,6 +90,15 @@ const lobbyReducer = (state = initialState, action) => {
         ...state,
         users: action.users,
       };
+    case actionTypes.deleteLobby:
+      return {
+        ...state,
+      };
+    case actionTypes.deleteLobby_success:
+      return {
+        ...state,
+        lobbies: action.lobbies,
+      };
     default:
       return {
         ...state,

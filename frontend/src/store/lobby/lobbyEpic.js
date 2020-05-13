@@ -141,4 +141,20 @@ const setUsers = (action$, store) =>
     }),
   );
 
-export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue, setUsers };
+const deleteLobby = action$ =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.deleteLobby),
+    mergeMap(async action => {
+      const { lobbyId } = action;
+      console.log(lobbyId);
+      const response = await fetch(`${LOBBY}/${lobbyId}`, {
+        method: 'PATCH',
+        mode: 'cors',
+        credentials: 'include',
+      });
+      const newLobbies = await response.json();
+      return { ...action, type: actionTypes.deleteLobby_success, newLobbies };
+    }),
+  );
+
+export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue, setUsers, deleteLobby };

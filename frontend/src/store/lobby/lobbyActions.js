@@ -15,6 +15,8 @@ export const actionTypes = {
   removeSongFromQueue_success: 'REMOVE_SONG_FROM_QUEUE_SUCCESS',
   setUsersInLobby: 'SET_USERS_IN_LOBBY',
   setUsersInLobby_success: 'SET_USERS_IN_LOBBY_SUCCESS',
+  deleteLobby: 'DELETE_LOBBY',
+  deleteLobby_success: 'DELETE_LOBBY_SUCCESS',
 };
 
 const getAllLobbies = () => ({
@@ -95,6 +97,16 @@ const setUsersInLobbySuccess = users => ({
   users,
 });
 
+const deleteLobby = lobbyId => ({
+  type: actionTypes.setUsersInLobby_success,
+  lobbyId,
+});
+
+const deleteLobbySuccess = lobbies => ({
+  type: actionTypes.deleteLobbySuccess,
+  lobbies,
+});
+
 export {
   getAllLobbies,
   getAllLobbiesSuccess,
@@ -112,4 +124,6 @@ export {
   removeSongFromQueueSuccess,
   setUsersInLobby,
   setUsersInLobbySuccess,
+  deleteLobby,
+  deleteLobbySuccess,
 };
