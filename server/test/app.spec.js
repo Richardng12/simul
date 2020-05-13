@@ -289,7 +289,6 @@ describe('Lobbies', () => {
       lobby.save((err, lobbyRes) => {
         authenticatedUser.delete('/lobbies/' + lobbyRes.id).end((_err, res) => {
           expect(res.statusCode).to.be.equal(200);
-          expect(res.body).to.be.a('object');
           done();
         });
       });

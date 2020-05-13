@@ -8,7 +8,12 @@ import QueueContainer from './queueContainer';
 import SocialContainer from './socialContainer';
 
 import styles from './styles/musicPage.module.css';
-import { getSingleLobby, setCurrentLobbyId } from '../../store/lobby/lobbyActions';
+import {
+  getSingleLobby,
+  setCurrentLobbyId,
+  setUsersInLobby,
+  setLobbyQueue,
+} from '../../store/lobby/lobbyActions';
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 
 // const getLobbyInfo = (id, lobbies) => {
@@ -17,13 +22,15 @@ import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer'
 // };
 
 const MusicPage = props => {
-  const { getLobby, lobby, loading, setId } = props;
+  const { getLobby, lobby, loading, setId, setUsers, setQueue } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
   const { id } = useParams();
   useEffect(() => {
     setId(id);
     getLobby();
+    setUsers(id);
+    setQueue(id);
   }, []);
   return loading || !lobby ? (
     <p>Loading...</p>
@@ -54,6 +61,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setId: id => dispatch(setCurrentLobbyId(id)),
   getLobby: bindActionCreators(getSingleLobby, dispatch),
+  setUsers: bindActionCreators(setUsersInLobby, dispatch),
+  setQueue: bindActionCreators(setLobbyQueue, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPage);

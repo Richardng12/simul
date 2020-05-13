@@ -5,6 +5,8 @@ const initialState = {
   loading: false,
   currentLobby: null,
   lobbyId: '',
+  users: [],
+  currentQueue: [],
 };
 
 const lobbyReducer = (state = initialState, action) => {
@@ -57,6 +59,7 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        lobbies: [...state.lobbies, action.newLobby],
       };
     case actionTypes.addLobby_fail:
       return {
@@ -70,6 +73,7 @@ const lobbyReducer = (state = initialState, action) => {
     case actionTypes.addSongToQueue_success:
       return {
         ...state,
+        currentQueue: action.queue,
       };
     case actionTypes.removeSongFromQueue:
       return {
@@ -78,6 +82,25 @@ const lobbyReducer = (state = initialState, action) => {
     case actionTypes.removeSongFromQueue_success:
       return {
         ...state,
+        currentQueue: action.queue,
+      };
+    case actionTypes.setUsersInLobby:
+      return {
+        ...state,
+      };
+    case actionTypes.setUsersInLobby_success:
+      return {
+        ...state,
+        users: action.users,
+      };
+    case actionTypes.deleteLobby:
+      return {
+        ...state,
+      };
+    case actionTypes.deleteLobby_success:
+      return {
+        ...state,
+        lobbies: action.lobbies,
       };
     default:
       return {

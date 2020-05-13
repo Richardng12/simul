@@ -73,7 +73,7 @@ router.delete('/:id', access.ensureAuthenticated, async (req, res) => {
     await Lobby.findOneAndDelete({
       _id: req.params.id,
     });
-    res.status(200).send();
+    res.status(200).send(await Lobby.find());
   } catch (err) {
     res.status(404).json({ message: 'lobby not found' });
   }
@@ -121,9 +121,16 @@ router.patch('/:id/songs', access.ensureAuthenticated, getLobby, async (req, res
 // Add a user into lobby
 router.patch('/:id/users', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    await res.lobby.users.push(req.user);
-    await res.lobby.save();
-    res.status(200).json({ message: 'User has been added' });
+    const findUserInLobby = res.lobby.users.find(user => {
+      return JSON.stringify(user._id) === JSON.stringify(req.user._id);
+    });
+    if (findUserInLobby !== undefined) {
+      res.status(202).json(res.lobby.users);
+    } else {
+      await res.lobby.users.push(req.user);
+      await res.lobby.save();
+      res.status(200).json(res.lobby.users);
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -145,7 +152,8 @@ router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   try {
     const objectId = new mongodb.ObjectID(req.body.id);
     await Lobby.updateOne({ _id: req.params.id }, { $pull: { songs: { _id: objectId } } });
-    res.status(200).json({ message: 'Song has been deleted' });
+    const updatedLobby = await Lobby.findById(req.params.id);
+    res.status(200).json(updatedLobby.songs);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

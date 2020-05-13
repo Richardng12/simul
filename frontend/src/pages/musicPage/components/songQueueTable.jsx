@@ -17,9 +17,10 @@ function createData(id, title, artist, addedBy) {
 }
 
 const SongQueueTable = props => {
-  const { lobby, removeSong, userId } = props;
-  const { songs } = lobby;
-  const rows = songs.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+  const { removeSong, userId, currentQueue } = props;
+  const rows = currentQueue.map(song =>
+    createData(song._id, song.title, song.artist, song.addedBy),
+  );
 
   return (
     <TableContainer component={Paper} className={styles.table}>
@@ -33,7 +34,7 @@ const SongQueueTable = props => {
         </TableHead>
         <TableBody className={styles.tableBody}>
           {rows.map(row => (
-            <TableRow key={row.title}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.title}
               </TableCell>
@@ -58,6 +59,7 @@ const SongQueueTable = props => {
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   userId: state.profileReducer.user._id,
+  currentQueue: state.lobbyReducer.currentQueue,
 });
 
 const mapDispatchToProps = dispatch => ({
