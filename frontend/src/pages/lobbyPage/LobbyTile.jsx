@@ -33,7 +33,6 @@ const LobbyTile = props => {
       {createdBy === userId && (
         <ClearIcon
           onClick={() => {
-            console.log(id);
             deleteLobbyFromDB(id);
           }}
         />

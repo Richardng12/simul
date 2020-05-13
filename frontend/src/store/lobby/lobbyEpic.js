@@ -131,7 +131,6 @@ const addLobby = action$ =>
         return { ...action, type: actionTypes.addLobby_fail };
       }
       const newLobby = await response.json();
-      console.log(newLobby);
       return { ...action, type: actionTypes.addLobby_success, newLobby };
     }),
     catchError(err =>
