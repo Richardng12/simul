@@ -27,7 +27,7 @@ const removeSongFromQueue = (action$, store) =>
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
       const { songId } = action;
-      await fetch(`${LOBBY}/${id}/songs`, {
+      const queue = await fetch(`${LOBBY}/${id}/songs`, {
         method: 'DELETE',
         mode: 'cors',
         credentials: 'include',
@@ -39,7 +39,7 @@ const removeSongFromQueue = (action$, store) =>
           id: songId,
         }),
       }).then(res => res.json());
-      return { ...action, type: actionTypes.removeSongFromQueue_success };
+      return { ...action, type: actionTypes.removeSongFromQueue_success, queue };
     }),
   );
 
@@ -90,6 +90,22 @@ const addSongToQueue = (action$, store) =>
         message: err.message,
       }),
     ),
+  );
+
+const setLobbyQueue = action$ =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.setLobbyQueue),
+    mergeMap(async action => {
+      const { id } = action;
+      const response = await fetch(`${LOBBY}/${id}`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      });
+      const lobby = await response.json();
+      const queue = lobby.songs;
+      return { ...action, type: actionTypes.addSongToQueue_success, queue };
+    }),
   );
 
 const addLobby = action$ =>
@@ -146,7 +162,6 @@ const deleteLobby = action$ =>
     filter(action => action.type === actionTypes.deleteLobby),
     mergeMap(async action => {
       const { lobbyId } = action;
-      console.log(lobbyId);
       const response = await fetch(`${LOBBY}/${lobbyId}`, {
         method: 'PATCH',
         mode: 'cors',
@@ -157,4 +172,12 @@ const deleteLobby = action$ =>
     }),
   );
 
-export { addLobby, getSingleLobby, addSongToQueue, removeSongFromQueue, setUsers, deleteLobby };
+export {
+  addLobby,
+  getSingleLobby,
+  addSongToQueue,
+  removeSongFromQueue,
+  setUsers,
+  deleteLobby,
+  setLobbyQueue,
+};

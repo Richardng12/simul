@@ -152,7 +152,8 @@ router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   try {
     const objectId = new mongodb.ObjectID(req.body.id);
     await Lobby.updateOne({ _id: req.params.id }, { $pull: { songs: { _id: objectId } } });
-    res.status(200).json({ message: 'Song has been deleted' });
+    const updatedLobby = await Lobby.findById(req.params.id);
+    res.status(200).json(updatedLobby.songs);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

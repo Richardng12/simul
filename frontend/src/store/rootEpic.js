@@ -10,6 +10,7 @@ import getLobbies, {
   removeSongFromQueue,
   setUsers,
   deleteLobby,
+  setLobbyQueue,
 } from './lobby/lobbyEpic';
 
 // does nothing
@@ -31,6 +32,7 @@ const rootEpic = combineEpics(
   removeSongFromQueue,
   setUsers,
   deleteLobby,
+  setLobbyQueue,
 );
 
 export default rootEpic;
