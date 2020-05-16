@@ -80,3 +80,11 @@ body {
   grid-area: content;
   text-align: center;
 }
+
+
+@media only screen and (max-width: 750px) {
+  .page {
+    grid-template-areas: 'contentContainer';
+    grid-template-columns: 1fr;
+  }
+}
