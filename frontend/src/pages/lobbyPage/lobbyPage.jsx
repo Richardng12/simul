@@ -9,6 +9,7 @@ import { getUserInfo } from '../../store/profile/profileActions';
 import { getAllLobbies } from '../../store/lobby/lobbyActions';
 import style from './lobbyPage.module.css';
 import LobbyTile from './LobbyTile';
+import Loader from '../../general/Loader';
 
 const LobbyPage = props => {
   const { getLobbies, lobbies, lobbyLoader } = props;
@@ -32,7 +33,7 @@ const LobbyPage = props => {
   };
 
   return lobbyLoader ? (
-    <div>Loading</div>
+    <Loader />
   ) : (
     <div className={style.lobbyParent}>
       <SimulAppBar title="LOBBIES" />
