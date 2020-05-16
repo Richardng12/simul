@@ -36,9 +36,11 @@ const LobbyPage = props => {
     <Loader />
   ) : (
     <div className={style.lobbyParent}>
-      <SimulAppBar title="LOBBIES" />
+      <div className={style.headerContainer}>
+        <SimulAppBar title="LOBBIES" />
+      </div>
       <AddLobbyModal open={showModal} onClose={closeModal} />
-      <div>
+      <div className={style.searchContainer}>
         <Button onClick={displayModal}>Add</Button>
         <TextField label="Search lobbies" onChange={filterLobbies} />
       </div>

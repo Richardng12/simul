@@ -1,8 +1,47 @@
-.root {
-  height: 65px;
+.bar {
+  display: grid;
+  grid-template-columns: 45px 1fr 1fr 1fr 100px;
+  height: 80px;
+  grid-template-areas: 'appName . title . user';
+  text-align: center;
+  align-items: center;
+  grid-area: barContainer;
+  border-bottom: #757575 1px solid;
 }
 
-.toolBar {
-  display: flex;
-  justify-content: space-between;
+.barContainer {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  grid-template-areas: '. barContainer .';
+}
+
+.logoButton {
+  grid-area: appName;
+  background-color: #f6a333;
+}
+
+.logoButton:hover{
+  background-color: #92611f;
+}
+
+.barTitle {
+  font-size: 30px;
+  font-weight: bold;
+  color: #B9B9B9;
+  margin: 0;
+  padding: 0;
+  grid-area: title;
+}
+
+.user {
+  grid-area: user;
+}
+
+.userName {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  color: #B9B9B9;
 }
