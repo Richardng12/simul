@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import SimulAppBar from '../musicPage/components/appBar';
 import AddLobbyModal from './addLobbyModal';
 import { getUserInfo } from '../../store/profile/profileActions';
@@ -10,6 +9,8 @@ import { getAllLobbies } from '../../store/lobby/lobbyActions';
 import style from './lobbyPage.module.css';
 import LobbyTile from './LobbyTile';
 import Loader from '../../general/Loader';
+import text from '../../general/text';
+import SearchField from '../../general/SearchField';
 
 const LobbyPage = props => {
   const { getLobbies, lobbies, lobbyLoader } = props;
@@ -21,6 +22,7 @@ const LobbyPage = props => {
   }, []);
 
   const filterLobbies = event => {
+    // setSearchText(event.target.value);
     setFilter(event.target.value);
   };
 
@@ -41,8 +43,20 @@ const LobbyPage = props => {
       </div>
       <AddLobbyModal open={showModal} onClose={closeModal} />
       <div className={style.searchContainer}>
-        <Button onClick={displayModal}>Add</Button>
-        <TextField label="Search lobbies" onChange={filterLobbies} />
+        <Button onClick={displayModal} className={style.addButton}>
+          {text.lobbyPage.addLobby}
+        </Button>
+        <SearchField
+          label={text.lobbyPage.search}
+          onChange={filterLobbies}
+          className={style.searchField}
+        />
+        {/* <TextField */}
+        {/*  label={text.lobbyPage.search} */}
+        {/*  variant="outlined" */}
+        {/*  onChange={filterLobbies} */}
+        {/*  className={style.searchField} */}
+        {/* /> */}
       </div>
       <div className={style.lobbyContainer}>
         {lobbies.length === 0 ? (

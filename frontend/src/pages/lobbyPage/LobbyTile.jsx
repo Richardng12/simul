@@ -28,8 +28,6 @@ const LobbyTile = props => {
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={style.lobbyTile} onClick={() => changeHistory(`/lobby/${id}`)}>
-      {name}
-      {!isPublic && <LockOutlinedIcon />}
       {createdBy === userId && (
         <ClearIcon
           onClick={() => {
@@ -44,6 +42,10 @@ const LobbyTile = props => {
         password={password}
         lobbyId={id}
       />
+      <div className={style.background}>{!isPublic && <LockOutlinedIcon />}</div>
+      <div className={style.bottomSection}>
+        <p className={style.lobbyName}>{name}</p>
+      </div>
     </div>
   );
 };

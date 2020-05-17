@@ -1,7 +1,33 @@
 .lobbyTile {
     width: 100%;
     height: 250px;
-    background-color: #1db954;
     cursor: pointer;
-    border-radius: 5px;
+    display: grid;
+    grid-template-rows: 80% 20%;
+    grid-template-areas: 'background' 'bottom';
+}
+
+.lobbyTile:hover {
+    filter: brightness(0.8);
+}
+.background {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    background-color: #ffaf2d;
+    grid-area: background;
+}
+.bottomSection {
+    background-color: white;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    grid-area: bottom;
+}
+
+.lobbyName {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+
 }

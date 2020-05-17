@@ -3,7 +3,7 @@
     width: 100%;
     position: absolute;
     display: grid;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 40px 1fr;
     grid-row-gap: 30px;
     background-color: #333333;
     grid-template-areas: 'header' 'search' 'lobby';
@@ -23,10 +23,36 @@
     grid-area: lobby;
 }
 
+.lobbyContainer::-webkit-scrollbar {
+    width: 10px;
+}
+
+.lobbyContainer::-webkit-scrollbar-thumb {
+    background-color: #f6a333;
+    cursor: pointer;
+}
+
+.lobbyContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #93611e;
+}
+
 .searchContainer {
+    height: 100%;
     grid-area: search;
     margin-left: 50px;
     margin-right: 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: '. search . add';
+}
+
+.addButton {
+    grid-area: add;
+}
+
+.searchField {
+    grid-area: search;
+    border: none;
 }
 
 .headerContainer {
