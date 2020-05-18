@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     '& .MuiOutlinedInput-root': {
       backgroundColor: '#4a4747',
       border: 'none',
-      borderRadius: '25px',
     },
     '& .MuiInputLabel-outlined': {
       transform: 'translate(14px,10px) scale(1)',
@@ -36,7 +35,7 @@ const styles = {
   },
 };
 
-const SearchField = ({ onChange, label, className, classes }) => {
+const ModalTextField = ({ onChange, label, className, classes }) => {
   const styleClasses = useStyles();
   return (
     <TextField
@@ -50,4 +49,4 @@ const SearchField = ({ onChange, label, className, classes }) => {
   );
 };
 
-export default withStyles(styles)(SearchField);
+export default withStyles(styles)(ModalTextField);

@@ -3,7 +3,7 @@
     width: 100%;
     position: absolute;
     display: grid;
-    grid-template-rows: auto 40px 1fr;
+    grid-template-rows: auto auto 1fr;
     grid-row-gap: 30px;
     background-color: #333333;
     grid-template-areas: 'header' 'search' 'lobby';
@@ -17,8 +17,8 @@
     grid-column-gap: 5%;
     grid-template-columns: repeat(3, 1fr);
     padding: 0 80px 0 80px;
-    margin-left: 80px;
-    margin-right: 80px;
+    margin-left: 50px;
+    margin-right: 50px;
     overflow-y: auto;
     grid-area: lobby;
 }
@@ -39,15 +39,23 @@
 .searchContainer {
     height: 100%;
     grid-area: search;
-    margin-left: 50px;
+    margin-left: 100px;
     margin-right: 50px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr minmax(50px, 250px) 1fr minmax(40px, 100px);
     grid-template-areas: '. search . add';
 }
 
 .addButton {
     grid-area: add;
+    background-color: #f6a333;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.addButton:hover {
+    background-color: #986520;
 }
 
 .searchField {

@@ -1,12 +1,72 @@
 .modal {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row-gap: 20px;
+  grid-template-rows: repeat(3, 1fr);
   justify-content: center;
-  width: 600px;
+  width: 400px;
+  height: 350px;
   position: fixed;
-  margin-top: 80px;
-  left: calc(50% - 300px);
-  background-color: white;
+  margin-top: 120px;
+  left: calc(50% - 200px);
+  background-color: #333333;
   padding: 15px 15px 15px 15px;
   font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+}
+
+.titleContainer {
+  border-bottom: solid 1px #707070;
+}
+
+.fieldContainer {
+  display: grid;
+  grid-row-gap: 10px;
+  border-bottom: solid 1px #707070;
+}
+
+.titleName {
+  font-size: 30px;
+  color: #B9B9B9;
+  font-weight: bold;
+  padding: 20px 0 0 0;
+  margin: 0;
+}
+
+.lobbyNameField {
+  width: 100%;
+}
+
+.lobbyNameContainer {
+
+}
+
+.lobbyPasswordContainer {
+  height: 37px;
+}
+
+.lobbyPasswordField {
+  width: 100%;
+
+}
+
+.checkContainer {
+  text-align: center;
+  color: #B9B9B9;
+}
+
+.buttonContainer {
+  text-align: center;
+}
+
+.checkBox {
+  color: #f6a333 !important;
+}
+
+.createButton {
+  background-color: #f6a333;
+  color: #202120;
+}
+
+.createButton:hover {
+  background-color: #9e6921;
 }

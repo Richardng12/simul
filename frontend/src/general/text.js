@@ -4,7 +4,7 @@ const text = {
     buttonText: 'Login to Spotify',
   },
   lobbyPage: {
-    addLobby: 'Add',
+    addLobby: 'Add Lobby',
     search: 'Search',
   },
 };

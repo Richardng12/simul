@@ -14,11 +14,11 @@
     height: 100%;
     width: 100%;
     border-radius: 10px 10px 0 0;
-    background-color: #ffaf2d;
+    background-color: #d69425;
     grid-area: background;
 }
 .bottomSection {
-    background-color: white;
+    background-color: #e5e5e5;
     text-align: center;
     height: 100%;
     width: 100%;

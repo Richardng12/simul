@@ -51,12 +51,6 @@ const LobbyPage = props => {
           onChange={filterLobbies}
           className={style.searchField}
         />
-        {/* <TextField */}
-        {/*  label={text.lobbyPage.search} */}
-        {/*  variant="outlined" */}
-        {/*  onChange={filterLobbies} */}
-        {/*  className={style.searchField} */}
-        {/* /> */}
       </div>
       <div className={style.lobbyContainer}>
         {lobbies.length === 0 ? (
