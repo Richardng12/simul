@@ -26,15 +26,7 @@ const LobbyTile = props => {
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className={style.lobbyTile} onClick={() => changeHistory(`/lobby/${id}`)}>
-      {createdBy === userId && (
-        <ClearIcon
-          onClick={() => {
-            deleteLobbyFromDB(id);
-          }}
-        />
-      )}
+    <div>
       <EnterPasswordModal
         open={open}
         onClose={handleClose}
@@ -42,11 +34,23 @@ const LobbyTile = props => {
         password={password}
         lobbyId={id}
       />
-      <div className={style.background}>
-        {!isPublic && <LockOutlinedIcon preserveAspectRatio="none" className={style.lockedIcon} />}
-      </div>
-      <div className={style.bottomSection}>
-        <p className={style.lobbyName}>{name}</p>
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <div className={style.lobbyTile} onClick={() => changeHistory(`/lobby/${id}`)}>
+        {createdBy === userId && (
+          <ClearIcon
+            onClick={() => {
+              deleteLobbyFromDB(id);
+            }}
+          />
+        )}
+        <div className={style.background}>
+          {!isPublic && (
+            <LockOutlinedIcon preserveAspectRatio="none" className={style.lockedIcon} />
+          )}
+        </div>
+        <div className={style.bottomSection}>
+          <p className={style.lobbyName}>{name}</p>
+        </div>
       </div>
     </div>
   );
