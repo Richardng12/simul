@@ -98,6 +98,7 @@ const lobbyReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.deleteLobby_success:
+      console.log(action.lobbies);
       return {
         ...state,
         lobbies: action.lobbies,

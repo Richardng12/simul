@@ -34,15 +34,15 @@ const LobbyTile = props => {
         password={password}
         lobbyId={id}
       />
+      {createdBy === userId && (
+        <ClearIcon
+          onClick={() => {
+            deleteLobbyFromDB(id);
+          }}
+        />
+      )}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={style.lobbyTile} onClick={() => changeHistory(`/lobby/${id}`)}>
-        {createdBy === userId && (
-          <ClearIcon
-            onClick={() => {
-              deleteLobbyFromDB(id);
-            }}
-          />
-        )}
         <div className={style.background}>
           {!isPublic && (
             <LockOutlinedIcon preserveAspectRatio="none" className={style.lockedIcon} />
