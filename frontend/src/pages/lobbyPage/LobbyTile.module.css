@@ -1,6 +1,41 @@
 .lobbyTile {
     width: 100%;
-    height: 300px;
-    background-color: #1db954;
+    height: 250px;
     cursor: pointer;
+    display: grid;
+    grid-template-rows: 80% 20%;
+    grid-template-areas: 'background' 'bottom';
+}
+
+.lobbyTile:hover {
+    filter: brightness(0.8);
+}
+.background {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    background-color: #d69425;
+    grid-area: background;
+    text-align: center;
+}
+.bottomSection {
+    background-color: #e5e5e5;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    grid-area: bottom;
+    border-radius: 0 0 10px 10px;
+}
+
+.lockedIcon {
+    margin-top: 20px;
+    height: 80%;
+    width: 60%;
+}
+
+.lobbyName {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+
 }

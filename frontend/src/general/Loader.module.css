@@ -1,0 +1,51 @@
+.loaderParent{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #333333;
+    display: grid;
+    align-items: center;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: "." "loaderContainer" ".";
+}
+
+.loaderContainer {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-area: loaderContainer;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    grid-template-areas: ". loader .";
+}
+
+.loader {
+    width: 200px;
+    height: 200px;
+    overflow: visible;
+    grid-area: loader;
+}
+.loader path {
+    fill: transparent;
+    stroke: #f6a333;
+    stroke-width: 6px;
+    stroke-dasharray: 1670;
+    stroke-dashoffset: 1670;
+    /*fill: #f6a333;*/
+    animation: animate-music 4s linear forwards infinite;
+}
+
+@keyframes animate-music {
+    0%{
+        stroke-dashoffset: 1670;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100%{
+        stroke-dashoffset: 1670;
+        /*fill: orange;*/
+    }
+}
+
