@@ -42,7 +42,9 @@ const LobbyTile = props => {
         password={password}
         lobbyId={id}
       />
-      <div className={style.background}>{!isPublic && <LockOutlinedIcon />}</div>
+      <div className={style.background}>
+        {!isPublic && <LockOutlinedIcon preserveAspectRatio="none" className={style.lockedIcon} />}
+      </div>
       <div className={style.bottomSection}>
         <p className={style.lobbyName}>{name}</p>
       </div>

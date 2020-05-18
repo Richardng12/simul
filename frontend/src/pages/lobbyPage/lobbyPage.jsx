@@ -22,7 +22,6 @@ const LobbyPage = props => {
   }, []);
 
   const filterLobbies = event => {
-    // setSearchText(event.target.value);
     setFilter(event.target.value);
   };
 

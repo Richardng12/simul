@@ -16,6 +16,7 @@
     border-radius: 10px 10px 0 0;
     background-color: #d69425;
     grid-area: background;
+    text-align: center;
 }
 .bottomSection {
     background-color: #e5e5e5;
@@ -23,6 +24,13 @@
     height: 100%;
     width: 100%;
     grid-area: bottom;
+    border-radius: 0 0 10px 10px;
+}
+
+.lockedIcon {
+    margin-top: 20px;
+    height: 80%;
+    width: 60%;
 }
 
 .lobbyName {
