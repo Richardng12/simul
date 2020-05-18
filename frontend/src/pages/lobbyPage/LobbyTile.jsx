@@ -36,6 +36,7 @@ const LobbyTile = props => {
       />
       {createdBy === userId && (
         <ClearIcon
+          className={style.deleteIcon}
           onClick={() => {
             deleteLobbyFromDB(id);
           }}

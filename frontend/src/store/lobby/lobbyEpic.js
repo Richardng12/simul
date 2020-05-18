@@ -166,7 +166,6 @@ const deleteLobby = action$ =>
         credentials: 'include',
       });
       const lobbies = await response.json();
-      console.log(lobbies);
       return { ...action, type: actionTypes.deleteLobby_success, lobbies };
     }),
   );
