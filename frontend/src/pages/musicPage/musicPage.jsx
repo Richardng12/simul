@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: 0 */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -37,16 +38,21 @@ const MusicPage = props => {
   ) : (
     <div className={styles.root}>
       <SimulAppBar title={lobby.name} />
-      <div className={styles.mostStuff}>
-        <div className={styles.playerStuff}>
-          <QueueContainer songs={lobby.songs} />
-        </div>
-        <div className={styles.nonPlayerStuff}>
+      <div className={styles.mainContent}>
+        <div className={styles.leftSide}>
+          {/*  */}
+          <div>Image goes here</div>
+          {/* <div>Image goes here</div> */}
           <LyricsContainer />
-          <SocialContainer />
+        </div>
+        <div className={styles.rightSide}>
+          {/* <QueueContainer songs={lobby.songs} /> */}
+          {/* <SocialContainer /> */}
         </div>
       </div>
-      <MusicPlayerContainer />
+      <div className={styles.playerContainer}>
+        <MusicPlayerContainer />
+      </div>
     </div>
   );
 };

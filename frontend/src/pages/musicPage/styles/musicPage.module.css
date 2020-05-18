@@ -1,6 +1,10 @@
 .root {
-  height: calc(100vh - 140px);
-  width: 100vw;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: #333333;
+  grid-template-rows: 60px 1fr 70px;
 }
 
 ::-webkit-scrollbar {
@@ -22,19 +26,24 @@
   background: rgba(0, 0, 0, 0.9);
 }
 
-.mostStuff {
-  flex-direction: row;
-  display: flex;
+.mainContent {
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.playerStuff {
-  flex-grow: 1;
-  min-width: 450px;
-  height: 100%;
+.leftSide {
+  display: grid;
+  grid-template-rows: 1fr 200px;
+  margin-bottom: 50px;
 }
 
-.nonPlayerStuff {
-  flex-grow: 2;
-  height: 100%;
+.rightSide {
+
 }
+
+.playerContainer {
+  height: 100%;
+  width: 100%;
+}
+
