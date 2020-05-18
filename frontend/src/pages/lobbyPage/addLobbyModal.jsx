@@ -1,15 +1,14 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { addLobby } from '../../store/lobby/lobbyActions';
 import styles from './modal.module.css';
 import ModalTextField from './ModalTextField';
+import text from '../../general/text';
 
 const AddLobbyModal = props => {
   const { open, onClose, createLobby } = props;
@@ -25,12 +24,12 @@ const AddLobbyModal = props => {
       <Modal open={open} onClose={onClose}>
         <div className={styles.modal}>
           <div className={styles.titleContainer}>
-            <p className={styles.titleName}>LOBBY CREATION</p>
+            <p className={styles.titleName}>{text.lobbyPage.modal.titleText}</p>
           </div>
           <div className={styles.fieldContainer}>
             <div className={styles.lobbyNameContainer}>
               <ModalTextField
-                label="Lobby Name"
+                label={text.lobbyPage.modal.lobbyNameText}
                 onChange={event => setLobbyName(event.target.value)}
                 className={styles.lobbyNameField}
               />
@@ -38,7 +37,7 @@ const AddLobbyModal = props => {
             <div className={styles.lobbyPasswordContainer}>
               {privateLobby && (
                 <ModalTextField
-                  label="Lobby Password"
+                  label={text.lobbyPage.modal.passwordText}
                   onChange={event => setLobbyPassword(event.target.value)}
                   className={styles.lobbyPasswordField}
                 />
@@ -53,7 +52,7 @@ const AddLobbyModal = props => {
                     className={styles.checkBox}
                   />
                 }
-                label="Make Lobby Private"
+                label={text.lobbyPage.modal.checkBoxText}
               />
             </div>
           </div>
@@ -65,7 +64,7 @@ const AddLobbyModal = props => {
                 onClose();
               }}
             >
-              Create Lobby
+              {text.lobbyPage.modal.buttonText}
             </Button>
           </div>
         </div>

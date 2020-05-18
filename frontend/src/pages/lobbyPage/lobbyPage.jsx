@@ -38,7 +38,7 @@ const LobbyPage = props => {
   ) : (
     <div className={style.lobbyParent}>
       <div className={style.headerContainer}>
-        <SimulAppBar title="LOBBIES" />
+        <SimulAppBar title={text.lobbyPage.appBarTitle} />
       </div>
       <AddLobbyModal open={showModal} onClose={closeModal} />
       <div className={style.searchContainer}>

@@ -4,8 +4,16 @@ const text = {
     buttonText: 'Login to Spotify',
   },
   lobbyPage: {
+    appBarTitle: 'LOBBIES',
     addLobby: 'Add Lobby',
     search: 'Search',
+    modal: {
+      titleText: 'LOBBY CREATION',
+      lobbyNameText: 'Lobby Name',
+      passwordText: 'Lobby Password',
+      checkBoxText: 'Make Lobby Private',
+      buttonText: 'CREATE LOBBY',
+    },
   },
 };
 
