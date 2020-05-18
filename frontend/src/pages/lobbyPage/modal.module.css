@@ -14,7 +14,13 @@
   border-radius: 5px;
 }
 
+.passwordModal {
+  height: 300px;
+  align-items: center;
+}
+
 .titleContainer {
+  text-align: center;
   border-bottom: solid 1px #707070;
 }
 
@@ -68,5 +74,21 @@
 }
 
 .createButton:hover {
-  background-color: #9e6921;
+  background-color: #f6a333;
+  filter: brightness(0.8);
+}
+
+.cancelButton {
+  background-color: #B9B9B9;
+}
+
+.cancelButton:hover {
+  background-color: #B9B9B9;
+  filter: brightness(0.8);
+}
+
+.passwordButtonContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 20px;
 }
