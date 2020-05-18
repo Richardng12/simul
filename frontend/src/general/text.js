@@ -1,6 +1,7 @@
 const text = {
   frontPage: {
-    description: 'A short description of our project goes here vxovndibdfib',
+    description:
+      'We believe music is better with friends. Simul hooks into your Spotify account and is 100% free to use. Give it a try and start listening. Together.',
     buttonText: 'Login to Spotify',
   },
   lobbyPage: {
