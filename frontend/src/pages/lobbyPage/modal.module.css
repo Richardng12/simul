@@ -32,7 +32,7 @@
 
 .titleName {
   font-size: 30px;
-  color: #B9B9B9;
+  color: #b9b9b9;
   font-weight: bold;
   padding: 20px 0 0 0;
   margin: 0;
@@ -43,7 +43,6 @@
 }
 
 .lobbyNameContainer {
-
 }
 
 .lobbyPasswordContainer {
@@ -52,16 +51,17 @@
 
 .lobbyPasswordField {
   width: 100%;
-
 }
 
 .checkContainer {
   text-align: center;
-  color: #B9B9B9;
+  color: #b9b9b9;
 }
 
 .buttonContainer {
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 20px;
 }
 
 .checkBox {
@@ -79,11 +79,11 @@
 }
 
 .cancelButton {
-  background-color: #B9B9B9;
+  background-color: #b9b9b9;
 }
 
 .cancelButton:hover {
-  background-color: #B9B9B9;
+  background-color: #b9b9b9;
   filter: brightness(0.8);
 }
 
@@ -91,4 +91,10 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 20px;
+}
+
+.lobbyValidation {
+  text-align: center;
+  color: #b9b9b9;
+  margin: 0;
 }
