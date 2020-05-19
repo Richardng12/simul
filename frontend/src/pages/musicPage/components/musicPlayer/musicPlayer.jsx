@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
-import { setDevice } from '../../../../store/music/musicActions';
+import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby, addDeviceId } = props;
+  const { accessToken, lobby, addDeviceId, updateSong } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
@@ -77,7 +77,10 @@ const MusicPlayer = props => {
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
     getSongInfo(accessToken, currentSongId).then(res => {
+      console.log(res);
+      // todo: delete this
       setCurrentSong(res);
+      updateSong(res);
       // setSongTime(res.duration_ms);
     });
     startPlayback(accessToken, deviceId, currentSongs, startingTime);
@@ -148,6 +151,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
+  updateSong: song => dispatch(updateCurrentSong(song)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

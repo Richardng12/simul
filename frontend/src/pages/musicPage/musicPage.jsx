@@ -23,8 +23,10 @@ import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer'
 // };
 
 const MusicPage = props => {
-  const { getLobby, lobby, loading, setId, setUsers, setQueue } = props;
+  const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
+
+  console.log(currentSong);
 
   const { id } = useParams();
   useEffect(() => {
@@ -42,11 +44,10 @@ const MusicPage = props => {
         <div className={styles.leftSide}>
           {/*  */}
           <div>Image goes here</div>
-          {/* <div>Image goes here</div> */}
           <LyricsContainer />
         </div>
         <div className={styles.rightSide}>
-          {/* <QueueContainer songs={lobby.songs} /> */}
+          <QueueContainer songs={lobby.songs} />
           {/* <SocialContainer /> */}
         </div>
       </div>
@@ -62,6 +63,7 @@ const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   loading: state.lobbyReducer.loading,
   lobbies: state.lobbyReducer.lobbies,
+  currentSong: state.musicReducer.currentSong,
 });
 
 const mapDispatchToProps = dispatch => ({
