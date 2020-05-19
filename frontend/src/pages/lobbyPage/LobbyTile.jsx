@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ClearIcon from '@material-ui/icons/Clear';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import EnterPasswordModal from './enterPasswordModal';
-import { deleteLobby } from '../../store/lobby/lobbyActions';
+import ConfirmDeleteLobbyModal from './confirmDeleteLobbyModal';
 import style from './LobbyTile.module.css';
 
 const LobbyTile = props => {
-  const { name, id, isPublic, password, createdBy, userId, deleteLobbyFromDB } = props;
+  const { name, id, isPublic, password, createdBy, userId } = props;
   const history = useHistory();
   const [open, setModal] = useState(false);
+  const [deleteLobbyOpen, setDeleteLobbyOpen] = useState(false);
 
   const changeHistory = path => {
     if (isPublic) {
@@ -25,6 +25,10 @@ const LobbyTile = props => {
     setModal(false);
   };
 
+  const handleCloseDeleteLobby = () => {
+    setDeleteLobbyOpen(false);
+  };
+
   return (
     <div>
       <EnterPasswordModal
@@ -34,11 +38,17 @@ const LobbyTile = props => {
         password={password}
         lobbyId={id}
       />
+      <ConfirmDeleteLobbyModal
+        open={deleteLobbyOpen}
+        onClose={handleCloseDeleteLobby}
+        lobbyName={name}
+        lobbyId={id}
+      />
       {createdBy === userId && (
         <ClearIcon
           className={style.deleteIcon}
           onClick={() => {
-            deleteLobbyFromDB(id);
+            setDeleteLobbyOpen(true);
           }}
         />
       )}
@@ -61,8 +71,4 @@ const mapStateToProps = state => ({
   userId: state.profileReducer.user._id,
 });
 
-const mapDispatchToProps = dispatch => ({
-  deleteLobbyFromDB: bindActionCreators(deleteLobby, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LobbyTile);
+export default connect(mapStateToProps)(LobbyTile);

@@ -26,7 +26,7 @@ const AddLobbyModal = props => {
     if (lobbyName === '') {
       setValidation('Please enter a lobby name');
     } else if (lobbies.find(lobby => lobby.name === lobbyName) === undefined) {
-      if (lobbyPassword === '') {
+      if (lobbyPassword === '' && privateLobby) {
         setValidation('Please enter a password');
       } else {
         createLobby(lobbyName, !privateLobby, lobbyPassword);
