@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -11,17 +12,41 @@ import ModalTextField from './ModalTextField';
 import text from '../../general/text';
 
 const AddLobbyModal = props => {
-  const { open, onClose, createLobby } = props;
+  const { open, onClose, createLobby, lobbies } = props;
   const [privateLobby, setPrivateLobby] = useState(false);
   const [lobbyName, setLobbyName] = useState('');
   const [lobbyPassword, setLobbyPassword] = useState('');
+  const [validation, setValidation] = useState('');
 
   const handlePrivateChange = event => {
     setPrivateLobby(event.target.checked);
   };
+
+  const attemptCreateLobby = () => {
+    if (lobbyName === '') {
+      setValidation('Please enter a lobby name');
+    } else if (lobbies.find(lobby => lobby.name === lobbyName) === undefined) {
+      if (lobbyPassword === '' && privateLobby) {
+        setValidation('Please enter a password');
+      } else {
+        createLobby(lobbyName, !privateLobby, lobbyPassword);
+        setValidation('');
+        onClose();
+      }
+    } else {
+      setValidation('Lobby name already exists');
+    }
+  };
+
   return (
     <div>
-      <Modal open={open} onClose={onClose}>
+      <Modal
+        open={open}
+        onClose={() => {
+          setValidation('');
+          onClose();
+        }}
+      >
         <div className={styles.modal}>
           <div className={styles.titleContainer}>
             <p className={styles.titleName}>{text.lobbyPage.modal.titleText}</p>
@@ -56,14 +81,20 @@ const AddLobbyModal = props => {
               />
             </div>
           </div>
+          <div className={styles.lobbyValidation}>
+            <Typography>{validation}</Typography>
+          </div>
           <div className={styles.buttonContainer}>
             <Button
-              className={styles.createButton}
               onClick={() => {
-                createLobby(lobbyName, !privateLobby, lobbyPassword);
+                setValidation('');
                 onClose();
               }}
+              className={styles.cancelButton}
             >
+              Cancel
+            </Button>
+            <Button className={styles.createButton} onClick={() => attemptCreateLobby()}>
               {text.lobbyPage.modal.buttonText}
             </Button>
           </div>
@@ -73,8 +104,12 @@ const AddLobbyModal = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  lobbies: state.lobbyReducer.lobbies,
+});
+
 const mapDispatchToProps = dispatch => ({
   createLobby: bindActionCreators(addLobby, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(AddLobbyModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddLobbyModal);

@@ -1,6 +1,7 @@
 const text = {
   frontPage: {
-    description: 'A short description of our project goes here vxovndibdfib',
+    description:
+      'We believe music is better with friends. Give it a try and start listening. Together.',
     buttonText: 'Login to Spotify',
   },
   lobbyPage: {
@@ -13,6 +14,7 @@ const text = {
       passwordText: 'Lobby Password',
       checkBoxText: 'Make Lobby Private',
       buttonText: 'CREATE LOBBY',
+      deleteConfirmationText: 'Deleting lobby. This cannot be undone',
     },
   },
 };

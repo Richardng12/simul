@@ -140,7 +140,6 @@ const addLobby = action$ =>
       }),
     ),
   );
-export default getLobbies;
 
 const setUsers = (action$, store) =>
   action$.pipe(
@@ -162,14 +161,16 @@ const deleteLobby = action$ =>
     mergeMap(async action => {
       const { lobbyId } = action;
       const response = await fetch(`${LOBBY}/${lobbyId}`, {
-        method: 'PATCH',
+        method: 'DELETE',
         mode: 'cors',
         credentials: 'include',
       });
-      const newLobbies = await response.json();
-      return { ...action, type: actionTypes.deleteLobby_success, newLobbies };
+      const lobbies = await response.json();
+      return { ...action, type: actionTypes.deleteLobby_success, lobbies };
     }),
   );
+
+export default getLobbies;
 
 export {
   addLobby,
