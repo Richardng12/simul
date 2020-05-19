@@ -22,7 +22,7 @@ const ConfirmDeleteLobbyModal = props => {
           onClose();
         }}
       >
-        <div className={classNames(styles.modal)}>
+        <div className={classNames(styles.deleteLobbyModal)}>
           <div className={styles.lobbyValidation}>
             <Typography>Are you sure you want to delete {lobbyName}?</Typography>
             <Typography>This cannot be undone</Typography>
