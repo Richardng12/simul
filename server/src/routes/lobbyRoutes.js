@@ -48,6 +48,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     code: req.body.code,
     users: [req.user],
     password: req.body.password,
+    songStartTimeStamp: null,
   });
   try {
     const existingLobby = await Lobby.find({ name: req.body.name });
