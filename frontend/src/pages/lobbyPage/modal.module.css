@@ -100,17 +100,5 @@
 }
 
 .deleteLobbyModal {
-  display: grid;
-  grid-row-gap: 20px;
-  grid-template-rows: repeat(3, 1fr);
-  justify-content: center;
-  width: 400px;
-  height: 200px;
-  position: fixed;
-  margin-top: 120px;
-  left: calc(50% - 200px);
-  background-color: #333333;
-  padding: 40px 15px 15px 15px;
-  font-family: 'Roboto', sans-serif;
-  border-radius: 5px;
+  height: 220px;
 }

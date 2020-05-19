@@ -48,7 +48,13 @@ const EnterPasswordModal = props => {
             <Typography>{validation}</Typography>
           </div>
           <div className={styles.passwordButtonContainer}>
-            <Button onClick={onClose} className={styles.cancelButton}>
+            <Button
+              onClick={() => {
+                setValidation('');
+                onClose();
+              }}
+              className={styles.cancelButton}
+            >
               Cancel
             </Button>
             <Button

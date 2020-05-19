@@ -1,7 +1,7 @@
 const text = {
   frontPage: {
     description:
-      'We believe music is better with friends. Simul hooks into your Spotify account and is 100% free to use. Give it a try and start listening. Together.',
+      'We believe music is better with friends. Give it a try and start listening. Together.',
     buttonText: 'Login to Spotify',
   },
   lobbyPage: {
@@ -14,6 +14,7 @@ const text = {
       passwordText: 'Lobby Password',
       checkBoxText: 'Make Lobby Private',
       buttonText: 'CREATE LOBBY',
+      deleteConfirmationText: 'Deleting lobby. This cannot be undone',
     },
   },
 };

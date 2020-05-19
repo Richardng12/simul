@@ -3,13 +3,14 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import { deleteLobby } from '../../store/lobby/lobbyActions';
 import styles from './modal.module.css';
 import style from './lobbyPage.module.css';
 import ModalTextField from './ModalTextField';
+import text from '../../general/text';
 
 const ConfirmDeleteLobbyModal = props => {
   const { open, onClose, lobbyName, lobbyId, deleteLobbyFromDB } = props;
@@ -22,10 +23,12 @@ const ConfirmDeleteLobbyModal = props => {
           onClose();
         }}
       >
-        <div className={classNames(styles.deleteLobbyModal)}>
+        <div className={classNames(styles.modal, styles.deleteLobbyModal)}>
+          <div className={styles.titleContainer}>
+            <p className={styles.titleName}>{lobbyName}</p>
+          </div>
           <div className={styles.lobbyValidation}>
-            <Typography>Are you sure you want to delete {lobbyName}?</Typography>
-            <Typography>This cannot be undone</Typography>
+            <Typography>{text.lobbyPage.modal.deleteConfirmationText}</Typography>
           </div>
           <div className={styles.buttonContainer}>
             <Button onClick={onClose} className={styles.cancelButton}>

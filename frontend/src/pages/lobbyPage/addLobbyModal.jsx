@@ -85,7 +85,13 @@ const AddLobbyModal = props => {
             <Typography>{validation}</Typography>
           </div>
           <div className={styles.buttonContainer}>
-            <Button onClick={onClose} className={styles.cancelButton}>
+            <Button
+              onClick={() => {
+                setValidation('');
+                onClose();
+              }}
+              className={styles.cancelButton}
+            >
               Cancel
             </Button>
             <Button className={styles.createButton} onClick={() => attemptCreateLobby()}>

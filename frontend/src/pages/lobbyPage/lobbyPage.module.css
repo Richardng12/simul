@@ -1,81 +1,80 @@
 .lobbyParent {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-row-gap: 30px;
-    background-color: #333333;
-    grid-template-areas: 'header' 'search' 'lobby';
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-row-gap: 30px;
+  background-color: #333333;
+  grid-template-areas: 'header' 'search' 'lobby';
 }
 
 .lobbyContainer {
-    display: grid;
-    height: 100%;
-    grid-row-gap: 5%;
-    grid-template-rows: repeat(auto-fill, 1fr);
-    grid-column-gap: 5%;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 0 80px 0 80px;
-    margin-left: 50px;
-    margin-right: 50px;
-    overflow-y: auto;
-    grid-area: lobby;
+  display: grid;
+  height: 100%;
+  grid-row-gap: 5%;
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-column-gap: 5%;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0 80px 0 80px;
+  margin-left: 50px;
+  margin-right: 50px;
+  overflow-y: auto;
+  grid-area: lobby;
 }
 
 .lobbyContainer::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 .lobbyContainer::-webkit-scrollbar-thumb {
-    background-color: #f6a333;
-    cursor: pointer;
+  background-color: #f6a333;
+  cursor: pointer;
 }
 
 .lobbyContainer::-webkit-scrollbar-thumb:hover {
-    background-color: #93611e;
+  background-color: #93611e;
 }
 
 .searchContainer {
-    height: 100%;
-    grid-area: search;
-    margin-left: 100px;
-    margin-right: 50px;
-    display: grid;
-    grid-template-columns: 1fr minmax(50px, 250px) 1fr minmax(40px, 100px);
-    grid-template-areas: '. search . add';
+  height: 100%;
+  grid-area: search;
+  margin-left: 100px;
+  margin-right: 50px;
+  display: grid;
+  grid-template-columns: 1fr minmax(50px, 250px) 1fr minmax(40px, 100px);
+  grid-template-areas: '. search . add';
 }
 
 .addButton {
-    grid-area: add;
-    background-color: #f6a333;
-    font-size: 12px;
-    font-weight: bold;
-    color: #333333;
+  grid-area: add;
+  background-color: #f6a333;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333333;
 }
 
 .addButton:hover {
-    background-color: #986520;
+  background-color: #986520;
 }
 
 .searchField {
-    grid-area: search;
-    border: none;
+  grid-area: search;
+  border: none;
 }
 
 .headerContainer {
-    grid-area: header;
+  grid-area: header;
 }
 
-
 @media screen and (max-width: 1000px) {
-    .lobbyContainer {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .lobbyContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media screen and (max-width: 700px) {
-    .lobbyContainer {
-        grid-template-columns: 1fr;
-    }
+  .lobbyContainer {
+    grid-template-columns: 1fr;
+  }
 }
