@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import styles from './styles/lyrics.module.css';
 
 const Lyrics = () => {
@@ -71,10 +71,10 @@ const Lyrics = () => {
 };
 
 const LyricsContainer = props => {
-  const { currentSong } = props;
+  const { currentSong, className } = props;
+  console.log(currentSong);
   return (
-    <div className={styles.lyricsContainer}>
-      <Typography variant="h5">{currentSong}</Typography>
+    <div className={classNames(styles.lyricsContainer, className)}>
       <Lyrics className={styles.lyrics} />
     </div>
   );

@@ -1,21 +1,20 @@
+/* eslint no-unused-vars: 0 */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
 import Slider from '@material-ui/core/Slider';
-import classNames from 'classnames';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
 import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby, addDeviceId, updateSong } = props;
+  const { accessToken, lobby, addDeviceId, currentSong, updateSong } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
-  const [currentSong, setCurrentSong] = useState(null);
-  const [currentSongId, setCurrentSongId] = useState('');
+  // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(10);
   // const [songTime, setSongTime] = useState(0);
@@ -40,7 +39,7 @@ const MusicPlayer = props => {
 
     player.addListener('player_state_changed', state => {
       setCurrentTime(state.position);
-      setCurrentSong(state.track_window.current_track);
+      updateCurrentSong(state.track_window.current_track);
     });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
@@ -53,9 +52,6 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    if (currentSongs.length > 0) {
-      setCurrentSongId(currentSongs.shift().substring(14));
-    }
     // eslint-disable-next-line no-console
     console.log(scriptLoaded);
     // eslint-disable-next-line no-console
@@ -63,6 +59,17 @@ const MusicPlayer = props => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       handleScriptLoad();
     };
+
+    let initialSong;
+    if (currentSongs.length > 0) {
+      initialSong = currentSongs.shift().substring(14);
+    }
+
+    // TODO: move this outside of the music player
+    getSongInfo(accessToken, initialSong).then(res => {
+      // setCurrentSong(res);
+      updateSong(res);
+    });
   }, []);
   const onLoad = () => {
     setScriptLoaded(true);
@@ -76,13 +83,6 @@ const MusicPlayer = props => {
 
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
-    getSongInfo(accessToken, currentSongId).then(res => {
-      console.log(res);
-      // todo: delete this
-      setCurrentSong(res);
-      updateSong(res);
-      // setSongTime(res.duration_ms);
-    });
     startPlayback(accessToken, deviceId, currentSongs, startingTime);
   };
 
@@ -103,19 +103,15 @@ const MusicPlayer = props => {
       ) : (
         <div className={style.player}>
           <div className={style.leftSide}>
-            {currentSong ? (
-              <img src={currentSong.album.images[0].url} alt="thumbnail" height="71px" />
-            ) : (
-              <p>image goes here</p>
-            )}
+            {/* TODO: remove these buttons */}
+            <button type="button" onClick={() => handleStartClick()}>
+              start
+            </button>
+            <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
+              stop
+            </button>
           </div>
           <div className={style.mainContent}>
-            <p className={classNames(style.playerText, style.songText)}>
-              {currentSong ? currentSong.name : '---'}
-            </p>
-            <p className={classNames(style.playerText, style.authorText)}>
-              {currentSong ? currentSong.artists[0].name : '---'}
-            </p>
             <Progress
               currentTime={currentTime}
               setCurrentTime={setCurrentTime}
@@ -129,14 +125,6 @@ const MusicPlayer = props => {
               onChange={handleVolumeChange}
               aria-labelledby="continuous-slider"
             />
-
-            {/* TODO: remove these buttons */}
-            <button type="button" onClick={() => handleStartClick()}>
-              start
-            </button>
-            <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
-              stop
-            </button>
           </div>
         </div>
       )}
@@ -147,6 +135,7 @@ const MusicPlayer = props => {
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   deviceId: state.musicReducer.deviceId,
+  currentSong: state.musicReducer.currentSong,
 });
 
 const mapDispatchToProps = dispatch => ({

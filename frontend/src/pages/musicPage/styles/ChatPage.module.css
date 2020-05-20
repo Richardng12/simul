@@ -1,0 +1,16 @@
+.pageContainer {
+    width: 100%;
+    height: 100%;
+}
+
+.chatContainer {
+    height: 300px;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-rows: auto;
+    background-color: #b9b9b9;
+}
+
+.chatInput {
+    width: 100%;
+}

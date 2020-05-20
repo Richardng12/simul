@@ -4,7 +4,8 @@
   width: 100%;
   position: absolute;
   background-color: #333333;
-  grid-template-rows: 60px 1fr 70px;
+  grid-template-rows: 60px 1fr 35px;
+  grid-row-gap: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -34,12 +35,43 @@
 
 .leftSide {
   display: grid;
-  grid-template-rows: 1fr 200px;
-  margin-bottom: 50px;
+  grid-row-gap: 10px;
+  grid-template-rows: 1fr 40px 20px 200px;
+}
+
+.imageContainer {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.songText, .artistText {
+  color: #b9b9b9;
+  text-align: center;
+}
+.songText {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.artistText {
+
+}
+
+.lyricContainer {
+  display: grid;
+  grid-template-columns: 1fr 400px 1fr;
+  text-align: center;
+  grid-template-areas: ". lyrics .";
+}
+
+.outerLyrics {
+  grid-area: lyrics;
 }
 
 .rightSide {
-
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 .playerContainer {

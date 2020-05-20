@@ -16,6 +16,7 @@ import {
   setLobbyQueue,
 } from '../../store/lobby/lobbyActions';
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
+import Loader from '../../general/Loader';
 
 // const getLobbyInfo = (id, lobbies) => {
 //   // eslint-disable-next-line no-underscore-dangle
@@ -36,19 +37,36 @@ const MusicPage = props => {
     setQueue(id);
   }, []);
   return loading || !lobby ? (
-    <p>Loading...</p>
+    <Loader />
   ) : (
     <div className={styles.root}>
       <SimulAppBar title={lobby.name} />
       <div className={styles.mainContent}>
         <div className={styles.leftSide}>
-          {/*  */}
-          <div>Image goes here</div>
-          <LyricsContainer />
+          <div className={styles.imageContainer}>
+            {currentSong ? (
+              <img src={currentSong.album.images[0].url} alt="thumbnail" height="250px" />
+            ) : (
+              <p>image goes here</p>
+            )}
+          </div>
+          {currentSong ? (
+            <p className={styles.songText}>{currentSong.name}</p>
+          ) : (
+            <p className={styles.songText}>----</p>
+          )}
+          {currentSong ? (
+            <p className={styles.artistText}>{currentSong.artists[0].name}</p>
+          ) : (
+            <p className={styles.artistText}>----</p>
+          )}
+          <div className={styles.lyricContainer}>
+            <LyricsContainer className={styles.outerLyrics} />
+          </div>
         </div>
         <div className={styles.rightSide}>
           <QueueContainer songs={lobby.songs} />
-          {/* <SocialContainer /> */}
+          <SocialContainer />
         </div>
       </div>
       <div className={styles.playerContainer}>
