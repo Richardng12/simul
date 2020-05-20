@@ -48,7 +48,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     code: req.body.code,
     users: [req.user],
     password: req.body.password,
-    songStartTimeStamp: null,
+    songStartTimeStamp: new Date(2020, 4, 20, 13, 48, 23),
   });
   try {
     const existingLobby = await Lobby.find({ name: req.body.name });
@@ -169,13 +169,30 @@ router.get('/:id/songs/current', access.ensureAuthenticated, getLobby, async (re
   }
 });
 
-// Get timestamp
+// Get timestamp in milliseconds
 router.get('/:id/songs/timestamp', access.ensureAuthenticated, getLobby, async (req, res) => {
   try {
-    res.status(200).json(res.lobby.songStartTimeStamp);
+    const timeplaying = new Date() - res.lobby.songStartTimeStamp;
+    res.status(200).json(timeplaying);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
+
+// function call to get timestamp
+// eslint-disable-next-line no-unused-vars
+async function getCurrentTimeStamp(lobbyId) {
+  const lobby = await Lobby.findById(lobbyId);
+  const timeplaying = new Date() - lobby.songStartTimeStamp;
+  return timeplaying;
+}
+
+// function call to get current song
+// eslint-disable-next-line no-unused-vars
+async function getCurrentSong(lobbyId) {
+  const lobby = await Lobby.findById(lobbyId);
+  const song = lobby.songs[0];
+  return song;
+}
 
 module.exports = router;
