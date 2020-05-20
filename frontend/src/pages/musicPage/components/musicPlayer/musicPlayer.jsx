@@ -77,6 +77,7 @@ const MusicPlayer = props => {
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
     if (currentSongs.length === 0) {
+      // eslint-disable-next-line no-console
       console.log('no songs in queue');
     } else {
       getSongInfo(accessToken, currentSongId).then(res => {

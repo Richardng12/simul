@@ -160,4 +160,22 @@ router.delete('/:id/songs', access.ensureAuthenticated, async (req, res) => {
   }
 });
 
+// Get currentsong
+router.get('/:id/songs/current', access.ensureAuthenticated, getLobby, async (req, res) => {
+  try {
+    res.status(200).json(res.lobby.songs[0]);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Get timestamp
+router.get('/:id/songs/timestamp', access.ensureAuthenticated, getLobby, async (req, res) => {
+  try {
+    res.status(200).json(res.lobby.songStartTimeStamp);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = router;
