@@ -71,7 +71,8 @@
 
 .rightSide {
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr 220px;
+  grid-row-gap: 10px;
 }
 
 .playerContainer {

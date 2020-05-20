@@ -4,7 +4,7 @@
 }
 
 .chatContainer {
-    height: 300px;
+    height: 220px;
     overflow-y: scroll;
     display: grid;
     grid-template-rows: auto;

@@ -1,8 +1,7 @@
 .root {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
+  display: grid;
   align-items: center;
+  grid-template-rows: 1fr 250px;
 }
