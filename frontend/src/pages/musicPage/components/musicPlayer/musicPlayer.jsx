@@ -16,7 +16,7 @@ const MusicPlayer = props => {
   const [deviceId, setDeviceId] = useState(null);
   // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
-  const [volume, setVolume] = useState(10);
+  const [volume, setVolume] = useState(90);
   // const [songTime, setSongTime] = useState(0);
 
   const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
@@ -72,7 +72,7 @@ const MusicPlayer = props => {
     });
   }, []);
   const onLoad = () => {
-    setScriptLoaded(true);
+    handleScriptLoad();
   };
 
   const onError = () => {
@@ -83,7 +83,12 @@ const MusicPlayer = props => {
 
   // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
-    startPlayback(accessToken, deviceId, currentSongs, startingTime);
+    if (currentSongs.length === 0) {
+      // eslint-disable-next-line no-console
+      console.log('no songs in queue');
+    } else {
+      startPlayback(accessToken, deviceId, currentSongs, startingTime);
+    }
   };
 
   const handleVolumeChange = (event, newValue) => {
