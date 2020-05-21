@@ -14,9 +14,7 @@ const MusicPlayerContainer = props => {
   return loading || accessToken === '' ? (
     <div> Loading... </div>
   ) : (
-    <div>
-      <MusicPlayer accessToken={accessToken} />
-    </div>
+    <MusicPlayer accessToken={accessToken} />
   );
 };
 

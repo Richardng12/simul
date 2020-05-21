@@ -1,7 +1,7 @@
 import { actionTypes } from './musicActions';
 
 const initialState = {
-  currentSong: 'Contact',
+  currentSong: null,
   currentDevice: null,
 };
 
@@ -10,7 +10,7 @@ const musicReducer = (state = initialState, action) => {
     case actionTypes.updateCurrentSong:
       return {
         ...state,
-        currentSong: action.payload,
+        currentSong: action.song.error ? null : action.song,
       };
     case actionTypes.setDevice:
       return {

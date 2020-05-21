@@ -2,15 +2,15 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
-import { EnterOutlined, MessageOutlined } from '@ant-design/icons';
+import { EnterOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
-// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-// import styles from '../styles/chat.module.css';
 import ChatCard from './ChatCard';
 import HOST from '../../../config/config';
+import style from '../styles/ChatPage.module.css';
 import { getChats, afterPostMessage } from '../../../store/chat/chatActions';
+import text from '../../../general/text';
 
 // connect
 const server = HOST;
@@ -80,43 +80,38 @@ const ChatPage = props => {
   };
 
   return (
-    <>
-      <div>
-        <p style={{ fontSize: '2rem', textAlign: 'center' }}> </p>
+    <div className={style.pageContainer}>
+      <div className={style.chatContainer}>
+        {renderCards()}
+        {/* {chats && {}} */}
+        <div ref={messagesEndRef} />
       </div>
 
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div className="infinite-container" style={{ height: '500px', overflowY: 'scroll' }}>
-          {chats && <div>{renderCards()}</div>}
-          <div ref={messagesEndRef} style={{ float: 'left', clear: 'both' }} />
-        </div>
-
-        <Row>
-          <Form layout="inline" onSubmit={submitChatMessage}>
-            <Col span={18}>
-              <Input
-                id="message"
-                prefix={<MessageOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="Let's start talking"
-                type="text"
-                value={chatMessage}
-                onChange={handleSearchChange}
-              />
-            </Col>
-            <Col span={6}>
-              <Button
-                type="primary"
-                style={{ width: '100%' }}
-                onClick={submitChatMessage}
-                htmlType="submit"
-              >
-                <EnterOutlined />
-              </Button>
-            </Col>
-          </Form>
-        </Row>
-      </div>
-    </>
+      <Row>
+        <Form layout="inline" onSubmit={submitChatMessage} className={style.chatInput}>
+          <Col span={21}>
+            <Input
+              id="message"
+              placeholder={text.musicPage.social.chatPlaceholder}
+              type="text"
+              style={{ backgroundColor: '#3A3A3A', borderColor: '#3A3A3A' }}
+              value={chatMessage}
+              onChange={handleSearchChange}
+            />
+          </Col>
+          <Col span={3}>
+            <Button
+              type="primary"
+              style={{ width: '100%', backgroundColor: '#f6a333', borderColor: '#f6a333' }}
+              onClick={submitChatMessage}
+              htmlType="submit"
+            >
+              <EnterOutlined />
+            </Button>
+          </Col>
+        </Form>
+      </Row>
+    </div>
   );
 };
 

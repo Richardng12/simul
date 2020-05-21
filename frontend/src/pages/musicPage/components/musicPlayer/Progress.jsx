@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import style from './musicPlayer.module.css';
 
 const Progress = props => {
-  const { songTime, setCurrentTime, currentTime } = props;
+  const { songTime, setCurrentTime, currentTime, startProgress } = props;
   const [musicProgress, setMusicProgress] = useState(0);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (songTime !== 0) {
+    if (songTime !== 0 && startProgress) {
       const interval = setInterval(() => {
         setCurrentTime(currentTime + 10);
         const percent = (currentTime / songTime) * 100;

@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: 0 */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,6 +16,7 @@ import {
   setLobbyQueue,
 } from '../../store/lobby/lobbyActions';
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
+import Loader from '../../general/Loader';
 
 // const getLobbyInfo = (id, lobbies) => {
 //   // eslint-disable-next-line no-underscore-dangle
@@ -22,7 +24,7 @@ import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer'
 // };
 
 const MusicPage = props => {
-  const { getLobby, lobby, loading, setId, setUsers, setQueue } = props;
+  const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
   const { id } = useParams();
@@ -33,20 +35,41 @@ const MusicPage = props => {
     setQueue(id);
   }, []);
   return loading || !lobby ? (
-    <p>Loading...</p>
+    <Loader />
   ) : (
     <div className={styles.root}>
-      <SimulAppBar title={lobby.name} />
-      <div className={styles.mostStuff}>
-        <div className={styles.playerStuff}>
-          <QueueContainer songs={lobby.songs} />
+      <SimulAppBar title={lobby.name} className={styles.header} />
+      <div className={styles.mainContent}>
+        <div className={styles.leftSide}>
+          <div className={styles.imageContainer}>
+            {currentSong ? (
+              <img src={currentSong.album.images[0].url} alt="thumbnail" className={styles.image} />
+            ) : (
+              <div className={styles.empty} />
+            )}
+          </div>
+          {currentSong ? (
+            <p className={styles.songText}>{currentSong.name}</p>
+          ) : (
+            <p className={styles.songText}>----</p>
+          )}
+          {currentSong ? (
+            <p className={styles.artistText}>{currentSong.artists[0].name}</p>
+          ) : (
+            <p className={styles.artistText}>----</p>
+          )}
+          <div className={styles.lyricContainer}>
+            <LyricsContainer className={styles.outerLyrics} />
+          </div>
         </div>
-        <div className={styles.nonPlayerStuff}>
-          <LyricsContainer />
+        <div className={styles.rightSide}>
+          <QueueContainer songs={lobby.songs} />
           <SocialContainer />
         </div>
       </div>
-      <MusicPlayerContainer />
+      <div className={styles.playerContainer}>
+        <MusicPlayerContainer />
+      </div>
     </div>
   );
 };
@@ -56,6 +79,7 @@ const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   loading: state.lobbyReducer.loading,
   lobbies: state.lobbyReducer.lobbies,
+  currentSong: state.musicReducer.currentSong,
 });
 
 const mapDispatchToProps = dispatch => ({

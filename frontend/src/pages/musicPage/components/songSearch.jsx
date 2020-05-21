@@ -4,15 +4,52 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { makeStyles } from '@material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
+
+const useStyles = makeStyles({
+  root: {
+    height: 40,
+    '& .MuiOutlinedInput-root': {
+      backgroundColor: '#4a4747',
+      border: 'none',
+      borderRadius: '25px',
+    },
+    '& .MuiInputLabel-outlined': {
+      transform: 'translate(14px,10px) scale(1)',
+    },
+    '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
+      transform: 'translate(14px,-6px) scale(0.75)',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      border: '#f6a333 solid 1.5px',
+    },
+    '& .MuiFormLabel-root.Mui-focused': {
+      color: '#f6a333',
+    },
+    '& .MuiFormLabel-root': {
+      color: '#B9B9B9',
+    },
+  },
+});
+
+const styles = {
+  input2: {
+    height: 0,
+  },
+};
 
 const SongSearch = props => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [input, setInput] = useState('');
   const loading = open && input !== '';
-  const { addSong } = props;
+  const { addSong, classes } = props;
+
+  const styleClasses = useStyles();
+
   useEffect(() => {
     let active = true;
 
@@ -64,6 +101,7 @@ const SongSearch = props => {
       }}
       renderInput={params => (
         <TextField
+          className={styleClasses.root}
           {...params}
           label="Search Songs"
           variant="outlined"
@@ -72,6 +110,7 @@ const SongSearch = props => {
           }}
           InputProps={{
             ...params.InputProps,
+            classes: { input: classes.input2 },
             endAdornment: <>{params.InputProps.endAdornment}</>,
           }}
         />
@@ -84,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
   addSong: bindActionCreators(addSongToQueue, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(SongSearch);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SongSearch));

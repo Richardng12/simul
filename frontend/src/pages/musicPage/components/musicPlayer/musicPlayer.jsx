@@ -1,26 +1,29 @@
+/* eslint no-unused-vars: 0 */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
 import Slider from '@material-ui/core/Slider';
-import classNames from 'classnames';
+import IconButton from '@material-ui/core/IconButton';
+import { VolumeDown, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
-import { setDevice } from '../../../../store/music/musicActions';
+import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby, addDeviceId } = props;
+  const { accessToken, lobby, addDeviceId, currentSong, updateSong, currentQueue } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
-  const [currentSong, setCurrentSong] = useState(null);
-  const [currentSongId, setCurrentSongId] = useState('');
+  // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(90);
-  // const [songTime, setSongTime] = useState(0);
+  const [startProgress, setStartProgress] = useState(false);
+  const [showVolume, setShowVolume] = useState(false);
 
-  const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
+  const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
+  // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
   // todo: replace with call to API
 
@@ -40,7 +43,7 @@ const MusicPlayer = props => {
 
     player.addListener('player_state_changed', state => {
       setCurrentTime(state.position);
-      setCurrentSong(state.track_window.current_track);
+      updateCurrentSong(state.track_window.current_track);
     });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
@@ -53,9 +56,6 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    if (currentSongs.length > 0) {
-      setCurrentSongId(currentSongs.shift().substring(14));
-    }
     // eslint-disable-next-line no-console
     console.log(scriptLoaded);
     // eslint-disable-next-line no-console
@@ -63,6 +63,17 @@ const MusicPlayer = props => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       handleScriptLoad();
     };
+
+    let initialSong;
+    if (currentSongs.length > 0) {
+      initialSong = currentSongs.shift().substring(14);
+    }
+
+    // TODO: move this outside of the music player
+    getSongInfo(accessToken, initialSong).then(res => {
+      // setCurrentSong(res);
+      updateSong(res);
+    });
   }, []);
   const onLoad = () => {
     handleScriptLoad();
@@ -80,10 +91,7 @@ const MusicPlayer = props => {
       // eslint-disable-next-line no-console
       console.log('no songs in queue');
     } else {
-      getSongInfo(accessToken, currentSongId).then(res => {
-        setCurrentSong(res);
-        // setSongTime(res.duration_ms);
-      });
+      setStartProgress(true);
       startPlayback(accessToken, deviceId, currentSongs, startingTime);
     }
   };
@@ -91,6 +99,16 @@ const MusicPlayer = props => {
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
     changeVolume(accessToken, volume);
+  };
+
+  const handleVolumeIcon = () => {
+    if (volume <= 0) {
+      return <VolumeOff />;
+    }
+    if (volume > 0 && volume < 40) {
+      return <VolumeDown />;
+    }
+    return <VolumeUp />;
   };
 
   return (
@@ -105,33 +123,6 @@ const MusicPlayer = props => {
       ) : (
         <div className={style.player}>
           <div className={style.leftSide}>
-            {currentSong ? (
-              <img src={currentSong.album.images[0].url} alt="thumbnail" height="71px" />
-            ) : (
-              <p>image goes here</p>
-            )}
-          </div>
-          <div className={style.mainContent}>
-            <p className={classNames(style.playerText, style.songText)}>
-              {currentSong ? currentSong.name : '---'}
-            </p>
-            <p className={classNames(style.playerText, style.authorText)}>
-              {currentSong ? currentSong.artists[0].name : '---'}
-            </p>
-            <Progress
-              currentTime={currentTime}
-              setCurrentTime={setCurrentTime}
-              songTime={currentSong ? currentSong.duration_ms : 0}
-            />
-          </div>
-          <div className={style.rightSide}>
-            <Slider
-              value={volume}
-              disabled={!currentSong}
-              onChange={handleVolumeChange}
-              aria-labelledby="continuous-slider"
-            />
-
             {/* TODO: remove these buttons */}
             <button type="button" onClick={() => handleStartClick()}>
               start
@@ -139,6 +130,37 @@ const MusicPlayer = props => {
             <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
               stop
             </button>
+          </div>
+          <div className={style.mainContent}>
+            <Progress
+              startProgress={startProgress}
+              currentTime={currentTime}
+              setCurrentTime={setCurrentTime}
+              songTime={currentSong ? currentSong.duration_ms : 0}
+            />
+          </div>
+          <div className={style.rightSide}>
+            <div
+              className={style.volumeContainer}
+              onMouseEnter={() => setShowVolume(true)}
+              onMouseLeave={() => setShowVolume(false)}
+            >
+              <IconButton className={style.volumeButton} onClick={() => setVolume(0)}>
+                {handleVolumeIcon()}
+              </IconButton>
+              {showVolume ? (
+                <Slider
+                  className={style.slider}
+                  orientation="vertical"
+                  value={volume}
+                  disabled={!currentSong}
+                  onChange={handleVolumeChange}
+                  aria-labelledby="vertical-slider"
+                />
+              ) : (
+                <div />
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -149,10 +171,13 @@ const MusicPlayer = props => {
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   deviceId: state.musicReducer.deviceId,
+  currentSong: state.musicReducer.currentSong,
+  currentQueue: state.lobbyReducer.currentQueue,
 });
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
+  updateSong: song => dispatch(updateCurrentSong(song)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);
