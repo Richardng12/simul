@@ -16,24 +16,32 @@ const MembersList = props => {
     <Grid item xs={12} md={6} className={styles.root}>
       <List>
         {users.map(user => (
-          <ListItem key={user._id}>
+          <ListItem key={user._id} className={styles.listItem}>
             {user._id === currentLobby.createdBy ? (
-              <Badge
-                overlap="circle"
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                badgeContent={<SettingsOutlinedIcon />}
-              >
-                <Avatar src={user.thumbnail} />
-              </Badge>
+              <div className={styles.ownerRow}>
+                <Badge
+                  overlap="circle"
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  badgeContent={<SettingsOutlinedIcon style={{ height: 20, width: 20 }} />}
+                >
+                  <Avatar src={user.thumbnail} style={{ height: 30, width: 30 }} />
+                </Badge>
+              </div>
             ) : (
-              <ListItemAvatar>
-                <Avatar src={user.thumbnail} />
+              <ListItemAvatar className={styles.avatar}>
+                <Avatar src={user.thumbnail} style={{ height: 30, width: 30 }} />
               </ListItemAvatar>
             )}
-            <ListItemText primary={user.displayName} />
+            <ListItemText
+              primary={user.displayName}
+              disableTypography
+              style={{
+                fontSize: '13px',
+              }}
+            />
           </ListItem>
         ))}
       </List>

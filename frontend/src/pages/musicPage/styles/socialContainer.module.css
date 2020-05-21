@@ -12,3 +12,18 @@
 .userHeader {
   background-color: #f6a333;
 }
+
+.userHeaderText, .chatHeaderText {
+  margin: 0 0 0 5px;
+  padding: 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+.chatHeaderText {
+  color: #b9b9b9;
+  font-weight: bold;
+}
+
+.userHeaderText {
+
+}

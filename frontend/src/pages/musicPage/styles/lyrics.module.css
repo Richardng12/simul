@@ -2,5 +2,20 @@
   overflow-y: scroll;
   height: 100%;
   width: 100%;
+  color: white;
   text-align: center;
+  padding-left: 10px;
+}
+
+.lyricsContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.lyricsContainer::-webkit-scrollbar-thumb {
+  background-color: #f6a333;
+  cursor: pointer;
+}
+
+.lyricsContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #93611e;
 }

@@ -12,6 +12,19 @@
     background-color: #525252;
 }
 
+.chatContainer::-webkit-scrollbar {
+    width: 10px;
+}
+
+.chatContainer::-webkit-scrollbar-thumb {
+    background-color: #f6a333;
+    cursor: pointer;
+}
+
+.chatContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #93611e;
+}
+
 .chatInput {
     width: 100%;
 }

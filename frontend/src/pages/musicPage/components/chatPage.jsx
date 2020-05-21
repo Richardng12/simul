@@ -4,13 +4,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { EnterOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
-// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ChatCard from './ChatCard';
 import HOST from '../../../config/config';
 import style from '../styles/ChatPage.module.css';
 import { getChats, afterPostMessage } from '../../../store/chat/chatActions';
+import text from '../../../general/text';
 
 // connect
 const server = HOST;
@@ -92,7 +92,7 @@ const ChatPage = props => {
           <Col span={21}>
             <Input
               id="message"
-              placeholder="Let's start talking"
+              placeholder={text.musicPage.social.chatPlaceholder}
               type="text"
               style={{ backgroundColor: '#3A3A3A', borderColor: '#3A3A3A' }}
               value={chatMessage}

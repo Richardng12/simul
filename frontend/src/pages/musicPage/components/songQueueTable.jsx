@@ -24,7 +24,8 @@ const SongQueueTable = props => {
         <p className={styles.artistHeader}>ARTIST</p>
       </div>
       {rows.map((row, index) => (
-        <div className={styles.row}>
+        // eslint-disable-next-line react/no-array-index-key
+        <div className={styles.row} key={`row_${index}`}>
           <p className={classNames(styles.rowTitle, index === 0 ? styles.highlight : '')}>
             {row.title}
           </p>

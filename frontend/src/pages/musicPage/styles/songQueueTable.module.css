@@ -3,16 +3,29 @@
   overflow-y: auto;
 }
 
+.table::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table::-webkit-scrollbar-thumb {
+    background-color: #f6a333;
+    cursor: pointer;
+}
+
+.table::-webkit-scrollbar-thumb:hover {
+    background-color: #93611e;
+}
+
 .row {
   display: grid;
   align-items: center;
   height: 40px;
   grid-template-columns: 1fr 1fr minmax(20px, 50px);
-  border-bottom: 1px solid rgba(112,112,112,0.4);
+  border-bottom: 1px solid rgba(107, 107, 107, 0.2);
 }
 
 .topRow {
-  border-bottom: 2px solid #707070;
+  border-bottom: 1px solid #787878;
 }
 
 .titleHeader, .artistHeader {

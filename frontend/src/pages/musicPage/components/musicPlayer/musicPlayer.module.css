@@ -22,8 +22,21 @@
 }
 
 
+.slider {
+    height: 60px !important;
+    bottom: 40px;
+    right: 65px;
+    position: absolute;
+    color: #664315;
+}
+
+.slider span:last-child {
+    color: #f6ba2a;
+}
+
+
 .rightSide {
-    padding-left: 30px;
+    padding-left: 10px;
     grid-area: right;
 }
 .volumeButton {
@@ -75,11 +88,4 @@
     font-size: 10px;
     color: white;
 
-}
-
-.slider {
-    height: 50px !important;
-    bottom: 40px;
-    right: 42px;
-    position: absolute;
 }

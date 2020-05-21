@@ -17,6 +17,13 @@ const text = {
       deleteConfirmationText: 'Deleting lobby. This cannot be undone',
     },
   },
+  musicPage: {
+    social: {
+      chatHeader: 'Chat',
+      userHeader: 'Users',
+      chatPlaceholder: `Let's start talking`,
+    },
+  },
 };
 
 export default text;

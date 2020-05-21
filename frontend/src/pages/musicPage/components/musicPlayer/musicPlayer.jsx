@@ -20,7 +20,7 @@ const MusicPlayer = props => {
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
-  const [showVolume, setShowVolume] = useState(true);
+  const [showVolume, setShowVolume] = useState(false);
 
   const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
