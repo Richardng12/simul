@@ -1,7 +1,6 @@
 .parentPlayer {
     width: 100%;
     height: 100%;
-    background-color: gray;
 }
 
 .player {
@@ -18,40 +17,44 @@
 
 .mainContent {
     text-align: center;
+    margin-top: 10px;
     grid-area: main;
 }
 
 
 .rightSide {
+    padding-left: 30px;
     grid-area: right;
 }
+.volumeButton {
+    padding: 0;
+    margin: 0;
+    color: #F6A333;
+}
 
+.volumeContainer {
+    width: fit-content;
+}
 .progress {
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 10px 1fr;
 }
 
 .loaderContainer {
     height: 100%;
-    background-color: green;
+    border-radius: 20px;
+    background-color: #676767;
 }
 .loader {
     height: 100%;
-    background-color: yellow;
+    border-radius: 20px;
+    background-color: #F6A333;
 }
 
 .playerText {
     margin: 0;
     padding: 0;
-}
-
-.songText {
-    font-size: 15px;
-}
-
-.authorText {
-    font-size: 10px;
 }
 
 .timeContainer {
@@ -63,11 +66,20 @@
 .currentTime {
     grid-area: current;
     font-size: 10px;
+    color: white;
 
 }
 
 .endTime {
     grid-area: end;
     font-size: 10px;
+    color: white;
 
+}
+
+.slider {
+    height: 50px !important;
+    bottom: 40px;
+    right: 42px;
+    position: absolute;
 }

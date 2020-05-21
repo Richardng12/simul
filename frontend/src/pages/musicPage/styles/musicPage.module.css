@@ -4,7 +4,7 @@
   width: 100%;
   position: absolute;
   background-color: #333333;
-  grid-template-rows: 60px 1fr 35px;
+  grid-template-rows: 56px 1fr 45px;
   grid-row-gap: 20px;
 }
 

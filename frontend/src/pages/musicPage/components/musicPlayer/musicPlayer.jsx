@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
 import Slider from '@material-ui/core/Slider';
+import IconButton from '@material-ui/core/IconButton';
+import { VolumeDown, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
@@ -17,7 +19,8 @@ const MusicPlayer = props => {
   // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(90);
-  // const [songTime, setSongTime] = useState(0);
+  const [startProgress, setStartProgress] = useState(false);
+  const [showVolume, setShowVolume] = useState(true);
 
   const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
@@ -87,6 +90,7 @@ const MusicPlayer = props => {
       // eslint-disable-next-line no-console
       console.log('no songs in queue');
     } else {
+      setStartProgress(true);
       startPlayback(accessToken, deviceId, currentSongs, startingTime);
     }
   };
@@ -94,6 +98,16 @@ const MusicPlayer = props => {
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
     changeVolume(accessToken, volume);
+  };
+
+  const handleVolumeIcon = () => {
+    if (volume <= 0) {
+      return <VolumeOff />;
+    }
+    if (volume > 0 && volume < 40) {
+      return <VolumeDown />;
+    }
+    return <VolumeUp />;
   };
 
   return (
@@ -118,18 +132,34 @@ const MusicPlayer = props => {
           </div>
           <div className={style.mainContent}>
             <Progress
+              startProgress={startProgress}
               currentTime={currentTime}
               setCurrentTime={setCurrentTime}
               songTime={currentSong ? currentSong.duration_ms : 0}
             />
           </div>
           <div className={style.rightSide}>
-            <Slider
-              value={volume}
-              disabled={!currentSong}
-              onChange={handleVolumeChange}
-              aria-labelledby="continuous-slider"
-            />
+            <div
+              className={style.volumeContainer}
+              onMouseEnter={() => setShowVolume(true)}
+              onMouseLeave={() => setShowVolume(false)}
+            >
+              <IconButton className={style.volumeButton} onClick={() => setVolume(0)}>
+                {handleVolumeIcon()}
+              </IconButton>
+              {showVolume ? (
+                <Slider
+                  className={style.slider}
+                  orientation="vertical"
+                  value={volume}
+                  disabled={!currentSong}
+                  onChange={handleVolumeChange}
+                  aria-labelledby="vertical-slider"
+                />
+              ) : (
+                <div />
+              )}
+            </div>
           </div>
         </div>
       )}
