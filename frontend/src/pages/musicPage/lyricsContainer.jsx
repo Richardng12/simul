@@ -71,8 +71,7 @@ const Lyrics = () => {
 };
 
 const LyricsContainer = props => {
-  const { currentSong, className } = props;
-  console.log(currentSong);
+  const { className } = props;
   return (
     <div className={classNames(styles.lyricsContainer, className)}>
       <Lyrics className={styles.lyrics} />

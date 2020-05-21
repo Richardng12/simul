@@ -27,8 +27,6 @@ const MusicPage = props => {
   const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
-  console.log(currentSong);
-
   const { id } = useParams();
   useEffect(() => {
     setId(id);
