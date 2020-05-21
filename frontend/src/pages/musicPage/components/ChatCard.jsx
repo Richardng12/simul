@@ -14,7 +14,7 @@ function ChatCard(props) {
           // eslint-disable-next-line react/destructuring-assignment
 
           // eslint-disable-next-line react/destructuring-assignment
-          <p>{props.message}</p>
+          <p style={{ color: 'white' }}>{props.message}</p>
         }
       />
     </div>

@@ -71,7 +71,7 @@
 
 .rightSide {
   display: grid;
-  grid-template-rows: 1fr 220px;
+  grid-template-rows: 1fr 252px;
   grid-row-gap: 10px;
 }
 

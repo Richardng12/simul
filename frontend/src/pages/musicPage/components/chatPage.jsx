@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
-import { EnterOutlined, MessageOutlined } from '@ant-design/icons';
+import { EnterOutlined } from '@ant-design/icons';
 import io from 'socket.io-client';
 // import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -89,20 +89,20 @@ const ChatPage = props => {
 
       <Row>
         <Form layout="inline" onSubmit={submitChatMessage} className={style.chatInput}>
-          <Col span={18}>
+          <Col span={21}>
             <Input
               id="message"
-              prefix={<MessageOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Let's start talking"
               type="text"
+              style={{ backgroundColor: '#3A3A3A', borderColor: '#3A3A3A' }}
               value={chatMessage}
               onChange={handleSearchChange}
             />
           </Col>
-          <Col span={6}>
+          <Col span={3}>
             <Button
               type="primary"
-              style={{ width: '100%' }}
+              style={{ width: '100%', backgroundColor: '#f6a333', borderColor: '#f6a333' }}
               onClick={submitChatMessage}
               htmlType="submit"
             >
