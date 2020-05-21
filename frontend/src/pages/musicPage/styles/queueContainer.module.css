@@ -3,5 +3,5 @@
   width: 100%;
   display: grid;
   align-items: center;
-  grid-template-rows: 1fr 240px;
+  grid-template-rows: 60px 240px;
 }

@@ -4,19 +4,20 @@ import { useHistory } from 'react-router';
 
 import { bindActionCreators } from 'redux';
 import IconButton from '@material-ui/core/IconButton';
+import classNames from 'classnames';
 import style from '../styles/appBar.module.css';
 import { getUserInfo } from '../../../store/profile/profileActions';
 import MusicNoteI from '../../../general/MusicNoteI';
 
 const SimulAppBar = props => {
-  const { user, title, userInfo } = props;
+  const { user, title, userInfo, className } = props;
   const history = useHistory();
   useEffect(() => {
     userInfo();
   }, []);
 
   return (
-    <div className={style.barContainer}>
+    <div className={classNames(style.barContainer, className)}>
       <div className={style.bar}>
         <IconButton
           className={style.logoButton}
@@ -44,22 +45,5 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   userInfo: bindActionCreators(getUserInfo, dispatch),
 });
-
-// <div>
-//   <AppBar position="static" className={styles.root}>
-//     <Toolbar className={styles.toolBar}>
-//       <Typography
-//         variant="h6"
-//         onClick={() => {
-//           history.goBack();
-//         }}
-//       >
-//         SIMUL
-//       </Typography>
-//       <p className={styles.barTitle}>{title}</p>
-//       <Typography variant="h6">{username}</Typography>
-//     </Toolbar>
-//   </AppBar>
-// </div>
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimulAppBar);

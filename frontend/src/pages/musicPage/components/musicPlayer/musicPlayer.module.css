@@ -24,14 +24,14 @@
 
 .slider {
     height: 60px !important;
-    bottom: 40px;
-    right: 65px;
+    bottom: 20px;
+    right: 0;
     position: absolute;
     color: #664315;
 }
 
 .slider span:last-child {
-    color: #f6ba2a;
+    color: #F6A333;
 }
 
 
@@ -46,6 +46,7 @@
 }
 
 .volumeContainer {
+    position: relative;
     width: fit-content;
 }
 .progress {

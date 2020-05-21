@@ -38,7 +38,7 @@ const MusicPage = props => {
     <Loader />
   ) : (
     <div className={styles.root}>
-      <SimulAppBar title={lobby.name} />
+      <SimulAppBar title={lobby.name} className={styles.header} />
       <div className={styles.mainContent}>
         <div className={styles.leftSide}>
           <div className={styles.imageContainer}>

@@ -6,8 +6,15 @@
   background-color: #333333;
   grid-template-rows: 56px 1fr 45px;
   grid-row-gap: 20px;
+  grid-template-areas: 'header' 'main' 'player';
 }
 
+body {
+  background-color: #333333 !important;
+}
+.header {
+  grid-area: header;
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -30,7 +37,8 @@
 .mainContent {
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(500px, 600px) 1fr;
+  grid-area: main;
+  grid-template-columns: minmax(200px, 600px) minmax(400px,1fr);
 }
 
 .leftSide {
@@ -77,11 +85,16 @@
   display: grid;
   grid-template-rows: 1fr 252px;
   margin-right: 50px;
-  grid-row-gap: 10px;
+  grid-row-gap: 40px;
 }
 
 .playerContainer {
   height: 100%;
   width: 100%;
+  grid-area: player;
+}
+
+@media only screen and (max-width: 900px) {
+
 }
 
