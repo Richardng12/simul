@@ -43,9 +43,9 @@ const MusicPage = props => {
         <div className={styles.leftSide}>
           <div className={styles.imageContainer}>
             {currentSong ? (
-              <img src={currentSong.album.images[0].url} alt="thumbnail" height="250px" />
+              <img src={currentSong.album.images[0].url} alt="thumbnail" className={styles.image} />
             ) : (
-              <p>image goes here</p>
+              <div className={styles.empty} />
             )}
           </div>
           {currentSong ? (

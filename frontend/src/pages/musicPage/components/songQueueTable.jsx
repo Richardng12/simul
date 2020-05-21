@@ -13,6 +13,7 @@ function createData(id, title, artist, addedBy) {
 
 const SongQueueTable = props => {
   const { removeSong, userId, currentQueue } = props;
+
   const rows = currentQueue.map(song =>
     createData(song._id, song.title, song.artist, song.addedBy),
   );

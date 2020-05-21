@@ -25,7 +25,9 @@ const MembersList = props => {
                     vertical: 'bottom',
                     horizontal: 'right',
                   }}
-                  badgeContent={<SettingsOutlinedIcon style={{ height: 20, width: 20 }} />}
+                  badgeContent={
+                    <SettingsOutlinedIcon style={{ height: 20, width: 20, color: 'orange' }} />
+                  }
                 >
                   <Avatar src={user.thumbnail} style={{ height: 30, width: 30 }} />
                 </Badge>
@@ -40,6 +42,8 @@ const MembersList = props => {
               disableTypography
               style={{
                 fontSize: '13px',
+                fontWeight: 'bold',
+                color: 'white',
               }}
             />
           </ListItem>

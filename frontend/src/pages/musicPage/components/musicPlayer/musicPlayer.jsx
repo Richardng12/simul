@@ -11,7 +11,7 @@ import Progress from './Progress';
 import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby, addDeviceId, currentSong, updateSong } = props;
+  const { accessToken, lobby, addDeviceId, currentSong, updateSong, currentQueue } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
@@ -22,7 +22,8 @@ const MusicPlayer = props => {
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
 
-  const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
+  const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
+  // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
   // todo: replace with call to API
 
@@ -171,6 +172,7 @@ const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
   deviceId: state.musicReducer.deviceId,
   currentSong: state.musicReducer.currentSong,
+  currentQueue: state.lobbyReducer.currentQueue,
 });
 
 const mapDispatchToProps = dispatch => ({

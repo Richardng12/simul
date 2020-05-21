@@ -50,9 +50,15 @@ body {
 .imageContainer {
   height: 100%;
   width: 100%;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(50px, 150px) 1fr minmax(50px, 150px);
+  grid-template-areas: '. image .';
 }
-
+.image {
+  height: 90%;
+  width: 100%;
+  grid-area: image;
+}
 .songText, .artistText {
   color: #b9b9b9;
   margin: 0;
@@ -92,6 +98,13 @@ body {
   height: 100%;
   width: 100%;
   grid-area: player;
+}
+
+.empty {
+  height: 100%;
+  width: 100%;
+  border: 1px dashed #797979;
+  grid-area: image;
 }
 
 @media only screen and (max-width: 900px) {
