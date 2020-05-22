@@ -1,8 +1,10 @@
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const refresh = require('passport-oauth2-refresh');
+const fetch = require('node-fetch');
 
 // const fs = require('fs');
+const DOMParser = require('dom-parser');
 const access = require('./auth/access');
 const User = require('../db/models/userModel');
 const Chat = require('../db/models/chatModel');
@@ -140,6 +142,45 @@ router.patch('/afterPostMessage/:id', async (req, res) => {
       if (err) return res.status(400).send(err);
       res.status(200).send(chats.concat(data));
     });
+});
+
+router.get('/lyric', async (req, res) => {
+  const { artist, song } = req.query;
+  if (artist == null) {
+    res.status(400).json({ message: 'no artist' });
+  }
+
+  if (song == null) {
+    res.status(400).json({ message: 'no song' });
+  }
+
+  const fetchSong = () => {
+    return fetch(`https://genius.com/${artist}-${song}-lyrics`);
+  };
+
+  const process = async () => {
+    const lyric = await fetchSong();
+    const response = await lyric.text();
+    return response;
+  };
+  await process().then(resp => {
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(resp, 'text/html');
+    const lyrics = dom.getElementsByClassName('lyrics');
+    // const lyrics = null;
+    if (lyrics == null || lyrics[0] == null) {
+      // console.log('here');
+      // console.log(dom);
+      const newLyrics = dom.getElementsByClassName('Lyrics__Root-sc-1ynbvzw-0 jvlKWy')[0]
+        .innerHTML;
+      if (newLyrics[0] == null) {
+        res.status(400).json({ message: `Cannot find lyrics` });
+      }
+      res.status(200).send({ lyrics: `${newLyrics}` });
+    } else {
+      res.status(200).send({ lyrics: `${lyrics[0].textContent}` });
+    }
+  });
 });
 
 module.exports = router;

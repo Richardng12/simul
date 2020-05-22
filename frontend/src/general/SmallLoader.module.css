@@ -1,0 +1,51 @@
+.loaderParent {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: ". loaderContainer .";
+}
+.loaderContainer {
+    grid-area: loaderContainer;
+}
+.loader path {
+    fill: transparent;
+    stroke: #f6a333;
+    stroke-width: 6px;
+    /*fill: #f6a333;*/
+    animation: animate-music 2s linear forwards infinite;
+}
+
+@keyframes animate-music {
+    0%{
+        transform: rotate(0deg);
+        transform-origin: 50% 50%;
+    }
+    10% {
+        transform: rotate(10deg);
+        transform-origin: 50% 50%;
+    }
+    20% {
+        transform: rotate(20deg);
+        transform-origin: 50% 50%;
+    }
+    30% {
+        transform: rotate(30deg);
+        transform-origin: 50% 50%;
+    }
+    40% {
+        transform: rotate(40deg);
+        transform-origin: 50% 50%;
+    }
+    90% {
+        transform: rotate(90deg);
+        transform-origin: 50% 50%;
+    }
+    100%{
+        transform: rotate(360deg);
+        transform-origin: 50% 50%;
+
+        /*fill: orange;*/
+    }
+}

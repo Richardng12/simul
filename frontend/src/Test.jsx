@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getUserInfo } from './store/profile/profileActions';
-import Loader from './general/Loader';
+import SmallLoader from './general/SmallLoader';
 
 const Test = () => {
-  return <Loader />;
+  return <SmallLoader />;
 };
 
 const mapStateToProps = state => ({
