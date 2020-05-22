@@ -167,12 +167,8 @@ router.get('/lyric', async (req, res) => {
     const parser = new DOMParser();
     const dom = parser.parseFromString(resp, 'text/html');
     const lyrics = dom.getElementsByClassName('lyrics');
-    // const lyrics = null;
     if (lyrics == null || lyrics[0] == null) {
-      // console.log('here');
-      // console.log(dom);
-      const newLyrics = dom.getElementsByClassName('Lyrics__Root-sc-1ynbvzw-0 jvlKWy')[0]
-        .innerHTML;
+      const newLyrics = dom.getElementsByClassName('Lyrics__Root-sc-1ynbvzw-0 jvlKWy')[0].innerHTML;
       if (newLyrics[0] == null) {
         res.status(400).json({ message: `Cannot find lyrics` });
       }
