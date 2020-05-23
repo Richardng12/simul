@@ -11,7 +11,7 @@ import socket from '../../../../socket';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
-import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
+import { setDevice, updateCurrentSong, setSeenTracks } from '../../../../store/music/musicActions';
 import { getTimeStampDifferential, setSongTimeStamp } from '../../../../store/lobby/lobbyActions';
 
 const MusicPlayer = props => {
@@ -27,6 +27,8 @@ const MusicPlayer = props => {
     getTimeStampDifference,
     songStartTimeStamp,
     deviceId,
+    seenTracks,
+    updateTrackNumber,
   } = props;
   const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -71,8 +73,12 @@ const MusicPlayer = props => {
     });
 
     player.addListener('player_state_changed', state => {
-      setCurrentTime(state.position);
-      updateCurrentSong(state.track_window.current_track);
+      const previousTracks = state.track_window.previous_tracks;
+      if (seenTracks < previousTracks.length) {
+        setCurrentTime(0);
+        setSeenTracks(previousTracks.length);
+        updateSong(state.track_window.current_track);
+      }
     });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
@@ -264,14 +270,14 @@ const mapStateToProps = state => ({
   currentQueue: state.lobbyReducer.currentQueue,
   // timeStampDifferential: state.lobbyReducer.timeStampDifferential,
   songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
+  seenTracks: state.musicReducer.currentTracks,
 });
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
   updateSong: song => dispatch(updateCurrentSong(song)),
   setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
-  // getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
-  // getTimeStampDifference: bindActionCreators(getTimeStampDifferential, dispatch),
+  updateTrackNumber: seenTracks => dispatch(setSeenTracks(seenTracks)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

@@ -1,6 +1,7 @@
 export const actionTypes = {
   updateCurrentSong: 'UPDATE_CURRENT_SONG',
   setDevice: 'SET_DEVICE',
+  setSeenTracks: 'SET_SEEN_TRACKS',
 };
 
 const updateCurrentSong = song => ({
@@ -13,4 +14,9 @@ const setDevice = deviceId => ({
   deviceId,
 });
 
-export { updateCurrentSong, setDevice };
+const setSeenTracks = seenTracks => ({
+  type: actionTypes.setSeenTracks,
+  seenTracks,
+});
+
+export { updateCurrentSong, setDevice, setSeenTracks };
