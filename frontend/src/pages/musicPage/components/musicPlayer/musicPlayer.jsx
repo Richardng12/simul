@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
 import { bindActionCreators } from 'redux';
+import { useParams } from 'react-router';
 import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import { VolumeDown, VolumeOff, VolumeUp } from '@material-ui/icons';
@@ -37,7 +38,7 @@ const MusicPlayer = props => {
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
   const [timeStampDifferential, setTimeStampDifferential] = useState(null);
-
+  const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
   // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
@@ -48,16 +49,16 @@ const MusicPlayer = props => {
   //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
   // ];
 
-  // const setTimeDiff = () => {
-  //   const timeStampToStartPlayingFrom = Math.floor(
-  //     new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
-  //   );
-  //   setTimeStampDifferential(timeStampToStartPlayingFrom);
+  const setTimeDiff = () => {
+    const timeStampToStartPlayingFrom = Math.floor(
+      new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
+    );
+    setTimeStampDifferential(timeStampToStartPlayingFrom);
 
-  //   console.log(JSON.parse(JSON.stringify(new Date())));
-  //   console.log(songStartTimeStamp);
-  //   console.log(timeStampToStartPlayingFrom);
-  // };
+    console.log(JSON.parse(JSON.stringify(new Date())));
+    console.log(songStartTimeStamp);
+    console.log(timeStampToStartPlayingFrom);
+  };
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
@@ -117,11 +118,10 @@ const MusicPlayer = props => {
         // setTimeDiff();
       }
       getSongInfo(accessToken, initialSong).then(res => {
-        // setCurrentSong(res);
         updateSong(res);
       });
       console.log(deviceId);
-      startPlayback(accessToken, deviceId, currentSongs, startingTime);
+      startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
     });
     return () => {
       socket.off();
@@ -141,13 +141,13 @@ const MusicPlayer = props => {
       console.log('no songs in queue');
     } else {
       setStartProgress(true);
-      startPlayback(accessToken, deviceId, currentSongs, 0);
-
+      //  startPlayback(accessToken, deviceId, currentSongs, 0);
+      socket.emit('playMusic', id);
+      // setTimeStamp();
       // if timestampdifferential > 0 you dont want to set the timestamp.
 
       // set current time stamp when playing
       // api call one
-      //  setTimeStamp();
       console.log('call');
     }
   };
