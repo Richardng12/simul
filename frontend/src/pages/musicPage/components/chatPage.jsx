@@ -3,15 +3,18 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { EnterOutlined } from '@ant-design/icons';
-
+import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import socket from '../../../socket';
 import ChatCard from './ChatCard';
-
+import HOST from '../../../config/config';
 import style from '../styles/ChatPage.module.css';
 import { getChats, afterPostMessage } from '../../../store/chat/chatActions';
 import text from '../../../general/text';
+
+// connect
+const server = HOST;
+const socket = io(server);
 
 const ChatPage = props => {
   // user obj,
@@ -53,6 +56,7 @@ const ChatPage = props => {
 
   // send this data to backend
   const submitChatMessage = e => {
+    console.log('submitted');
     e.preventDefault();
 
     const userId = user._id;

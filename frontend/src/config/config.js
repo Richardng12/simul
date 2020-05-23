@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:8888';
+const HOST = 'http://fa6a09b5.ngrok.io';
 
 const USER_INFO = `${HOST}/userinfo`;
 const USER = `${HOST}/user`;

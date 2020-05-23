@@ -110,6 +110,18 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
+    if (currentSongs.length > 0 && deviceId !== null) {
+      const timeStampToStartPlayingFrom = Math.floor(
+        new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
+      );
+      console.log(`song start time is: ${timeStampToStartPlayingFrom}`);
+      console.log(timeStampToStartPlayingFrom);
+      startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+      setStartProgress(true);
+    }
+  }, [deviceId]);
+
+  useEffect(() => {
     socket.on('sendMessageToPlay', () => {
       console.log(`music playing for ${socket.id}`);
       let initialSong;
@@ -122,6 +134,7 @@ const MusicPlayer = props => {
       });
       console.log(deviceId);
       startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
+      setStartProgress(true);
     });
     return () => {
       socket.off();
@@ -143,7 +156,7 @@ const MusicPlayer = props => {
       setStartProgress(true);
       //  startPlayback(accessToken, deviceId, currentSongs, 0);
       socket.emit('playMusic', id);
-      // setTimeStamp();
+      setTimeStamp();
       // if timestampdifferential > 0 you dont want to set the timestamp.
 
       // set current time stamp when playing
@@ -230,7 +243,7 @@ const mapStateToProps = state => ({
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
   // timeStampDifferential: state.lobbyReducer.timeStampDifferential,
-  // songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
+  songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
 });
 
 const mapDispatchToProps = dispatch => ({
