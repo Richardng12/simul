@@ -86,9 +86,10 @@ const getCurrentSong = (action$, store) =>
 
 const getTimeStampDifferential = (action$, store) =>
   action$.pipe(
-    filter(action => action.type === actionTypes.getSongTimeStampDifferential),
+    filter(action => action.type === actionTypes.getTimeStampDifferential),
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
+      console.log('epic gets called');
       const timeStampDifferential = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
         method: 'GET',
         mode: 'cors',
@@ -96,13 +97,13 @@ const getTimeStampDifferential = (action$, store) =>
       }).then(res => res.json());
       return {
         ...action,
-        type: actionTypes.getSongTimeStampDifferential_success,
+        type: actionTypes.getTimeStampDifferential_success,
         timeStampDifferential,
       };
     }),
     catchError(err =>
       Promise.resolve({
-        type: actionTypes.getSongTimeStampDifferential_fail,
+        type: actionTypes.getTimeStampDifferential_fail,
         message: err.message,
       }),
     ),

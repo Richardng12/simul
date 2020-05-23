@@ -139,18 +139,18 @@ const lobbyReducer = (state = initialState, action) => {
         loading: false,
         message: action.message,
       };
-    case actionTypes.getSongTimeStampDifferential:
+    case actionTypes.getTimeStampDifferential:
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
-    case actionTypes.getSongTimeStampDifferential_success:
+    case actionTypes.getTimeStampDifferential_success:
       return {
         ...state,
         loading: false,
         timeStampDifferential: action.timestampDifferential,
       };
-    case actionTypes.getSongTimeStampDifferential_fail:
+    case actionTypes.getTimeStampDifferential_fail:
       return {
         ...state,
         loading: false,

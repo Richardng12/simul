@@ -25,9 +25,9 @@ export const actionTypes = {
   setSongTimeStamp: 'SET_SONG_TIME_STAMP',
   setSongTimeStamp_success: 'SET_SONG_TIME_STAMP_SUCCESS',
   setSongTimeStamp_fail: 'SET_SONG_TIME_STAMP_FAIL',
-  getSongTimeStampDifferential: 'GET_SONG_TIME_STAMP_DIFFERENTIAL',
-  getSongTimeStampDifferential_success: 'GET_SONG_TIME_STAMP_DIFFERENTIAL_SUCCESS',
-  getSongTimeStampDifferential_fail: 'GET_SONG_TIME_STAMP_DIFFERENTIAL_FAIL',
+  getTimeStampDifferential: 'GET_TIME_STAMP_DIFFERENTIAL',
+  getTimeStampDifferential_success: 'GET_TIME_STAMP_DIFFERENTIAL_SUCCESS',
+  getTimeStampDifferential_fail: 'GET_TIME_STAMP_DIFFERENTIAL_FAIL',
 };
 
 const getAllLobbies = () => ({
@@ -157,16 +157,16 @@ const setSongTimeStampFail = message => ({
 });
 
 const getTimeStampDifferential = () => ({
-  type: actionTypes.getSongTimeStampDifferential,
+  type: actionTypes.getTimeStampDifferential,
 });
 
 const getTimeStampDifferentialSuccess = timestampDifferential => ({
-  type: actionTypes.getSongTimeStampDifferential_success,
+  type: actionTypes.getTimeStampDifferential_success,
   timestampDifferential,
 });
 
 const getTimeStampDifferentialFail = message => ({
-  type: actionTypes.getSongTimeStampDifferential_fail,
+  type: actionTypes.getTimeStampDifferential_fail,
   message,
 });
 

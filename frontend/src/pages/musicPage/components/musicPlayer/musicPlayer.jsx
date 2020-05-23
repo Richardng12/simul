@@ -23,6 +23,7 @@ const MusicPlayer = props => {
     currentTimeStamp,
     setTimeStamp,
     getTimeStampDifference,
+    songStartTimeStamp,
   } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -33,6 +34,7 @@ const MusicPlayer = props => {
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [timeStampDifferential, setTimeStampDifferential] = useState(null);
 
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
   // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
@@ -43,6 +45,17 @@ const MusicPlayer = props => {
   //   'spotify:track:24zYR2ozYbnhhwulk2NLD4',
   //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
   // ];
+
+  const setTimeDiff = () => {
+    const timeStampToStartPlayingFrom = Math.floor(
+      new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
+    );
+    setTimeStampDifferential(timeStampToStartPlayingFrom);
+
+    console.log(JSON.parse(JSON.stringify(new Date())));
+    console.log(songStartTimeStamp);
+    console.log(timeStampToStartPlayingFrom);
+  };
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
@@ -79,7 +92,7 @@ const MusicPlayer = props => {
     let initialSong;
     if (currentSongs.length > 0) {
       initialSong = currentSongs.shift().substring(14);
-      getTimeStampDifference();
+      setTimeDiff();
     }
 
     // TODO: move this outside of the music player
@@ -105,13 +118,14 @@ const MusicPlayer = props => {
       console.log('no songs in queue');
     } else {
       setStartProgress(true);
-      startPlayback(accessToken, deviceId, currentSongs, startingTime);
+      startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
+
+      // if timestampdifferential > 0 you dont want to set the timestamp.
 
       // set current time stamp when playing
       // api call one
       setTimeStamp();
       console.log('call');
-      //  setCurrentTimeStamp();
     }
   };
 
@@ -193,7 +207,7 @@ const mapStateToProps = state => ({
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
   timeStampDifferential: state.lobbyReducer.timeStampDifferential,
-  songStartTimeStamp: state.lobbyReducer.songStartTimeStamp,
+  songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
 });
 
 const mapDispatchToProps = dispatch => ({

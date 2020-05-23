@@ -49,6 +49,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     users: [req.user],
     password: req.body.password,
     songStartTimeStamp: new Date(2020, 4, 20, 13, 48, 23),
+    timeStampDifferential: 0,
   });
   try {
     const existingLobby = await Lobby.find({ name: req.body.name });
@@ -169,7 +170,7 @@ router.get('/:id/songs/current', access.ensureAuthenticated, getLobby, async (re
   }
 });
 
-// Get timestamp in milliseconds
+// Get timestamp in seconds
 router.get('/:id/songs/timestamp', access.ensureAuthenticated, getLobby, async (req, res) => {
   console.log('hit the backend');
   try {
