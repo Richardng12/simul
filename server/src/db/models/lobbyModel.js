@@ -21,6 +21,7 @@ const lobbySchema = new Schema({
   songs: [],
   password: String,
   songStartTimeStamp: Date,
+  timeStampDifferential: Date,
 });
 
 const Lobby = mongoose.model('lobby', lobbySchema);

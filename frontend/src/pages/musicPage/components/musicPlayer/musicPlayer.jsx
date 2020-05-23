@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
+import { bindActionCreators } from 'redux';
 import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import { VolumeDown, VolumeOff, VolumeUp } from '@material-ui/icons';
@@ -9,9 +10,20 @@ import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './music
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
 import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
+import { getTimeStampDifferential, setSongTimeStamp } from '../../../../store/lobby/lobbyActions';
 
 const MusicPlayer = props => {
-  const { accessToken, lobby, addDeviceId, currentSong, updateSong, currentQueue } = props;
+  const {
+    accessToken,
+    lobby,
+    addDeviceId,
+    currentSong,
+    updateSong,
+    currentQueue,
+    currentTimeStamp,
+    setTimeStamp,
+    getTimeStampDifference,
+  } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
@@ -67,6 +79,7 @@ const MusicPlayer = props => {
     let initialSong;
     if (currentSongs.length > 0) {
       initialSong = currentSongs.shift().substring(14);
+      getTimeStampDifference();
     }
 
     // TODO: move this outside of the music player
@@ -93,6 +106,12 @@ const MusicPlayer = props => {
     } else {
       setStartProgress(true);
       startPlayback(accessToken, deviceId, currentSongs, startingTime);
+
+      // set current time stamp when playing
+      // api call one
+      setTimeStamp();
+      console.log('call');
+      //  setCurrentTimeStamp();
     }
   };
 
@@ -173,11 +192,16 @@ const mapStateToProps = state => ({
   deviceId: state.musicReducer.deviceId,
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
+  timeStampDifferential: state.lobbyReducer.timeStampDifferential,
+  songStartTimeStamp: state.lobbyReducer.songStartTimeStamp,
 });
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
   updateSong: song => dispatch(updateCurrentSong(song)),
+  setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
+  getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
+  // getTimeStampDifference: bindActionCreators(getTimeStampDifferential, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

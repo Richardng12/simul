@@ -14,6 +14,7 @@ import {
   setCurrentLobbyId,
   setUsersInLobby,
   setLobbyQueue,
+  setSongTimeStamp,
 } from '../../store/lobby/lobbyActions';
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 import Loader from '../../general/Loader';
@@ -24,7 +25,16 @@ import Loader from '../../general/Loader';
 // };
 
 const MusicPage = props => {
-  const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
+  const {
+    getLobby,
+    lobby,
+    loading,
+    setId,
+    setUsers,
+    setQueue,
+    currentSong,
+    //  setCurrentSongTimeStamp,
+  } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
   const { id } = useParams();

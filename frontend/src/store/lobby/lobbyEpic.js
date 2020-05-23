@@ -47,6 +47,7 @@ const getSingleLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.getSingleLobby),
     mergeMap(async action => {
+      console.log('get single lobby gets called');
       const id = store.value.lobbyReducer.lobbyId;
       const lobby = await fetch(`${LOBBY}/${id}`, {
         method: 'GET',
@@ -58,6 +59,71 @@ const getSingleLobby = (action$, store) =>
     catchError(err =>
       Promise.resolve({
         type: actionTypes.getSingleLobby_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const getCurrentSong = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getCurrentSong),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const currentSong = await fetch(`${LOBBY}/${id}/songs/current`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.getCurrentSong_success, currentSong };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getCurrentSong_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const getTimeStampDifferential = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getSongTimeStampDifferential),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const timeStampDifferential = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return {
+        ...action,
+        type: actionTypes.getSongTimeStampDifferential_success,
+        timeStampDifferential,
+      };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getSongTimeStampDifferential_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const setSongTimeStamp = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.setSongTimeStamp),
+    mergeMap(async action => {
+      console.log('set current song timestamp gets called');
+      const id = store.value.lobbyReducer.lobbyId;
+      const timestamp = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
+        method: 'PUT',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.setSongTimeStamp_success, timestamp };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.setSongTimeStamp_fail,
         message: err.message,
       }),
     ),
@@ -180,4 +246,7 @@ export {
   setUsers,
   deleteLobby,
   setLobbyQueue,
+  getCurrentSong,
+  setSongTimeStamp,
+  getTimeStampDifferential,
 };
