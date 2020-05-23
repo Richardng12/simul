@@ -41,7 +41,7 @@ const LyricsContainer = props => {
       const formattedSong = formatInput(name);
       const formattedArtist = formatInput(artists[0].name);
       getLyrics(formattedArtist, formattedSong).then(res => {
-        setLyric(res.message ? 'Could not load lyrics' : formatLyrics(res.lyrics));
+        setLyric(res.message ? res.message : formatLyrics(res.lyrics));
         setLoading(false);
       });
     }
