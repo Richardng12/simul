@@ -9,11 +9,24 @@ import LyricsContainer from '../pages/musicPage/lyricsContainer';
 import SongSearch from '../pages/musicPage/components/songSearch';
 import SongQueueTable from '../pages/musicPage/components/songQueueTable';
 import MembersList from '../pages/musicPage/components/membersList';
+import './__mocks__/matchMedia.mock';
+// import ChatPage from '../pages/musicPage/components/chatPage';
 
 const mockStore = configureMockStore();
 
 describe('<MusicPage />', () => {
   let store;
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: jest.fn(() => {
+        return {
+          matches: true,
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+        };
+      }),
+    });
+  });
   beforeEach(() => {
     store = mockStore({
       profileReducer: {
@@ -21,6 +34,12 @@ describe('<MusicPage />', () => {
         loading: false,
         isAuthenticated: false,
         message: '',
+      },
+      chatReducer: {
+        chats: [
+          { _id: '', message: '', sender: {}, lobbyId: {}, type: '', createdAt: '', updatedAt: '' },
+        ],
+        loading: false,
       },
       musicReducer: {
         currentSong: null,
@@ -93,4 +112,13 @@ describe('<MusicPage />', () => {
     );
     expect(tree).toMatchSnapshot();
   });
+
+  // it('renders chat', () => {
+  //   const tree = renderer.create(
+  //     <Provider store={store}>
+  //       <ChatPage />
+  //     </Provider>,
+  //   );
+  //   expect(tree).toMatchSnapshot();
+  // });
 });
