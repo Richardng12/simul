@@ -131,7 +131,7 @@ const MusicPlayer = props => {
       console.log(timeStampToStartPlayingFrom);
       if (songStartTimeStamp === null) {
         startPlayback(accessToken, deviceId, currentSongs, 0);
-        socket.emit('playMusic', id);
+        // socket.emit('playMusic', id);
         setTimeStamp();
         setStartProgress(true);
       } else {
@@ -142,6 +142,9 @@ const MusicPlayer = props => {
   }, [deviceId, currentSong]);
 
   useEffect(() => {
+    // socket.on('sendMessageToPlay', () => {
+    //   console.log('shit');
+    // });
     socket.on('sendMessageToPlay', () => {
       console.log(`music playing for ${socket.id}`);
       let initialSong;
@@ -157,9 +160,6 @@ const MusicPlayer = props => {
       startPlayback(accessToken, deviceId, currentSongs, 0);
       setStartProgress(true);
     });
-    return () => {
-      socket.off();
-    };
   }, [deviceId]);
 
   const onError = () => {

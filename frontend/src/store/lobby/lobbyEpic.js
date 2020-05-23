@@ -1,6 +1,7 @@
 import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { actionTypes } from './lobbyActions';
 import { LOBBY } from '../../config/config';
+import socket from '../../socket';
 
 const getLobbies = action$ =>
   action$.pipe(
@@ -89,7 +90,6 @@ const getTimeStampDifferential = (action$, store) =>
     filter(action => action.type === actionTypes.getTimeStampDifferential),
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
-      console.log('epic gets called');
       const timeStampDifferential = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
         method: 'GET',
         mode: 'cors',
@@ -148,7 +148,9 @@ const addSongToQueue = (action$, store) =>
           spotifySongId,
         }),
       });
+
       const queue = await response.json();
+      socket.emit('addToQueue', id);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),
     catchError(err =>

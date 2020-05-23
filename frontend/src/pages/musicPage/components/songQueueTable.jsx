@@ -5,28 +5,39 @@ import classNames from 'classnames';
 import ClearIcon from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
+import { useParams } from 'react-router';
 import HOST from '../../../config/config';
-// import socket from '../../../socket';
-import { removeSongFromQueue } from '../../../store/lobby/lobbyActions';
+import socket from '../../../socket';
+import { removeSongFromQueue, setLobbyQueue } from '../../../store/lobby/lobbyActions';
 import styles from '../styles/songQueueTable.module.css';
 
 function createData(id, title, artist, addedBy) {
   return { id, title, artist, addedBy };
 }
-const server = HOST;
-const socket = io(server);
 const SongQueueTable = props => {
-  const { removeSong, userId, currentQueue } = props;
-  let rows = [];
+  const { removeSong, userId, currentQueue, setQueue } = props;
+  const rows = currentQueue.map(song =>
+    createData(song._id, song.title, song.artist, song.addedBy),
+  );
 
+  const { id } = useParams();
   useEffect(() => {
-    // get all chats for a lobby
-    // rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
     socket.on('updateQueue', () => {
-      console.log('queue frontend');
-      rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+      setQueue(id);
     });
+    return () => {
+      socket.off();
+    };
   }, []);
+
+  // useEffect(() => {
+  //   // get all chats for a lobby
+  //   // rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+  //   socket.on('updateQueue', () => {
+  //     console.log('queue frontend');
+  //     rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+  //   });
+  // }, []);
 
   return (
     <div className={styles.table}>
@@ -67,6 +78,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   removeSong: bindActionCreators(removeSongFromQueue, dispatch),
+  setQueue: bindActionCreators(setLobbyQueue, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SongQueueTable);
