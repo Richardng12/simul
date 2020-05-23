@@ -129,8 +129,14 @@ const MusicPlayer = props => {
       );
       console.log(`song start time is: ${timeStampToStartPlayingFrom}`);
       console.log(timeStampToStartPlayingFrom);
-      startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
-      setStartProgress(true);
+      if (songStartTimeStamp === null) {
+        startPlayback(accessToken, deviceId, currentSongs, 0);
+        setTimeStamp();
+        setStartProgress(true);
+      } else {
+        startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+        setStartProgress(true);
+      }
     }
   }, [deviceId, currentSong]);
 
@@ -147,7 +153,7 @@ const MusicPlayer = props => {
         updateSong(res);
       });
       console.log(deviceId);
-      startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
+      startPlayback(accessToken, deviceId, currentSongs, 0);
       setStartProgress(true);
     });
     return () => {
@@ -170,7 +176,7 @@ const MusicPlayer = props => {
       setStartProgress(true);
       //  startPlayback(accessToken, deviceId, currentSongs, 0);
       socket.emit('playMusic', id);
-      setTimeStamp();
+      // setTimeStamp();
       // if timestampdifferential > 0 you dont want to set the timestamp.
 
       // set current time stamp when playing
