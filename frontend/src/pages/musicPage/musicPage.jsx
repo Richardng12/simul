@@ -3,11 +3,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router';
+import io from 'socket.io-client';
+import HOST from '../../config/config';
 import SimulAppBar from './components/appBar';
 import LyricsContainer from './lyricsContainer';
 import QueueContainer from './queueContainer';
 import SocialContainer from './socialContainer';
-
+import socket from '../../socket';
 import styles from './styles/musicPage.module.css';
 import {
   getSingleLobby,
@@ -38,6 +40,20 @@ const MusicPage = props => {
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
   const { id } = useParams();
+
+  useEffect(() => {
+    // get all chats for a lobby
+    socket.emit('onLobbyJoin', id);
+
+    socket.on('joinMessage', data => {
+      console.log(data);
+      console.log('hi');
+    });
+    return () => {
+      socket.off();
+    };
+  }, []);
+
   useEffect(() => {
     setId(id);
     getLobby();

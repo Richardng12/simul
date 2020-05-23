@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
+import socket from '../../../socket';
 import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
 
@@ -97,6 +98,7 @@ const SongSearch = props => {
       onChange={(event, value) => {
         if (value !== null) {
           addSong(value.spotifySongId);
+          socket.emit('playMusic');
         }
       }}
       renderInput={params => (

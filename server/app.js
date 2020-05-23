@@ -59,6 +59,7 @@ if (process.env.NODE_ENV === 'test') {
   // connect to socket io connection on frontend
   io.on('connection', socket => {
     // when message is receive from backend
+    console.log(`${socket.client.conn.server.clientsCount} users connected`);
     socket.on('Input Chat Message', msg => {
       connect.then(() => {
         try {
@@ -87,6 +88,32 @@ if (process.env.NODE_ENV === 'test') {
           console.error(error);
         }
       });
+    });
+
+    // will be called once a user joins a lobby
+    socket.on('onLobbyJoin', lobbyId => {
+      // eslint-disable-next-line no-param-reassign
+      //  socket.username = username;
+
+      // eslint-disable-next-line no-param-reassign
+      socket.currentRoom = lobbyId;
+      socket.join(lobbyId);
+      io.sockets.in(lobbyId).emit('joinMessage', `${lobbyId} has joined global room`);
+      console.log(socket.currentRoom);
+    });
+
+    // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
+    socket.on('playMusic', () => {
+      socket.broadcast.emit('sendMessageToPlay');
+      console.log('has been called');
+      console.log(socket.currentRoom);
+    });
+
+    io.sockets.on('disconnect', () => {
+      // handle disconnect
+      console.log('left the room');
+      io.sockets.disconnect();
+      io.sockets.close();
     });
   });
 }

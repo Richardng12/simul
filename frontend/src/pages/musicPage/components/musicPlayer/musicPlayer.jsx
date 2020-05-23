@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import { VolumeDown, VolumeOff, VolumeUp } from '@material-ui/icons';
+import socket from '../../../../socket';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
@@ -46,16 +47,16 @@ const MusicPlayer = props => {
   //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
   // ];
 
-  const setTimeDiff = () => {
-    const timeStampToStartPlayingFrom = Math.floor(
-      new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
-    );
-    setTimeStampDifferential(timeStampToStartPlayingFrom);
+  // const setTimeDiff = () => {
+  //   const timeStampToStartPlayingFrom = Math.floor(
+  //     new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
+  //   );
+  //   setTimeStampDifferential(timeStampToStartPlayingFrom);
 
-    console.log(JSON.parse(JSON.stringify(new Date())));
-    console.log(songStartTimeStamp);
-    console.log(timeStampToStartPlayingFrom);
-  };
+  //   console.log(JSON.parse(JSON.stringify(new Date())));
+  //   console.log(songStartTimeStamp);
+  //   console.log(timeStampToStartPlayingFrom);
+  // };
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
@@ -74,6 +75,7 @@ const MusicPlayer = props => {
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
       setDeviceId(device_id);
+      console.log(device_id);
     });
 
     player.connect();
@@ -92,7 +94,7 @@ const MusicPlayer = props => {
     let initialSong;
     if (currentSongs.length > 0) {
       initialSong = currentSongs.shift().substring(14);
-      setTimeDiff();
+      // setTimeDiff();
     }
 
     // TODO: move this outside of the music player
@@ -104,6 +106,33 @@ const MusicPlayer = props => {
   const onLoad = () => {
     handleScriptLoad();
   };
+
+  useEffect(() => {
+    socket.on('sendMessageToPlay', () => {
+      console.log('sendmsg');
+      handleScriptLoad();
+      let initialSong;
+      console.log(currentSongs);
+      if (currentSongs.length > 0) {
+        initialSong = currentSongs.shift().substring(14);
+        // setTimeDiff();
+      }
+      getSongInfo(accessToken, initialSong).then(res => {
+        // setCurrentSong(res);
+        updateSong(res);
+      });
+      console.log('playing music');
+      startPlayback(
+        accessToken,
+        '131ec9e083f691bbd064a4bf1789eec5a11e0b9b',
+        currentSongs,
+        startingTime,
+      );
+    });
+    return () => {
+      socket.off();
+    };
+  }, []);
 
   const onError = () => {
     // todo
@@ -118,13 +147,13 @@ const MusicPlayer = props => {
       console.log('no songs in queue');
     } else {
       setStartProgress(true);
-      startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
+      //  startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
 
       // if timestampdifferential > 0 you dont want to set the timestamp.
 
       // set current time stamp when playing
       // api call one
-      setTimeStamp();
+      //  setTimeStamp();
       console.log('call');
     }
   };
@@ -206,15 +235,15 @@ const mapStateToProps = state => ({
   deviceId: state.musicReducer.deviceId,
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
-  timeStampDifferential: state.lobbyReducer.timeStampDifferential,
-  songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
+  // timeStampDifferential: state.lobbyReducer.timeStampDifferential,
+  // songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
 });
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
   updateSong: song => dispatch(updateCurrentSong(song)),
-  setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
-  getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
+  // setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
+  // getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
   // getTimeStampDifference: bindActionCreators(getTimeStampDifferential, dispatch),
 });
 
