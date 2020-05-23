@@ -7,6 +7,9 @@
   grid-template-areas: 'background' 'bottom';
 }
 
+.lobbyContainer {
+  position: relative;
+}
 .deleteIcon {
   position: absolute;
   z-index: 1;
