@@ -140,7 +140,9 @@ exports[`<LobbyPage /> renders lobby page 1`] = `
 `;
 
 exports[`<LobbyPage /> renders lobby tile 1`] = `
-<div>
+<div
+  className="lobbyContainer"
+>
   <div />
   <div />
   <svg
