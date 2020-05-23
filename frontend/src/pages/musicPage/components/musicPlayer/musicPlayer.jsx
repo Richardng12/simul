@@ -25,11 +25,12 @@ const MusicPlayer = props => {
     setTimeStamp,
     getTimeStampDifference,
     songStartTimeStamp,
+    deviceId,
   } = props;
   const startingTime = 40000;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
-  const [deviceId, setDeviceId] = useState(null);
+  // const [deviceId, setDeviceId] = useState(null);
   // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(90);
@@ -74,7 +75,7 @@ const MusicPlayer = props => {
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
-      setDeviceId(device_id);
+      // setDeviceId(device_id);
       console.log(device_id);
     });
 
@@ -112,7 +113,6 @@ const MusicPlayer = props => {
       console.log('sendmsg');
       handleScriptLoad();
       let initialSong;
-      console.log(currentSongs);
       if (currentSongs.length > 0) {
         initialSong = currentSongs.shift().substring(14);
         // setTimeDiff();
@@ -121,13 +121,8 @@ const MusicPlayer = props => {
         // setCurrentSong(res);
         updateSong(res);
       });
-      console.log('playing music');
-      startPlayback(
-        accessToken,
-        '131ec9e083f691bbd064a4bf1789eec5a11e0b9b',
-        currentSongs,
-        startingTime,
-      );
+      console.log(deviceId);
+      startPlayback(accessToken, deviceId, currentSongs, startingTime);
     });
     return () => {
       socket.off();
@@ -147,7 +142,7 @@ const MusicPlayer = props => {
       console.log('no songs in queue');
     } else {
       setStartProgress(true);
-      //  startPlayback(accessToken, deviceId, currentSongs, timeStampDifferential);
+      startPlayback(accessToken, deviceId, currentSongs, 0);
 
       // if timestampdifferential > 0 you dont want to set the timestamp.
 
@@ -232,7 +227,7 @@ const MusicPlayer = props => {
 
 const mapStateToProps = state => ({
   lobby: state.lobbyReducer.currentLobby,
-  deviceId: state.musicReducer.deviceId,
+  deviceId: state.musicReducer.currentDevice,
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
   // timeStampDifferential: state.lobbyReducer.timeStampDifferential,

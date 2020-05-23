@@ -98,15 +98,20 @@ if (process.env.NODE_ENV === 'test') {
       // eslint-disable-next-line no-param-reassign
       socket.currentRoom = lobbyId;
       socket.join(lobbyId);
+      console.log('user has joined lobby');
       io.sockets.in(lobbyId).emit('joinMessage', `${lobbyId} has joined global room`);
-      console.log(socket.currentRoom);
     });
 
     // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
-    socket.on('playMusic', () => {
+    socket.on('playMusic', id => {
+      io.in(id).clients((err, clients) => {
+        // clients will be array of socket ids , currently available in given room
+        console.log(clients);
+      });
+
+      console.log(id);
       socket.broadcast.emit('sendMessageToPlay');
-      console.log('has been called');
-      console.log(socket.currentRoom);
+      // console.log('should send to all users in a room');
     });
 
     io.sockets.on('disconnect', () => {

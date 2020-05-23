@@ -47,7 +47,6 @@ const MusicPage = props => {
 
     socket.on('joinMessage', data => {
       console.log(data);
-      console.log('hi');
     });
     return () => {
       socket.off();
