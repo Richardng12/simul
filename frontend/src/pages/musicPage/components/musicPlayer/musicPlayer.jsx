@@ -125,10 +125,11 @@ const MusicPlayer = props => {
     socket.on('sendMessageToPlay', () => {
       console.log(`music playing for ${socket.id}`);
       let initialSong;
-      if (currentSongs.length > 0) {
-        initialSong = currentSongs.shift().substring(14);
-        // setTimeDiff();
-      }
+      // if (currentSongs.length > 0) {
+      //   initialSong = currentSongs.shift().substring(14);
+      //   // setTimeDiff();
+      // }
+      console.log(accessToken);
       getSongInfo(accessToken, initialSong).then(res => {
         updateSong(res);
       });
@@ -249,7 +250,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
   updateSong: song => dispatch(updateCurrentSong(song)),
-  // setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
+  setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
   // getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
   // getTimeStampDifference: bindActionCreators(getTimeStampDifferential, dispatch),
 });
