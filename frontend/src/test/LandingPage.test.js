@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import LandingPage from '../pages/landingPage/landingPage';
 
@@ -14,13 +14,13 @@ describe('<LandingPage />', () => {
   });
 
   it('renders without crashing', () => {
-    const tree = shallow(
+    const tree = renderer.create(
       <MemoryRouter>
         <Provider store={store}>
           <LandingPage />
         </Provider>
       </MemoryRouter>,
-    ).dive();
+    );
     expect(tree).toMatchSnapshot();
   });
 });

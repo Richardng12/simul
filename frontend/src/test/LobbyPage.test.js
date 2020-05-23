@@ -1,13 +1,14 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { shallow } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import LobbyPage from '../pages/lobbyPage/lobbyPage';
+import LobbyTile from '../pages/lobbyPage/LobbyTile';
 
 const mockStore = configureMockStore();
 
-describe('<LandingPage />', () => {
+describe('<LobbyPage />', () => {
   let store;
   beforeEach(() => {
     store = mockStore({
@@ -28,14 +29,25 @@ describe('<LandingPage />', () => {
     });
   });
 
-  it('render landing page', () => {
-    const tree = shallow(
+  it('renders lobby page', () => {
+    const component = renderer.create(
       <MemoryRouter>
         <Provider store={store}>
           <LobbyPage />
         </Provider>
       </MemoryRouter>,
-    ).dive();
-    expect(tree).toMatchSnapshot();
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('renders lobby tile', () => {
+    const component = renderer.create(
+      <MemoryRouter>
+        <Provider store={store}>
+          <LobbyTile />
+        </Provider>
+      </MemoryRouter>,
+    );
+    expect(component).toMatchSnapshot();
   });
 });
