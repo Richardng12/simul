@@ -1,18 +1,26 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import LandingPage from '../pages/landingPage/landingPage';
 
 const mockStore = configureMockStore();
-const store = mockStore({});
 
 describe('<LandingPage />', () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore({ profileReducer: { loading: false } });
+  });
+
   it('renders without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <LandingPage />
-      </Provider>,
+    const tree = renderer.create(
+      <MemoryRouter>
+        <Provider store={store}>
+          <LandingPage />
+        </Provider>
+      </MemoryRouter>,
     );
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });
