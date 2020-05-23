@@ -48,7 +48,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     code: req.body.code,
     users: [req.user],
     password: req.body.password,
-    songStartTimeStamp: new Date(2020, 4, 20, 13, 48, 23),
+    songStartTimeStamp: new Date(),
     timeStampDifferential: 0,
   });
   try {

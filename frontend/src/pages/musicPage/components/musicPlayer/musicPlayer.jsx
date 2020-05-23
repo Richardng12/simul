@@ -28,7 +28,7 @@ const MusicPlayer = props => {
     songStartTimeStamp,
     deviceId,
   } = props;
-  const startingTime = 40000;
+  const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
   // const [deviceId, setDeviceId] = useState(null);
@@ -61,6 +61,7 @@ const MusicPlayer = props => {
   };
 
   const handleScriptLoad = () => {
+    console.log('goses here');
     setScriptLoaded(true);
     const player = new window.Spotify.Player({
       name: 'Spotify Web Player', // the script is loaded in
@@ -83,6 +84,18 @@ const MusicPlayer = props => {
     player.connect();
     setWebPlayer(player);
   };
+
+  useEffect(() => {
+    if (currentSongs.length === 0) {
+      // todo: stop music player and update images and stuff
+    }
+    if (currentSongs.length === 1) {
+      const x = currentSongs.shift().substring(14);
+      getSongInfo(accessToken, x).then(res => {
+        updateSong(res);
+      });
+    }
+  }, [currentQueue]);
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -119,7 +132,7 @@ const MusicPlayer = props => {
       startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
       setStartProgress(true);
     }
-  }, [deviceId]);
+  }, [deviceId, currentSong]);
 
   useEffect(() => {
     socket.on('sendMessageToPlay', () => {
