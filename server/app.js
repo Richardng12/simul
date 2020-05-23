@@ -92,11 +92,6 @@ if (process.env.NODE_ENV === 'test') {
 
     // will be called once a user joins a lobby
     socket.on('onLobbyJoin', lobbyId => {
-      // eslint-disable-next-line no-param-reassign
-      //  socket.username = username;
-
-      // eslint-disable-next-line no-param-reassign
-      socket.currentRoom = lobbyId;
       socket.join(lobbyId);
       console.log('user has joined lobby');
       io.sockets.in(lobbyId).emit('joinMessage', `${lobbyId} has joined global room`);
@@ -110,8 +105,7 @@ if (process.env.NODE_ENV === 'test') {
       });
 
       console.log(id);
-      socket.broadcast.emit('sendMessageToPlay');
-      // console.log('should send to all users in a room');
+      io.sockets.in(id).emit('sendMessageToPlay');
     });
 
     io.sockets.on('disconnect', () => {

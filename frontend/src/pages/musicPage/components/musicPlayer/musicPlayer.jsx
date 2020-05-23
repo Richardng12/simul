@@ -110,8 +110,7 @@ const MusicPlayer = props => {
 
   useEffect(() => {
     socket.on('sendMessageToPlay', () => {
-      console.log('sendmsg');
-      handleScriptLoad();
+      console.log(`music playing for ${socket.id}`);
       let initialSong;
       if (currentSongs.length > 0) {
         initialSong = currentSongs.shift().substring(14);
@@ -127,7 +126,7 @@ const MusicPlayer = props => {
     return () => {
       socket.off();
     };
-  }, []);
+  }, [deviceId]);
 
   const onError = () => {
     // todo
