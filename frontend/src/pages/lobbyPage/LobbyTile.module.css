@@ -1,12 +1,15 @@
 .lobbyTile {
   width: 100%;
-  height: 250px;
+  height: 100%;
   cursor: pointer;
   display: grid;
   grid-template-rows: 80% 20%;
   grid-template-areas: 'background' 'bottom';
 }
 
+.lobbyContainer {
+  position: relative;
+}
 .deleteIcon {
   position: absolute;
   z-index: 1;

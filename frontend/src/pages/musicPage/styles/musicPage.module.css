@@ -4,7 +4,7 @@
   width: 100%;
   position: absolute;
   background-color: #333333;
-  grid-template-rows: 56px 1fr 45px;
+  grid-template-rows: 56px minmax(1px, 1fr) 45px;
   grid-row-gap: 20px;
   grid-template-areas: 'header' 'main' 'player';
 }
@@ -44,7 +44,8 @@ body {
 .leftSide {
   display: grid;
   grid-row-gap: 10px;
-  grid-template-rows: 1fr 40px 20px 200px;
+  grid-template-rows: minmax(0,1.5fr) auto auto minmax(0, 1fr);
+  min-height: 0;
 }
 
 .imageContainer {
@@ -55,7 +56,7 @@ body {
   grid-template-areas: '. image .';
 }
 .image {
-  height: 90%;
+  height: 100%;
   width: 100%;
   grid-area: image;
 }
@@ -66,7 +67,7 @@ body {
   text-align: center;
 }
 .songText {
-  font-size: 30px;
+  font-size: 1.5em;
   font-weight: bolder;
 }
 
@@ -78,7 +79,7 @@ body {
 
 .lyricContainer {
   display: grid;
-  grid-template-columns: 1fr 450px 1fr;
+  grid-template-columns: 1fr minmax(200px, 3fr) 1fr;
   text-align: center;
   grid-template-areas: ". lyrics .";
 }
@@ -89,9 +90,10 @@ body {
 
 .rightSide {
   display: grid;
-  grid-template-rows: 1fr 252px;
+  grid-template-rows: minmax(1px,1fr) minmax(100px, 0.75fr);
   margin-right: 50px;
   grid-row-gap: 40px;
+  min-height: 0;
 }
 
 .playerContainer {
