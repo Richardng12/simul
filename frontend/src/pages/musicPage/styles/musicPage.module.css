@@ -44,7 +44,8 @@ body {
 .leftSide {
   display: grid;
   grid-row-gap: 10px;
-  grid-template-rows: minmax(0,1fr) 40px 20px minmax(20px,200px);
+  grid-template-rows: minmax(0,1.5fr) 40px 20px minmax(0, 1fr);
+  min-height: 0;
 }
 
 .imageContainer {
@@ -55,7 +56,7 @@ body {
   grid-template-areas: '. image .';
 }
 .image {
-  height: 90%;
+  height: 100%;
   width: 100%;
   grid-area: image;
 }
