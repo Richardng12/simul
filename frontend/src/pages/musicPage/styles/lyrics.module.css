@@ -5,6 +5,7 @@
   color: white;
   text-align: center;
   padding-left: 10px;
+  white-space: pre-wrap;
 }
 
 .lyricsContainer::-webkit-scrollbar {
@@ -18,4 +19,8 @@
 
 .lyricsContainer::-webkit-scrollbar-thumb:hover {
   background-color: #93611e;
+}
+
+.loader {
+  text-align: center;
 }
