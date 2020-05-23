@@ -30,7 +30,7 @@ const LobbyTile = props => {
   };
 
   return (
-    <div>
+    <div className={style.lobbyContainer}>
       <EnterPasswordModal
         open={open}
         onClose={handleClose}
