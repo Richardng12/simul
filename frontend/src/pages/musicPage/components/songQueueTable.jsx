@@ -1,22 +1,32 @@
 /* eslint no-unused-vars: 0 */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 import ClearIcon from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+import HOST from '../../../config/config';
+// import socket from '../../../socket';
 import { removeSongFromQueue } from '../../../store/lobby/lobbyActions';
 import styles from '../styles/songQueueTable.module.css';
 
 function createData(id, title, artist, addedBy) {
   return { id, title, artist, addedBy };
 }
-
+const server = HOST;
+const socket = io(server);
 const SongQueueTable = props => {
   const { removeSong, userId, currentQueue } = props;
+  let rows = [];
 
-  const rows = currentQueue.map(song =>
-    createData(song._id, song.title, song.artist, song.addedBy),
-  );
+  useEffect(() => {
+    // get all chats for a lobby
+    // rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+    socket.on('updateQueue', () => {
+      console.log('queue frontend');
+      rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
+    });
+  }, []);
 
   return (
     <div className={styles.table}>
