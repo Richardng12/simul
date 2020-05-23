@@ -1,6 +1,6 @@
 .lobbyTile {
   width: 100%;
-  height: 250px;
+  height: 100%;
   cursor: pointer;
   display: grid;
   grid-template-rows: 80% 20%;
