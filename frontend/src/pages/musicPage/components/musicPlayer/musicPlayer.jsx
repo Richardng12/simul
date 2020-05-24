@@ -12,7 +12,11 @@ import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './music
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
 import { setDevice, updateCurrentSong, setSeenTracks } from '../../../../store/music/musicActions';
-import { getTimeStampDifferential, setSongTimeStamp } from '../../../../store/lobby/lobbyActions';
+import {
+  getTimeStampDifferential,
+  removeSongFromQueue,
+  setSongTimeStamp,
+} from '../../../../store/lobby/lobbyActions';
 
 const MusicPlayer = props => {
   const {
@@ -29,6 +33,7 @@ const MusicPlayer = props => {
     deviceId,
     seenTracks,
     updateTrackNumber,
+    removeSong,
   } = props;
   const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -73,13 +78,17 @@ const MusicPlayer = props => {
     });
 
     player.addListener('player_state_changed', state => {
-      console.log(state);
       const previousTracks = state.track_window.previous_tracks;
+      // console.log(previousTracks);
       if (seenTracks < previousTracks.length) {
-        console.log('HERE');
-        console.log(previousTracks);
-        console.log(seenTracks);
         setCurrentTime(state.position);
+        // Remove the previous track from the list
+        console.log(currentQueue);
+        console.log(seenTracks);
+        if (currentQueue.length > 0) {
+          removeSong(currentQueue[0]._id);
+        }
+
         updateTrackNumber(previousTracks.length);
         updateSong(state.track_window.current_track);
       }
@@ -96,8 +105,11 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    if (currentSongs.length === 0) {
-      // todo: stop music player and update images and stuff
+    if (currentSongs.length === 0 && seenTracks > 0) {
+      pausePlayback(accessToken, deviceId);
+      setIsPlaying(false);
+      updateSong({ error: 'no songs' });
+      setSeenTracks(0);
     }
     if (currentSongs.length === 1) {
       const x = currentSongs.shift().substring(14);
@@ -138,16 +150,22 @@ const MusicPlayer = props => {
         new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
       );
       if (songStartTimeStamp === null) {
+        setIsPlaying(true);
+        setCurrentTime(0);
         startPlayback(accessToken, deviceId, currentSongs, 0);
         // socket.emit('playMusic', id);
-        setTimeStamp();
         setStartProgress(true);
+        setTimeStamp();
       } else {
         if (!isPlaying) {
-          startPlayback(accessToken, deviceId, currentSongs, 90000);
+          startPlayback(accessToken, deviceId, currentSongs, 200000);
+          // startPlayback(accessToken, deviceId, currentSongs, 0);
+          // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+
           setIsPlaying(true);
+          setStartProgress(true);
+          setCurrentTime(200000);
         }
-        // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
         setStartProgress(true);
       }
     }
@@ -278,6 +296,7 @@ const mapDispatchToProps = dispatch => ({
   updateSong: song => dispatch(updateCurrentSong(song)),
   setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
   updateTrackNumber: seenTracks => dispatch(setSeenTracks(seenTracks)),
+  removeSong: bindActionCreators(removeSongFromQueue, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

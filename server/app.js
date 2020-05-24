@@ -105,6 +105,10 @@ if (process.env.NODE_ENV === 'test') {
       });
       socket.to(id).emit('updateQueue');
     });
+
+    socket.on('removeFromQueue', id => {
+      socket.to(id).emit('updateQueue');
+    });
     // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
     socket.on('playMusic', id => {
       io.in(id).clients((err, clients) => {

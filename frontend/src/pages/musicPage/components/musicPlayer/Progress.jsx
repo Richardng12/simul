@@ -17,7 +17,7 @@ const Progress = props => {
 
       return () => clearInterval(interval);
     }
-  }, [currentTime, songTime]);
+  }, [currentTime, songTime, startProgress]);
 
   const millisToMinutesAndSeconds = millis => {
     const minutes = Math.floor(millis / 60000);

@@ -20,8 +20,6 @@ const musicReducer = (state = initialState, action) => {
         currentDevice: action.deviceId,
       };
     case actionTypes.setSeenTracks:
-      console.log('SEEN TRACKS');
-      console.log(action.seenTracks);
       return {
         ...state,
         currentTracks: action.seenTracks,
