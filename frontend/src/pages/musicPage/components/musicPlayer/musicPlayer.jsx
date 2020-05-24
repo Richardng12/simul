@@ -39,7 +39,7 @@ const MusicPlayer = props => {
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
-  const [timeStampDifferential, setTimeStampDifferential] = useState(null);
+  // const [timeStampDifferential, setTimeStampDifferential] = useState(null);
   const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
   // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
@@ -51,16 +51,16 @@ const MusicPlayer = props => {
   //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
   // ];
 
-  const setTimeDiff = () => {
-    const timeStampToStartPlayingFrom = Math.floor(
-      new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
-    );
-    setTimeStampDifferential(timeStampToStartPlayingFrom);
+  // const setTimeDiff = () => {
+  //   const timeStampToStartPlayingFrom = Math.floor(
+  //     new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
+  //   );
+  //   setTimeStampDifferential(timeStampToStartPlayingFrom);
 
-    console.log(JSON.parse(JSON.stringify(new Date())));
-    console.log(songStartTimeStamp);
-    console.log(timeStampToStartPlayingFrom);
-  };
+  //   console.log(JSON.parse(JSON.stringify(new Date())));
+  //   console.log(songStartTimeStamp);
+  //   console.log(timeStampToStartPlayingFrom);
+  // };
 
   const handleScriptLoad = () => {
     console.log('goses here');
@@ -137,6 +137,7 @@ const MusicPlayer = props => {
       console.log(timeStampToStartPlayingFrom);
       if (songStartTimeStamp === null) {
         startPlayback(accessToken, deviceId, currentSongs, 0);
+        // socket.emit('playMusic', id);
         setTimeStamp();
         setStartProgress(true);
       } else {
@@ -147,6 +148,9 @@ const MusicPlayer = props => {
   }, [deviceId, currentSong]);
 
   useEffect(() => {
+    // socket.on('sendMessageToPlay', () => {
+    //   console.log('shit');
+    // });
     socket.on('sendMessageToPlay', () => {
       console.log(`music playing for ${socket.id}`);
       let initialSong;
@@ -162,9 +166,6 @@ const MusicPlayer = props => {
       startPlayback(accessToken, deviceId, currentSongs, 0);
       setStartProgress(true);
     });
-    return () => {
-      socket.off();
-    };
   }, [deviceId]);
 
   const onError = () => {
