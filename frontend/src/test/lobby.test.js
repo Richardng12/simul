@@ -129,7 +129,7 @@ describe('test profile actions', () => {
   it('set song timestamp success', () => {
     const timetstamp = '11/11/11';
     store.dispatch(setSongTimeStampSuccess(timetstamp));
-    expect(store.getState().songStartTimeStamp).toBe(timetstamp);
+    expect(store.getState().currentLobby).toStrictEqual({ songStartTimeStamp: '11/11/11' });
   });
 
   it('set song timestamp fail', () => {
