@@ -121,7 +121,6 @@ const mapDispatchToProps = dispatch => ({
   chats: lobbyId => {
     dispatch(getChats(lobbyId));
   },
-  // chats: bindActionCreators(getChats, dispatch),
   message: messageFromBackEnd => {
     dispatch(afterPostMessage(messageFromBackEnd));
   },

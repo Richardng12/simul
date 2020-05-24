@@ -100,8 +100,6 @@ const SongSearch = props => {
       onChange={(event, value) => {
         if (value !== null) {
           addSong(value.spotifySongId);
-
-          // console.log(`lobby serach id is ${id}`);
         }
       }}
       renderInput={params => (

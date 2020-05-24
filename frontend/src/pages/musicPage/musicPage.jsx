@@ -21,23 +21,8 @@ import {
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 import Loader from '../../general/Loader';
 
-// const getLobbyInfo = (id, lobbies) => {
-//   // eslint-disable-next-line no-underscore-dangle
-//   return lobbies.find(lobby => lobby._id === id);
-// };
-
 const MusicPage = props => {
-  const {
-    getLobby,
-    lobby,
-    loading,
-    setId,
-    setUsers,
-    setQueue,
-    currentSong,
-    //  setCurrentSongTimeStamp,
-  } = props;
-  // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
+  const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
 
   const { id } = useParams();
 

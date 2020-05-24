@@ -63,7 +63,6 @@ const pausePlayback = (accessToken, deviceId) => {
   }).then(r => r);
 };
 
-// todo: probably should store this as a state with redux...
 const getSongInfo = async (accessToken, trackId) => {
   const result = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
     method: 'GET',
