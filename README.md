@@ -27,7 +27,7 @@ npm install
 
 There are two separate projects. One is for the server, and another for the frontend. After installing dependencies, run `npm start` on both the server and frontend directories. Errors will be thrown if npm dependencies have not been installed.
 
-The server should start up on `localhost:8888`, and the frontend should start up on `localhost:3000`.
+The server should start up on `localhost:8888`, and the frontend should start up on `localhost:3000` in your web browser. This may take a long time due.
 
 ### Running the tests
 
