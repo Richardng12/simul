@@ -162,6 +162,7 @@ const addSongToQueue = (action$, store) =>
       socket.emit('addToPlayerQueue', id);
 
       socket.on('addToSpotifyPlayerQueue', async () => {
+        console.log('hit frontend');
         await addToCurrentQueue(accessToken, deviceId, spotifyURI);
       });
 

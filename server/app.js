@@ -123,7 +123,8 @@ if (process.env.NODE_ENV === 'test') {
 
     socket.on('addToPlayerQueue', id => {
       console.log('called for me in backend');
-      io.sockets.in(id).emit('addToSpotifyPlayerQueue');
+      console.log(id);
+      socket.broadcast.emit('addToSpotifyPlayerQueue');
     });
 
     io.sockets.on('disconnect', () => {
