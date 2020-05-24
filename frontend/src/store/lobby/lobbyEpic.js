@@ -158,8 +158,13 @@ const addSongToQueue = (action$, store) =>
       const deviceId = store.value.musicReducer.currentDevice;
       const spotifyURI = `spotify:track:${spotifySongId}`;
       console.log('hit add song to queue epic');
-      await addToCurrentQueue(accessToken, deviceId, spotifyURI);
+
       socket.emit('addToPlayerQueue', id);
+
+      socket.on('addToSpotifyPlayerQueue', async () => {
+        await addToCurrentQueue(accessToken, deviceId, spotifyURI);
+      });
+
       socket.emit('addToQueue', id);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),
