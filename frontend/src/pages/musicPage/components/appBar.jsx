@@ -7,10 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import classNames from 'classnames';
 import style from '../styles/appBar.module.css';
 import { getUserInfo } from '../../../store/profile/profileActions';
+import { removeUserFromLobby } from '../../../store/lobby/lobbyActions';
 import MusicNoteI from '../../../general/MusicNoteI';
 
 const SimulAppBar = props => {
-  const { user, title, userInfo, className } = props;
+  const { user, title, userInfo, className, removeUser } = props;
   const history = useHistory();
   useEffect(() => {
     userInfo();
@@ -23,6 +24,7 @@ const SimulAppBar = props => {
           className={style.logoButton}
           onClick={() => {
             history.goBack();
+            removeUser(user._id);
           }}
         >
           <MusicNoteI />
@@ -44,6 +46,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   userInfo: bindActionCreators(getUserInfo, dispatch),
+  removeUser: userId => dispatch(removeUserFromLobby(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimulAppBar);

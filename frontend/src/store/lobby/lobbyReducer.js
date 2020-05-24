@@ -159,6 +159,15 @@ const lobbyReducer = (state = initialState, action) => {
         loading: false,
         message: action.message,
       };
+    case actionTypes.removeUserFromLobby:
+      return {
+        ...state,
+      };
+    case actionTypes.removeUserFromLobby_success:
+      return {
+        ...state,
+        users: action.users,
+      };
     default:
       return {
         ...state,

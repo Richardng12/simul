@@ -144,8 +144,7 @@ router.delete('/:id/users', access.ensureAuthenticated, async (req, res) => {
   try {
     const objectId = new mongodb.ObjectID(req.body.id);
     await Lobby.updateOne({ _id: req.params.id }, { $pull: { users: { _id: objectId } } });
-    const updatedLobby = await Lobby.findById(req.params.id);
-    res.status(200).json(updatedLobby.users);
+    res.status(200).json([]);
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
   }
