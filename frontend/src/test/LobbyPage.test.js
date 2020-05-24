@@ -1,10 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
+import EnterPasswordModal from '../pages/lobbyPage/enterPasswordModal';
 import LobbyPage from '../pages/lobbyPage/lobbyPage';
 import LobbyTile from '../pages/lobbyPage/LobbyTile';
+import AddLobbyModal from '../pages/lobbyPage/addLobbyModal';
 
 const mockStore = configureMockStore();
 
@@ -49,5 +53,14 @@ describe('<LobbyPage />', () => {
       </MemoryRouter>,
     );
     expect(component).toMatchSnapshot();
+  });
+
+  it('renders add lobby modal', () => {
+    const component = mount(
+      <Provider store={store}>
+        <AddLobbyModal open />
+      </Provider>,
+    );
+    expect(toJson(component)).toMatchSnapshot();
   });
 });

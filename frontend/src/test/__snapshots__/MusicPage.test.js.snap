@@ -53,6 +53,75 @@ exports[`<MusicPage /> renders app bar 1`] = `
 </div>
 `;
 
+exports[`<MusicPage /> renders chat 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="ant-comment"
+  >
+    <div
+      className="ant-comment-inner"
+    >
+      <div
+        className="ant-comment-avatar"
+      >
+        <span
+          className="ant-avatar ant-avatar-circle"
+          style={Object {}}
+        >
+          <span
+            className="ant-avatar-string"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+          />
+        </span>
+      </div>
+      <div
+        className="ant-comment-content"
+      >
+        <div
+          className="ant-comment-content-author"
+        >
+          <span
+            className="ant-comment-content-author-name"
+          >
+            <p
+              style={
+                Object {
+                  "color": "#b47725",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              
+            </p>
+          </span>
+        </div>
+        <div
+          className="ant-comment-content-detail"
+        >
+          <p
+            style={
+              Object {
+                "color": "white",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<MusicPage /> renders lyrics container 1`] = `
 <div
   className="loader"

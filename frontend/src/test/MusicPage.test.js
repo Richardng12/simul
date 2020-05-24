@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import configureMockStore from 'redux-mock-store';
 import MusicPage from '../pages/musicPage/musicPage';
 import AppBar from '../pages/musicPage/components/appBar';
@@ -9,24 +11,14 @@ import LyricsContainer from '../pages/musicPage/lyricsContainer';
 import SongSearch from '../pages/musicPage/components/songSearch';
 import SongQueueTable from '../pages/musicPage/components/songQueueTable';
 import MembersList from '../pages/musicPage/components/membersList';
+import ChatCard from '../pages/musicPage/components/ChatCard';
 import './__mocks__/matchMedia.mock';
-// import ChatPage from '../pages/musicPage/components/chatPage';
+import ChatPage from '../pages/musicPage/components/chatPage';
 
 const mockStore = configureMockStore();
 
 describe('<MusicPage />', () => {
   let store;
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      value: jest.fn(() => {
-        return {
-          matches: true,
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-        };
-      }),
-    });
-  });
   beforeEach(() => {
     store = mockStore({
       profileReducer: {
@@ -113,12 +105,8 @@ describe('<MusicPage />', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  // it('renders chat', () => {
-  //   const tree = renderer.create(
-  //     <Provider store={store}>
-  //       <ChatPage />
-  //     </Provider>,
-  //   );
-  //   expect(tree).toMatchSnapshot();
-  // });
+  it('renders chat', () => {
+    const tree = renderer.create(<ChatCard sender={{ thumbnail: '', displayName: '' }} />);
+    expect(tree).toMatchSnapshot();
+  });
 });
