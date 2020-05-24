@@ -77,18 +77,22 @@ describe('<MusicPage />', () => {
 
   it('renders song search', () => {
     const tree = renderer.create(
-      <Provider store={store}>
-        <SongSearch />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <SongSearch />
+        </Provider>
+      </MemoryRouter>,
     );
     expect(tree).toMatchSnapshot();
   });
 
   it('renders song queue table', () => {
     const tree = renderer.create(
-      <Provider store={store}>
-        <SongQueueTable />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <SongQueueTable />
+        </Provider>
+      </MemoryRouter>,
     );
     expect(tree).toMatchSnapshot();
   });
