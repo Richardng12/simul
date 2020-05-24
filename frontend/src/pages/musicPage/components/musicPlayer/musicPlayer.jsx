@@ -77,21 +77,21 @@ const MusicPlayer = props => {
       },
     });
 
-    // player.addListener('player_state_changed', state => {
-    //   const previousTracks = state.track_window.previous_tracks;
-    //   // console.log(previousTracks);
-    //   if (seenTracks < previousTracks.length) {
-    //     setCurrentTime(state.position);
-    //     // Remove the previous track from the list
-    //     if (currentQueue.length > 0) {
-    //       console.log('removed');
-    //       removeSong(currentQueue[0]._id);
-    //     }
-    //
-    //     updateTrackNumber(previousTracks.length);
-    //     updateSong(state.track_window.current_track);
-    //   }
-    // });
+    // set up initial state
+    player.addListener('player_state_changed', state => {
+      const previousTracks = state.track_window.previous_tracks;
+      // console.log(previousTracks);
+      if (seenTracks < previousTracks.length) {
+        setCurrentTime(state.position);
+        // Remove the previous track from the list
+        if (currentQueue.length > 0) {
+          removeSong(currentQueue[0]._id);
+        }
+
+        updateTrackNumber(previousTracks.length);
+        updateSong(state.track_window.current_track);
+      }
+    });
 
     // player.on('playback_error', ({ message }) => {
     //   pausePlayback(accessToken, deviceId);
@@ -127,6 +127,7 @@ const MusicPlayer = props => {
       webPlayer.removeListener('player_state_changed');
 
       webPlayer.addListener('player_state_changed', state => {
+        console.log('goes here');
         const previousTracks = state.track_window.previous_tracks;
         // console.log(previousTracks);
         if (seenTracks < previousTracks.length) {
@@ -182,13 +183,13 @@ const MusicPlayer = props => {
         setTimeStamp();
       } else {
         if (!isPlaying) {
-          // startPlayback(accessToken, deviceId, currentSongs, 200000);
+          startPlayback(accessToken, deviceId, currentSongs, 200000);
           // startPlayback(accessToken, deviceId, currentSongs, 0);
-          startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+          // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
 
           setIsPlaying(true);
           setStartProgress(true);
-          setCurrentTime(timeStampToStartPlayingFrom);
+          setCurrentTime(200000);
         }
         setStartProgress(true);
       }
@@ -222,13 +223,7 @@ const MusicPlayer = props => {
       console.log('no songs in queue');
     } else {
       setStartProgress(true);
-      //  startPlayback(accessToken, deviceId, currentSongs, 0);
       socket.emit('playMusic', id);
-      // setTimeStamp();
-      // if timestampdifferential > 0 you dont want to set the timestamp.
-
-      // set current time stamp when playing
-      // api call one
     }
   };
 
@@ -284,7 +279,10 @@ const MusicPlayer = props => {
               onMouseEnter={() => setShowVolume(true)}
               onMouseLeave={() => setShowVolume(false)}
             >
-              <IconButton className={style.volumeButton} onClick={() => setVolume(0)}>
+              <IconButton
+                className={style.volumeButton}
+                onClick={event => handleVolumeChange(event, 0)}
+              >
                 {handleVolumeIcon()}
               </IconButton>
               {showVolume ? (
