@@ -69,6 +69,28 @@ const getSingleLobby = (action$, store) =>
     ),
   );
 
+const removeUserFromLobby = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.removeUserFromLobby),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const { userId } = action;
+      const users = await fetch(`${LOBBY}/${id}/users`, {
+        method: 'DELETE',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: userId,
+        }),
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.removeUserFromLobby_success, users };
+    }),
+  );
+
 const getCurrentSong = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.getCurrentSong),
@@ -262,4 +284,5 @@ export {
   getCurrentSong,
   setSongTimeStamp,
   getTimeStampDifferential,
+  removeUserFromLobby,
 };
