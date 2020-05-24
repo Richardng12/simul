@@ -2,6 +2,9 @@
 
 Simul is a Spotify music syncing application. It allows you to join lobbies to listen to what everyone else is listening to. You can add songs to the song queue for the lobby and everyone listening to that queue will have their music in sync.
 
+![FrontPage](https://user-images.githubusercontent.com/37729449/82751848-3ab6a300-9e0e-11ea-9aa7-fa696893f29d.png)
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing.
@@ -62,7 +65,7 @@ Other song information such as artist, song title and lyrics are displayed on th
 
 The users in the lobby will be allowed to chat to one another.
 
-![Image of music page](https://scontent-syd2-1.xx.fbcdn.net/v/t1.15752-9/99440006_579709936252145_4387129855288803328_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_oc=AQnCar9H3_eIR_Hy8DFBGq_IghhLnmaQWN1bkw-BRFTJlkwDORFbQSG3HHx7wd7a-Vc&_nc_ht=scontent-syd2-1.xx&oh=6cc64792d2317be2fe57c9a44e1ff259&oe=5EEBD0F4)
+![Image of Music Page](https://user-images.githubusercontent.com/37729449/82751940-dfd17b80-9e0e-11ea-9ff0-29c88bfb4fa5.png)
 
 ## Authors
 
