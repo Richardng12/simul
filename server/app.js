@@ -121,6 +121,10 @@ if (process.env.NODE_ENV === 'test') {
       io.sockets.in(id).emit('sendMessageToPlay');
     });
 
+    socket.on('addToPlayerQueue', id => {
+      io.sockets.in(id).emit('addToSpotifyPlayerQueue');
+    });
+
     io.sockets.on('disconnect', () => {
       // handle disconnect
       console.log('left the room');
