@@ -10,10 +10,10 @@ const Progress = props => {
   useEffect(() => {
     if (songTime !== 0 && startProgress) {
       const interval = setInterval(() => {
-        setCurrentTime(currentTime + 5);
+        setCurrentTime(currentTime + 100);
         const percent = (currentTime / songTime) * 100;
         setMusicProgress(percent);
-      }, 5);
+      }, 100);
 
       return () => clearInterval(interval);
     }

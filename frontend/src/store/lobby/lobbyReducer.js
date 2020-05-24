@@ -131,7 +131,10 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        songStartTimeStamp: action.timestamp,
+        currentLobby: {
+          ...state.currentLobby,
+          songStartTimeStamp: action.timestamp,
+        },
       };
     case actionTypes.setSongTimeStamp_fail:
       return {

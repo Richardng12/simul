@@ -28,6 +28,8 @@ export const actionTypes = {
   getTimeStampDifferential: 'GET_TIME_STAMP_DIFFERENTIAL',
   getTimeStampDifferential_success: 'GET_TIME_STAMP_DIFFERENTIAL_SUCCESS',
   getTimeStampDifferential_fail: 'GET_TIME_STAMP_DIFFERENTIAL_FAIL',
+  removeUserFromLobby: 'REMOVE_USER_FROM_LOBBY',
+  removeUserFromLobby_success: 'REMOVE_USER_FROM_LOBBY_SUCCESS',
 };
 
 const getAllLobbies = () => ({
@@ -170,6 +172,16 @@ const getTimeStampDifferentialFail = message => ({
   message,
 });
 
+const removeUserFromLobby = userId => ({
+  type: actionTypes.removeUserFromLobby,
+  userId,
+});
+
+const removeUserFromLobbySuccess = users => ({
+  type: actionTypes.removeUserFromLobby_success,
+  users,
+});
+
 export {
   getAllLobbies,
   getAllLobbiesSuccess,
@@ -200,4 +212,6 @@ export {
   getTimeStampDifferential,
   getTimeStampDifferentialSuccess,
   getTimeStampDifferentialFail,
+  removeUserFromLobby,
+  removeUserFromLobbySuccess,
 };

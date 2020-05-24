@@ -2,6 +2,7 @@ import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { actionTypes } from './lobbyActions';
 import { LOBBY } from '../../config/config';
 import socket from '../../socket';
+import { addToCurrentQueue } from '../../pages/musicPage/components/musicPlayer/musicPlayerService';
 
 const getLobbies = action$ =>
   action$.pipe(
@@ -152,6 +153,13 @@ const addSongToQueue = (action$, store) =>
       });
 
       const queue = await response.json();
+
+      const { accessToken } = store.value.profileReducer.user;
+      const deviceId = store.value.musicReducer.currentDevice;
+      const spotifyURI = `spotify:track:${spotifySongId}`;
+
+      await addToCurrentQueue(accessToken, deviceId, spotifyURI);
+
       socket.emit('addToQueue', id);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),

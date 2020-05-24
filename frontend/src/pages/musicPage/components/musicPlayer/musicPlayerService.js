@@ -24,6 +24,17 @@ const startSong = async (accessToken, deviceId, currentSongs) => {
   return x;
 };
 
+const addToCurrentQueue = async (accessToken, deviceId, spotifyUri) => {
+  const x = await fetch(`${API_ENDPOINT}/queue?uri=${spotifyUri}&device_id=${deviceId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return x;
+};
+
 const changeVolume = (accessToken, volumePercent) => {
   fetch(`${API_ENDPOINT}/volume?volume_percent=${volumePercent}`, {
     method: 'PUT',
@@ -65,4 +76,4 @@ const getSongInfo = async (accessToken, trackId) => {
   return result.json();
 };
 
-export { startPlayback, pausePlayback, skipTo, getSongInfo, changeVolume };
+export { startPlayback, pausePlayback, skipTo, getSongInfo, changeVolume, addToCurrentQueue };
