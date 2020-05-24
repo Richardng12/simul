@@ -39,6 +39,7 @@ const MusicPlayer = props => {
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   // const [timeStampDifferential, setTimeStampDifferential] = useState(null);
   const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
@@ -63,7 +64,6 @@ const MusicPlayer = props => {
   // };
 
   const handleScriptLoad = () => {
-    console.log('goses here');
     setScriptLoaded(true);
     const player = new window.Spotify.Player({
       name: 'Spotify Web Player', // the script is loaded in
@@ -73,10 +73,14 @@ const MusicPlayer = props => {
     });
 
     player.addListener('player_state_changed', state => {
+      console.log(state);
       const previousTracks = state.track_window.previous_tracks;
       if (seenTracks < previousTracks.length) {
-        setCurrentTime(0);
-        setSeenTracks(previousTracks.length);
+        console.log('HERE');
+        console.log(previousTracks);
+        console.log(seenTracks);
+        setCurrentTime(state.position);
+        updateTrackNumber(previousTracks.length);
         updateSong(state.track_window.current_track);
       }
     });
@@ -133,15 +137,17 @@ const MusicPlayer = props => {
       const timeStampToStartPlayingFrom = Math.floor(
         new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
       );
-      console.log(`song start time is: ${timeStampToStartPlayingFrom}`);
-      console.log(timeStampToStartPlayingFrom);
       if (songStartTimeStamp === null) {
         startPlayback(accessToken, deviceId, currentSongs, 0);
         // socket.emit('playMusic', id);
         setTimeStamp();
         setStartProgress(true);
       } else {
-        startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+        if (!isPlaying) {
+          startPlayback(accessToken, deviceId, currentSongs, 90000);
+          setIsPlaying(true);
+        }
+        // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
         setStartProgress(true);
       }
     }
@@ -152,17 +158,10 @@ const MusicPlayer = props => {
     //   console.log('shit');
     // });
     socket.on('sendMessageToPlay', () => {
-      console.log(`music playing for ${socket.id}`);
       let initialSong;
-      // if (currentSongs.length > 0) {
-      //   initialSong = currentSongs.shift().substring(14);
-      //   // setTimeDiff();
-      // }
-      console.log(accessToken);
       getSongInfo(accessToken, initialSong).then(res => {
         updateSong(res);
       });
-      console.log(deviceId);
       startPlayback(accessToken, deviceId, currentSongs, 0);
       setStartProgress(true);
     });
