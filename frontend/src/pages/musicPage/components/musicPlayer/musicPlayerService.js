@@ -25,9 +25,6 @@ const startSong = async (accessToken, deviceId, currentSongs) => {
 };
 
 const addToCurrentQueue = async (accessToken, deviceId, spotifyUri) => {
-  console.log(accessToken);
-  console.log(deviceId);
-  console.log(spotifyUri);
   const x = await fetch(`${API_ENDPOINT}/queue?uri=${spotifyUri}&device_id=${deviceId}`, {
     method: 'POST',
     headers: {

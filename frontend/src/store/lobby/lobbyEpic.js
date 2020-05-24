@@ -159,13 +159,13 @@ const addSongToQueue = (action$, store) =>
       const spotifyURI = `spotify:track:${spotifySongId}`;
       console.log('hit add song to queue epic');
 
-      socket.emit('addToPlayerQueue', id);
+      // socket.emit('addToPlayerQueue', id);
       // await addToCurrentQueue(accessToken, deviceId, spotifyURI);
 
-      socket.on('addToSpotifyPlayerQueue', async () => {
-        console.log('BAM BAM');
-        await addToCurrentQueue(accessToken, deviceId, spotifyURI);
-      });
+      // socket.on('addToSpotifyPlayerQueue', async () => {
+      //   console.log('BAM BAM');
+      await addToCurrentQueue(accessToken, deviceId, spotifyURI);
+      // });
 
       socket.emit('addToQueue', id);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };

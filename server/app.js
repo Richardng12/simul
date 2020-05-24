@@ -111,19 +111,7 @@ if (process.env.NODE_ENV === 'test') {
     });
     // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
     socket.on('playMusic', id => {
-      io.in(id).clients((err, clients) => {
-        // clients will be array of socket ids , currently available in given room
-        console.log(clients);
-      });
-
-      console.log('playing music');
-      console.log(id);
       io.sockets.in(id).emit('sendMessageToPlay');
-    });
-
-    socket.on('addToPlayerQueue', id => {
-      console.log('call me  up bby');
-      io.sockets.in(id).emit('addToSpotifyPlayerQueue');
     });
 
     io.sockets.on('disconnect', () => {
