@@ -45,7 +45,8 @@ npx eslint src
 
 After successfully logging into the application with Spotify. The user will be greeted with the lobby selection page. The user can enter a lobby that has been created by another user, or they can create their own lobby, where other users can join.
 
-![Image of Lobbies](https://scontent-syd2-1.xx.fbcdn.net/v/t1.15752-9/100541078_285828885775632_7418720370707922944_n.png?_nc_cat=106&_nc_sid=b96e70&_nc_oc=AQmNBE_h8ULwP-TqzaC02YILmCRPT8IqLlrflQnfPhgq2ytDdaN3LB45QclemmyH1CA&_nc_ht=scontent-syd2-1.xx&oh=590af68d434177123e223b948fb51ae4&oe=5EEB5ED8)
+![Image of Lobby](https://user-images.githubusercontent.com/37729449/82752276-042e5780-9e11-11ea-8c06-5d4ec27955df.png)
+
 
 A lobby creation pop-up will appear when adding a lobby. The user will be given a choice to create a public lobby, where anyone is allowed to join, or they could create a private lobby where only the people who know the password to that lobby can join. If a user no longer wishes to keep that lobby, they will be allowed to delete the lobby that they have created.
 
@@ -65,7 +66,7 @@ Other song information such as artist, song title and lyrics are displayed on th
 
 The users in the lobby will be allowed to chat to one another.
 
-![Image of Music Page](https://user-images.githubusercontent.com/37729449/82751940-dfd17b80-9e0e-11ea-9ff0-29c88bfb4fa5.png)
+![Image of music player](https://user-images.githubusercontent.com/37729449/82752338-769f3780-9e11-11ea-835b-2ae76cf4cdf1.png)
 
 ## Authors
 
