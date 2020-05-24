@@ -83,9 +83,8 @@ const MusicPlayer = props => {
       if (seenTracks < previousTracks.length) {
         setCurrentTime(state.position);
         // Remove the previous track from the list
-        console.log(currentQueue);
-        console.log(seenTracks);
         if (currentQueue.length > 0) {
+          console.log('removed');
           removeSong(currentQueue[0]._id);
         }
 
@@ -96,8 +95,6 @@ const MusicPlayer = props => {
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
-      // setDeviceId(device_id);
-      console.log(device_id);
     });
 
     player.connect();
@@ -105,7 +102,9 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    if (currentSongs.length === 0 && seenTracks > 0) {
+    console.log(currentQueue);
+    console.log('currentSongs');
+    if (currentQueue.length === 0 && seenTracks > 0) {
       pausePlayback(accessToken, deviceId);
       setIsPlaying(false);
       updateSong({ error: 'no songs' });
@@ -117,6 +116,30 @@ const MusicPlayer = props => {
         updateSong(res);
       });
     }
+
+    // console.log('hahaha');
+    // if (webPlayer) {
+    //   webPlayer.removeListener('player_state_changed');
+    //   console.log(webPlayer);
+    //
+    //   webPlayer.addListener('player_state,changed', state => {
+    //     console.log('gets called');
+    //     const previousTracks = state.track_window.previous_tracks;
+    //     // console.log(previousTracks);
+    //     if (seenTracks < previousTracks.length) {
+    //       setCurrentTime(state.position);
+    //       console.log(currentQueue);
+    //       // Remove the previous track from the list
+    //       if (currentQueue.length > 0) {
+    //         console.log('removed');
+    //         removeSong(currentQueue[0]._id);
+    //       }
+    //
+    //       updateTrackNumber(previousTracks.length);
+    //       updateSong(state.track_window.current_track);
+    //     }
+    //   });
+    // }
   }, [currentQueue]);
 
   useEffect(() => {
@@ -210,8 +233,11 @@ const MusicPlayer = props => {
   };
 
   const handleVolumeChange = (event, newValue) => {
-    setVolume(newValue);
-    changeVolume(accessToken, volume);
+    if (webPlayer) {
+      webPlayer.setVolume(newValue / 100);
+      setVolume(newValue);
+    }
+    // changeVolume(accessToken, volume);
   };
 
   const handleVolumeIcon = () => {
