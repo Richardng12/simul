@@ -1,5 +1,4 @@
 const HOST = 'http://localhost:8888';
-// const HOST = 'https://quero.serveo.net';
 
 const USER_INFO = `${HOST}/userinfo`;
 const USER = `${HOST}/user`;
