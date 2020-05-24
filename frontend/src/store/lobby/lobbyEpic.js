@@ -28,7 +28,7 @@ const removeSongFromQueue = (action$, store) =>
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
       const { songId } = action;
-      const queue = await fetch(`${LOBBY}/${id}/songs`, {
+      const response = await fetch(`${LOBBY}/${id}/songs`, {
         method: 'DELETE',
         mode: 'cors',
         credentials: 'include',
@@ -39,7 +39,11 @@ const removeSongFromQueue = (action$, store) =>
         body: JSON.stringify({
           id: songId,
         }),
-      }).then(res => res.json());
+      });
+
+      const queue = await response.json();
+      socket.emit('removeFromQueue', id);
+
       return { ...action, type: actionTypes.removeSongFromQueue_success, queue };
     }),
   );
@@ -48,7 +52,6 @@ const getSingleLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.getSingleLobby),
     mergeMap(async action => {
-      console.log('get single lobby gets called');
       const id = store.value.lobbyReducer.lobbyId;
       const lobby = await fetch(`${LOBBY}/${id}`, {
         method: 'GET',
@@ -113,7 +116,6 @@ const setSongTimeStamp = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.setSongTimeStamp),
     mergeMap(async action => {
-      console.log('set current song timestamp gets called');
       const id = store.value.lobbyReducer.lobbyId;
       const timestamp = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
         method: 'PUT',

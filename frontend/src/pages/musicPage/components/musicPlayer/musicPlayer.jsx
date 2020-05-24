@@ -11,8 +11,12 @@ import socket from '../../../../socket';
 import { changeVolume, getSongInfo, pausePlayback, startPlayback } from './musicPlayerService';
 import style from './musicPlayer.module.css';
 import Progress from './Progress';
-import { setDevice, updateCurrentSong } from '../../../../store/music/musicActions';
-import { getTimeStampDifferential, setSongTimeStamp } from '../../../../store/lobby/lobbyActions';
+import { setDevice, updateCurrentSong, setSeenTracks } from '../../../../store/music/musicActions';
+import {
+  getTimeStampDifferential,
+  removeSongFromQueue,
+  setSongTimeStamp,
+} from '../../../../store/lobby/lobbyActions';
 
 const MusicPlayer = props => {
   const {
@@ -27,6 +31,9 @@ const MusicPlayer = props => {
     getTimeStampDifference,
     songStartTimeStamp,
     deviceId,
+    seenTracks,
+    updateTrackNumber,
+    removeSong,
   } = props;
   const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -37,6 +44,7 @@ const MusicPlayer = props => {
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   // const [timeStampDifferential, setTimeStampDifferential] = useState(null);
   const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
@@ -61,7 +69,6 @@ const MusicPlayer = props => {
   // };
 
   const handleScriptLoad = () => {
-    console.log('goses here');
     setScriptLoaded(true);
     const player = new window.Spotify.Player({
       name: 'Spotify Web Player', // the script is loaded in
@@ -70,15 +77,31 @@ const MusicPlayer = props => {
       },
     });
 
-    player.addListener('player_state_changed', state => {
-      setCurrentTime(state.position);
-      updateCurrentSong(state.track_window.current_track);
-    });
+    // player.addListener('player_state_changed', state => {
+    //   const previousTracks = state.track_window.previous_tracks;
+    //   // console.log(previousTracks);
+    //   if (seenTracks < previousTracks.length) {
+    //     setCurrentTime(state.position);
+    //     // Remove the previous track from the list
+    //     if (currentQueue.length > 0) {
+    //       console.log('removed');
+    //       removeSong(currentQueue[0]._id);
+    //     }
+    //
+    //     updateTrackNumber(previousTracks.length);
+    //     updateSong(state.track_window.current_track);
+    //   }
+    // });
+
+    // player.on('playback_error', ({ message }) => {
+    //   pausePlayback(accessToken, deviceId);
+    //   setIsPlaying(false);
+    //   updateSong({ error: 'no songs' });
+    //   setSeenTracks(0);
+    // });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
-      // setDeviceId(device_id);
-      console.log(device_id);
     });
 
     player.connect();
@@ -86,13 +109,36 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    if (currentSongs.length === 0) {
-      // todo: stop music player and update images and stuff
+    if (currentQueue.length === 0 && seenTracks > 0) {
+      pausePlayback(accessToken, deviceId);
+      setIsPlaying(false);
+      updateSong({ error: 'no songs' });
+      setSeenTracks(0);
     }
     if (currentSongs.length === 1) {
       const x = currentSongs.shift().substring(14);
       getSongInfo(accessToken, x).then(res => {
         updateSong(res);
+      });
+    }
+
+    // console.log('hahaha');
+    if (webPlayer) {
+      webPlayer.removeListener('player_state_changed');
+
+      webPlayer.addListener('player_state_changed', state => {
+        const previousTracks = state.track_window.previous_tracks;
+        // console.log(previousTracks);
+        if (seenTracks < previousTracks.length) {
+          setCurrentTime(state.position);
+          // Remove the previous track from the list
+          if (currentQueue.length > 0) {
+            removeSong(currentQueue[0]._id);
+          }
+
+          updateTrackNumber(previousTracks.length);
+          updateSong(state.track_window.current_track);
+        }
       });
     }
   }, [currentQueue]);
@@ -127,15 +173,23 @@ const MusicPlayer = props => {
       const timeStampToStartPlayingFrom = Math.floor(
         new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
       );
-      console.log(`song start time is: ${timeStampToStartPlayingFrom}`);
-      console.log(timeStampToStartPlayingFrom);
       if (songStartTimeStamp === null) {
+        setIsPlaying(true);
+        setCurrentTime(0);
         startPlayback(accessToken, deviceId, currentSongs, 0);
         // socket.emit('playMusic', id);
-        setTimeStamp();
         setStartProgress(true);
+        setTimeStamp();
       } else {
-        startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+        if (!isPlaying) {
+          // startPlayback(accessToken, deviceId, currentSongs, 200000);
+          // startPlayback(accessToken, deviceId, currentSongs, 0);
+          startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+
+          setIsPlaying(true);
+          setStartProgress(true);
+          setCurrentTime(timeStampToStartPlayingFrom);
+        }
         setStartProgress(true);
       }
     }
@@ -146,17 +200,10 @@ const MusicPlayer = props => {
     //   console.log('shit');
     // });
     socket.on('sendMessageToPlay', () => {
-      console.log(`music playing for ${socket.id}`);
       let initialSong;
-      // if (currentSongs.length > 0) {
-      //   initialSong = currentSongs.shift().substring(14);
-      //   // setTimeDiff();
-      // }
-      console.log(accessToken);
       getSongInfo(accessToken, initialSong).then(res => {
         updateSong(res);
       });
-      console.log(deviceId);
       startPlayback(accessToken, deviceId, currentSongs, 0);
       setStartProgress(true);
     });
@@ -182,13 +229,15 @@ const MusicPlayer = props => {
 
       // set current time stamp when playing
       // api call one
-      console.log('call');
     }
   };
 
   const handleVolumeChange = (event, newValue) => {
-    setVolume(newValue);
-    changeVolume(accessToken, volume);
+    if (webPlayer) {
+      webPlayer.setVolume(newValue / 100);
+      setVolume(newValue);
+    }
+    // changeVolume(accessToken, volume);
   };
 
   const handleVolumeIcon = () => {
@@ -265,14 +314,15 @@ const mapStateToProps = state => ({
   currentQueue: state.lobbyReducer.currentQueue,
   // timeStampDifferential: state.lobbyReducer.timeStampDifferential,
   songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
+  seenTracks: state.musicReducer.currentTracks,
 });
 
 const mapDispatchToProps = dispatch => ({
   addDeviceId: deviceId => dispatch(setDevice(deviceId)),
   updateSong: song => dispatch(updateCurrentSong(song)),
   setTimeStamp: bindActionCreators(setSongTimeStamp, dispatch),
-  // getTimeStampDifference: () => dispatch(getTimeStampDifferential()),
-  // getTimeStampDifference: bindActionCreators(getTimeStampDifferential, dispatch),
+  updateTrackNumber: seenTracks => dispatch(setSeenTracks(seenTracks)),
+  removeSong: bindActionCreators(removeSongFromQueue, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

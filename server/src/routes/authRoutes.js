@@ -6,6 +6,7 @@ const passport = require('passport');
 // placeholder for host.
 // TODO: set up environmental variables for this.
 const HOST = 'http://localhost:3000';
+// const HOST = 'http://ce3667bc.ngrok.io';
 
 router.get('/login', (req, res) => {
   res.render('login.html', { user: req.user });
