@@ -2,14 +2,14 @@ import { createStore } from 'redux';
 import { getChats, afterPostMessage, getChatsSuccess } from '../store/chat/chatActions';
 import chatReducer from '../store/chat/chatReducer';
 
-describe('test profile actions', () => {
+describe('test chat actions', () => {
   let store;
 
   beforeEach(() => {
     store = createStore(chatReducer);
   });
 
-  it('checks initial value of profile state', () => {
+  it('checks initial value of chat state', () => {
     const keys = Object.keys(store.getState());
     expect(keys.length).toBe(2);
     expect(store.getState().loading).toBe(false);
