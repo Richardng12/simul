@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MusicPage /> renders app bar 1`] = `
+<div
+  className="barContainer"
+>
+  <div
+    className="bar"
+  >
+    <button
+      className="MuiButtonBase-root MuiIconButton-root logoButton"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiIconButton-label"
+      >
+        <svg
+          height="100%"
+          viewBox="0 0 450 450"
+          width="100%"
+        >
+          <path
+            d="M340.681 135.739c-13.152-26.976-35.744-42.112-57.568-56.736-16.288-10.912-31.68-21.216-42.56-35.936l-1.952-2.624c-6.432-8.64-13.696-18.432-14.848-26.656-1.152-8.32-8.704-14.24-16.96-13.76a15.957 15.957 0 00-14.88 15.936v285.12c-13.408-8.128-29.92-13.12-48-13.12-44.096 0-80 28.704-80 64s35.904 64 80 64 80-28.704 80-64V72.955c12.544 13.312 27.136 23.104 41.376 32.64 19.168 12.832 37.28 24.96 46.656 44.192 5.888 12 8.704 25.088 8 36.736-1.76 28.512-12.512 57.184-28.032 74.88-5.856 6.624-5.216 16.736 1.44 22.56 6.592 5.888 16.704 5.184 22.56-1.44 20.032-22.752 33.824-58.784 35.968-94.016 1.055-17.376-2.816-35.616-11.2-52.768z"
+          />
+        </svg>
+      </span>
+    </button>
+    <p
+      className="barTitle"
+    />
+    <div
+      className="user"
+    >
+      <p
+        className="userName"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MusicPage /> renders chat 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="ant-comment"
+  >
+    <div
+      className="ant-comment-inner"
+    >
+      <div
+        className="ant-comment-avatar"
+      >
+        <span
+          className="ant-avatar ant-avatar-circle"
+          style={Object {}}
+        >
+          <span
+            className="ant-avatar-string"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+          />
+        </span>
+      </div>
+      <div
+        className="ant-comment-content"
+      >
+        <div
+          className="ant-comment-content-author"
+        >
+          <span
+            className="ant-comment-content-author-name"
+          >
+            <p
+              style={
+                Object {
+                  "color": "#b47725",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              
+            </p>
+          </span>
+        </div>
+        <div
+          className="ant-comment-content-detail"
+        >
+          <p
+            style={
+              Object {
+                "color": "white",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MusicPage /> renders lyrics container 1`] = `
+<div
+  className="loader"
+>
+  <div
+    className="loaderParent"
+  >
+    <div
+      className="loaderContainer"
+    >
+      <div
+        className="loader"
+      >
+        <svg
+          height="100%"
+          viewBox="0 0 450 450"
+          width="100%"
+        >
+          <path
+            d="M340.681 135.739c-13.152-26.976-35.744-42.112-57.568-56.736-16.288-10.912-31.68-21.216-42.56-35.936l-1.952-2.624c-6.432-8.64-13.696-18.432-14.848-26.656-1.152-8.32-8.704-14.24-16.96-13.76a15.957 15.957 0 00-14.88 15.936v285.12c-13.408-8.128-29.92-13.12-48-13.12-44.096 0-80 28.704-80 64s35.904 64 80 64 80-28.704 80-64V72.955c12.544 13.312 27.136 23.104 41.376 32.64 19.168 12.832 37.28 24.96 46.656 44.192 5.888 12 8.704 25.088 8 36.736-1.76 28.512-12.512 57.184-28.032 74.88-5.856 6.624-5.216 16.736 1.44 22.56 6.592 5.888 16.704 5.184 22.56-1.44 20.032-22.752 33.824-58.784 35.968-94.016 1.055-17.376-2.816-35.616-11.2-52.768z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MusicPage /> renders members list 1`] = `
+<div
+  className="MuiGrid-root root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
+>
+  <ul
+    className="MuiList-root MuiList-padding"
+  />
+</div>
+`;
+
+exports[`<MusicPage /> renders song queue table 1`] = `
+<div
+  className="table"
+>
+  <div
+    className="row topRow"
+  >
+    <p
+      className="titleHeader"
+    >
+      TITLE
+    </p>
+    <p
+      className="artistHeader"
+    >
+      ARTIST
+    </p>
+  </div>
+</div>
+`;
+
+exports[`<MusicPage /> renders song search 1`] = `
+<div
+  aria-expanded={false}
+  aria-owns={null}
+  className="MuiAutocomplete-root MuiAutocomplete-hasClearIcon MuiAutocomplete-hasPopupIcon"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  onMouseDown={[Function]}
+  role="combobox"
+  style={
+    Object {
+      "width": 300,
+    }
+  }
+>
+  <div
+    className="MuiFormControl-root MuiTextField-root makeStyles-root-24 MuiFormControl-fullWidth"
+  >
+    <label
+      className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+      data-shrink={false}
+      htmlFor="asynchronous-demo"
+      id="asynchronous-demo-label"
+    >
+      Search Songs
+    </label>
+    <div
+      className="MuiInputBase-root MuiOutlinedInput-root MuiAutocomplete-inputRoot MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+      onClick={[Function]}
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-controls={null}
+        aria-invalid={false}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoFocus={false}
+        className="MuiInputBase-input MuiOutlinedInput-input SongSearch-input2-23 MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+        disabled={false}
+        id="asynchronous-demo"
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        required={false}
+        spellCheck="false"
+        type="text"
+        value=""
+      />
+      <div
+        className="MuiAutocomplete-endAdornment"
+      >
+        <button
+          aria-label="Clear"
+          className="MuiButtonBase-root MuiIconButton-root MuiAutocomplete-clearIndicator"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={-1}
+          title="Clear"
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </span>
+        </button>
+        <button
+          aria-label="Open"
+          className="MuiButtonBase-root MuiIconButton-root MuiAutocomplete-popupIndicator"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={-1}
+          title="Open"
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <fieldset
+        aria-hidden={true}
+        className="PrivateNotchedOutline-root-115 MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          className="PrivateNotchedOutline-legendLabelled-117"
+        >
+          <span>
+            Search Songs
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MusicPage /> renders without crashing 1`] = `
+<div
+  className="loaderParent"
+>
+  <div
+    className="loaderContainer"
+  >
+    <div
+      className="loader"
+    >
+      <svg
+        height="100%"
+        preserveAspectRatio="none"
+        viewBox="-17 -5 347 347.712"
+        width="100%"
+      >
+        <path
+          d="M52.355 279.2c28.708-.032 51.97-23.294 52-52v-96.25l185.93-37.665v158.48c-16.785-19.742-45.512-24.167-67.46-10.394-21.946 13.77-30.458 41.563-19.985 65.262 10.469 23.699 36.75 36.12 61.71 29.164 24.958-6.953 41.028-31.176 37.735-56.875V26.004a26 26 0 00-9.539-20.129 25.999 25.999 0 00-21.621-5.36l-157.93 31.993c-12.105 2.484-20.804 13.12-20.836 25.48v136.028c-15.41-18.57-41.574-24.098-63.175-13.348-21.606 10.754-32.973 34.957-27.446 58.45 5.524 23.491 26.489 40.093 50.621 40.085zm198.352 46.238c-21.34.003-38.922-16.75-39.953-38.063-1.031-21.316 14.851-39.688 36.09-41.75 21.242-2.059 40.36 12.918 43.441 34.035v4.934c.004.722.137 1.441.39 2.117-.702 21.57-18.382 38.7-39.968 38.727zM104.359 57.991a14.042 14.042 0 0111.22-13.722L273.507 12.28c4.117-.836 8.39.223 11.64 2.883a13.994 13.994 0 015.137 10.84v55.039L104.36 118.707zm-52 129.207c22.09 0 40 17.906 40 40 0 22.09-17.91 40-40 40-22.093 0-40-17.91-40-40 .024-22.082 17.918-39.976 39.996-40zm0 0"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

@@ -117,7 +117,7 @@ const deleteLobby = lobbyId => ({
 });
 
 const deleteLobbySuccess = lobbies => ({
-  type: actionTypes.deleteLobbySuccess,
+  type: actionTypes.deleteLobby_success,
   lobbies,
 });
 
