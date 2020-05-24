@@ -7,6 +7,9 @@ const initialState = {
   lobbyId: '',
   users: [],
   currentQueue: [],
+  songStartTimeStamp: null,
+  currentSong: null,
+  timeStampDifferential: null,
 };
 
 const lobbyReducer = (state = initialState, action) => {
@@ -101,6 +104,57 @@ const lobbyReducer = (state = initialState, action) => {
       return {
         ...state,
         lobbies: action.lobbies,
+      };
+    case actionTypes.getCurrentSong:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.getCurrentSong_success:
+      return {
+        ...state,
+        loading: true,
+        currentSong: action.currentSong,
+      };
+    case actionTypes.getCurrentSong_fail:
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
+      };
+    case actionTypes.setSongTimeStamp:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actionTypes.setSongTimeStamp_success:
+      return {
+        ...state,
+        loading: false,
+        songStartTimeStamp: action.timestamp,
+      };
+    case actionTypes.setSongTimeStamp_fail:
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
+      };
+    case actionTypes.getTimeStampDifferential:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actionTypes.getTimeStampDifferential_success:
+      return {
+        ...state,
+        loading: false,
+        timeStampDifferential: action.timestampDifferential,
+      };
+    case actionTypes.getTimeStampDifferential_fail:
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
       };
     default:
       return {

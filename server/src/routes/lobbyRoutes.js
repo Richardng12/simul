@@ -48,7 +48,8 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     code: req.body.code,
     users: [req.user],
     password: req.body.password,
-    songStartTimeStamp: new Date(2020, 4, 20, 13, 48, 23),
+    songStartTimeStamp: null,
+    timeStampDifferential: 0,
   });
   try {
     const existingLobby = await Lobby.find({ name: req.body.name });
@@ -169,13 +170,28 @@ router.get('/:id/songs/current', access.ensureAuthenticated, getLobby, async (re
   }
 });
 
-// Get timestamp in milliseconds
+// Get timestamp in seconds
 router.get('/:id/songs/timestamp', access.ensureAuthenticated, getLobby, async (req, res) => {
+  console.log('hit the backend');
   try {
-    const timeplaying = new Date() - res.lobby.songStartTimeStamp;
-    res.status(200).json(timeplaying);
+    const timePlaying = new Date() - res.lobby.songStartTimeStamp;
+    const timePlayingInSeconds = timePlaying / 1000;
+    res.status(200).json(timePlayingInSeconds);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+// dont need
+// update the current song timestamp of the current lobby
+router.put('/:id/songs/timestamp', access.ensureAuthenticated, async (req, res) => {
+  try {
+    console.log('backend called');
+    await Lobby.updateOne({ _id: req.params.id }, { $set: { songStartTimeStamp: new Date() } });
+    //  const updatedLobby = await Lobby.findById(req.params.id);
+    res.status(200).json(new Date());
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 });
 

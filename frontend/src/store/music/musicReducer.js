@@ -3,6 +3,7 @@ import { actionTypes } from './musicActions';
 const initialState = {
   currentSong: null,
   currentDevice: null,
+  currentTracks: 0,
 };
 
 const musicReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const musicReducer = (state = initialState, action) => {
       return {
         ...state,
         currentDevice: action.deviceId,
+      };
+    case actionTypes.setSeenTracks:
+      return {
+        ...state,
+        currentTracks: action.seenTracks,
       };
     default:
       return state;

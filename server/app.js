@@ -59,6 +59,7 @@ if (process.env.NODE_ENV === 'test') {
   // connect to socket io connection on frontend
   io.on('connection', socket => {
     // when message is receive from backend
+    console.log(`${socket.client.conn.server.clientsCount} users connected`);
     socket.on('Input Chat Message', msg => {
       connect.then(() => {
         try {
@@ -87,6 +88,44 @@ if (process.env.NODE_ENV === 'test') {
           console.error(error);
         }
       });
+    });
+
+    // will be called once a user joins a lobby
+    socket.on('onLobbyJoin', lobbyId => {
+      socket.join(lobbyId);
+      console.log('user has joined lobby');
+      io.sockets.in(lobbyId).emit('joinMessage', `${lobbyId} has joined global room`);
+    });
+
+    socket.on('addToQueue', id => {
+      console.log('added to queue gets called');
+      io.in(id).clients((err, clients) => {
+        // clients will be array of socket ids , currently available in given room
+        console.log(clients);
+      });
+      socket.to(id).emit('updateQueue');
+    });
+
+    socket.on('removeFromQueue', id => {
+      socket.to(id).emit('updateQueue');
+    });
+    // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
+    socket.on('playMusic', id => {
+      io.in(id).clients((err, clients) => {
+        // clients will be array of socket ids , currently available in given room
+        console.log(clients);
+      });
+
+      console.log('playing music');
+      console.log(id);
+      io.sockets.in(id).emit('sendMessageToPlay');
+    });
+
+    io.sockets.on('disconnect', () => {
+      // handle disconnect
+      console.log('left the room');
+      io.sockets.disconnect();
+      io.sockets.close();
     });
   });
 }

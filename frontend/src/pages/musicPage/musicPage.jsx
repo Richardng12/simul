@@ -3,17 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router';
+import io from 'socket.io-client';
+import HOST from '../../config/config';
 import SimulAppBar from './components/appBar';
 import LyricsContainer from './lyricsContainer';
 import QueueContainer from './queueContainer';
 import SocialContainer from './socialContainer';
-
+import socket from '../../socket';
 import styles from './styles/musicPage.module.css';
 import {
   getSingleLobby,
   setCurrentLobbyId,
   setUsersInLobby,
   setLobbyQueue,
+  setSongTimeStamp,
 } from '../../store/lobby/lobbyActions';
 import MusicPlayerContainer from './components/musicPlayer/musicPlayerContainer';
 import Loader from '../../general/Loader';
@@ -24,10 +27,33 @@ import Loader from '../../general/Loader';
 // };
 
 const MusicPage = props => {
-  const { getLobby, lobby, loading, setId, setUsers, setQueue, currentSong } = props;
+  const {
+    getLobby,
+    lobby,
+    loading,
+    setId,
+    setUsers,
+    setQueue,
+    currentSong,
+    //  setCurrentSongTimeStamp,
+  } = props;
   // const lobbyInfo = getLobbyInfo(lobbyId, lobbies);
 
   const { id } = useParams();
+
+  useEffect(() => {
+    // get all chats for a lobby
+    socket.emit('onLobbyJoin', id);
+
+    socket.on('joinMessage', data => {
+      // eslint-disable-next-line no-console
+      console.log(data);
+    });
+    return () => {
+      socket.off();
+    };
+  }, []);
+
   useEffect(() => {
     setId(id);
     getLobby();
