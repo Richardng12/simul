@@ -481,6 +481,25 @@ describe('Lobbies', () => {
     });
   });
 
+  describe('/GET/:id song timestamp', () => {
+    it('it should GET the timestamp of the song playing in the lobby', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Edward',
+        code: 'hi',
+        songs: [],
+        users: [],
+      });
+      lobby.save((err, resLobby) => {
+        authenticatedUser.get('/lobbies/' + resLobby.id + '/songs/timestamp').end((_err, res) => {
+          expect(res.statusCode).to.be.equal(200);
+          done();
+        });
+      });
+    });
+  });
+
   describe('Authentication check', () => {
     it('should return 200 response when user is logged in', done => {
       authenticatedUser.get('/account').end((req, res) => {
