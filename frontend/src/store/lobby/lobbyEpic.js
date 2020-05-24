@@ -160,8 +160,10 @@ const addSongToQueue = (action$, store) =>
       console.log('hit add song to queue epic');
 
       socket.emit('addToPlayerQueue', id);
+      // await addToCurrentQueue(accessToken, deviceId, spotifyURI);
 
       socket.on('addToSpotifyPlayerQueue', async () => {
+        console.log('BAM BAM');
         await addToCurrentQueue(accessToken, deviceId, spotifyURI);
       });
 
