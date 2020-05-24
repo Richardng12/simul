@@ -47,6 +47,7 @@ router.post('/', access.ensureAuthenticated, async (req, res) => {
     createdBy: req.user._id,
     code: req.body.code,
     users: [req.user],
+    songs: req.body.songs,
     password: req.body.password,
     songStartTimeStamp: null,
     timeStampDifferential: 0,
@@ -143,7 +144,8 @@ router.delete('/:id/users', access.ensureAuthenticated, async (req, res) => {
   try {
     const objectId = new mongodb.ObjectID(req.body.id);
     await Lobby.updateOne({ _id: req.params.id }, { $pull: { users: { _id: objectId } } });
-    res.status(200).json({ message: 'User has been deleted' });
+    const updatedLobby = await Lobby.findById(req.params.id);
+    res.status(200).json(updatedLobby.users);
   } catch (err) {
     res.status(400).json({ message: 'did not delete user' });
   }
