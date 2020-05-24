@@ -48,6 +48,7 @@ const MusicPlayer = props => {
   // const [timeStampDifferential, setTimeStampDifferential] = useState(null);
   const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
+
   // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
 
   // todo: replace with call to API
@@ -125,19 +126,21 @@ const MusicPlayer = props => {
     // console.log('hahaha');
     if (webPlayer) {
       webPlayer.removeListener('player_state_changed');
-
       webPlayer.addListener('player_state_changed', state => {
-        console.log('goes here');
         const previousTracks = state.track_window.previous_tracks;
-        // console.log(previousTracks);
+        console.log(state.track_window);
         if (seenTracks < previousTracks.length) {
-          setCurrentTime(state.position);
+          console.log('here');
+          // console.log(seenTracks);
+          // console.log(previousTracks.length);
+          setCurrentTime(0);
           // Remove the previous track from the list
           if (currentQueue.length > 0) {
             removeSong(currentQueue[0]._id);
           }
 
           updateTrackNumber(previousTracks.length);
+          console.log(currentQueue);
           updateSong(state.track_window.current_track);
         }
       });
@@ -153,17 +156,17 @@ const MusicPlayer = props => {
       handleScriptLoad();
     };
 
-    let initialSong;
-    if (currentSongs.length > 0) {
-      initialSong = currentSongs.shift().substring(14);
-      // setTimeDiff();
-    }
-
-    // TODO: move this outside of the music player
-    getSongInfo(accessToken, initialSong).then(res => {
-      // setCurrentSong(res);
-      updateSong(res);
-    });
+    // let initialSong;
+    // if (currentSongs.length > 0) {
+    //   initialSong = currentSongs.shift().substring(14);
+    //   // setTimeDiff();
+    // }
+    //
+    // // TODO: move this outside of the music player
+    // getSongInfo(accessToken, initialSong).then(res => {
+    //   // setCurrentSong(res);
+    //   updateSong(res);
+    // });
   }, []);
   const onLoad = () => {
     handleScriptLoad();
@@ -183,13 +186,13 @@ const MusicPlayer = props => {
         setTimeStamp();
       } else {
         if (!isPlaying) {
-          startPlayback(accessToken, deviceId, currentSongs, 200000);
+          startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+          // startPlayback(accessToken, deviceId, currentSongs, 200000);
           // startPlayback(accessToken, deviceId, currentSongs, 0);
-          // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
 
           setIsPlaying(true);
           setStartProgress(true);
-          setCurrentTime(200000);
+          setCurrentTime(timeStampToStartPlayingFrom);
         }
         setStartProgress(true);
       }
