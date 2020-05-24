@@ -56,7 +56,6 @@ describe('Lobbies', () => {
         isPublic: true,
         createdBy: 'Richard',
         code: 'ABC',
-        users: [],
       };
       authenticatedUser
         .post('/lobbies')
@@ -71,7 +70,6 @@ describe('Lobbies', () => {
       const lobby = {
         name: 'name',
         isPublic: true,
-        createdBy: 'asdf',
         code: 'ABC',
         users: [],
       };
@@ -86,6 +84,8 @@ describe('Lobbies', () => {
           expect(res.body).to.have.property('createdBy');
           expect(res.body).to.have.property('code');
           expect(res.body).to.have.property('users');
+          expect(res.body).to.have.property('songs');
+          expect(res.body.users).to.have.length(1);
           done();
         });
     });
@@ -113,9 +113,31 @@ describe('Lobbies', () => {
             expect(res.body).to.have.property('createdBy');
             expect(res.body).to.have.property('code');
             expect(res.body).to.have.property('users');
+            expect(res.body).to.have.property('songs');
             expect(res.body)
               .to.have.property('_id')
               .equal(lobby.id);
+            done();
+          });
+      });
+    });
+    it('it should return lobby not found when given a wrong id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save(() => {
+        authenticatedUser
+          .get('/lobbies/1231')
+          .send(lobby)
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(404);
+            expect(res.body)
+              .to.have.property('message')
+              .equal('lobby not found');
             done();
           });
       });
@@ -277,7 +299,7 @@ describe('Lobbies', () => {
   });
 
   // Test the /DELETE/:id route
-  describe('/DELETE:id Lobby', () => {
+  describe('/DELETE/:id Lobby', () => {
     it('it should DELETE a lobby given the id', done => {
       const lobby = new Lobby({
         name: 'test',
@@ -293,65 +315,214 @@ describe('Lobbies', () => {
         });
       });
     });
+    it('it should not DELETE a lobby when given the wrong id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Richard',
+        code: 'ABC',
+        users: [],
+      });
+      lobby.save(() => {
+        authenticatedUser.delete('/lobbies/1').end((_err, res) => {
+          expect(res.statusCode).to.be.equal(404);
+          done();
+        });
+      });
+    });
   });
-  // it('it should not DELETE a lobby when given the wrong id', done => {
-  //   const lobby = new Lobby({
-  //     name: 'test',
-  //     isPublic: true,
-  //     createdBy: 'Richard',
-  //     code: 'ABC',
-  //     users: [],
-  //   });
-  //   lobby.save(() => {
-  //     authenticatedUser.delete('/lobbies/asdfasdfasdf').end((_err, res) => {
-  //       expect(res.statusCode).to.be.equal(404);
-  //       done();
-  //     });
-  //   });
-  // });
-});
 
-describe('Authentication check', () => {
-  it('should return 200 response when user is logged in', done => {
-    authenticatedUser.get('/account').end((req, res) => {
-      expect(res.statusCode).to.be.equal(200);
-      expect('Location', '/');
-      done();
+  describe('/DELETE/:id song', () => {
+    it('it should DELETE a song given the lobby id and song id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Edward',
+        code: 'hi',
+        songs: [
+          {
+            _id: '5ec9ea0722b3c34e21c94bbc',
+            title: 'death bed (coffee for your head) (feat. beabadoobee)',
+            artist: 'Powfu',
+            addedBy: '5eb7b306cd7532103486fa8a',
+            spotifySongId: '7eJMfftS33KTjuF7lTsMCx',
+          },
+        ],
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser
+          .delete('/lobbies/' + lobbyRes.id + '/songs')
+          .send({ id: '5ec9ea0722b3c34e21c94bbc' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(200);
+            // console.log(res.body);
+            // expect(res.body).to.have.length(0);
+            done();
+          });
+      });
     });
   });
-  it('should return 302 response unauthenticated user accesses /account', done => {
-    unauthenticatedUser.get('/account').end((req, res) => {
-      expect(res.statusCode).to.be.equal(302);
-      expect('Location', '/');
-      done();
-    });
-  });
-  it('should return 200 response when authenticated user goes on landing page', done => {
-    authenticatedUser.get('/').end((req, res) => {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-  it('should return 200 response when unauthenticated user goes on landing page', done => {
-    unauthenticatedUser.get('/').end((req, res) => {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-  it('should return 200 response when authenticated user accesses lobbies', done => {
-    authenticatedUser.get('/lobbies').end((req, res) => {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-  it('should return 302 response when unauthenticated user accesses lobbies', done => {
-    unauthenticatedUser.get('/lobbies').end((req, res) => {
-      expect(res.statusCode).to.be.equal(302);
-      done();
-    });
-  });
-});
 
-after(async () => {
-  mongoose.connection.close();
+  describe('/DELETE/:id user', () => {
+    it('it should DELETE a user given the lobby id and user id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Edward',
+        code: 'hi',
+        songs: [],
+        users: [
+          {
+            _id: '5e8994de73370a61e83e1695',
+            username: 'edward.zhang',
+            displayName: 'edward.zhang',
+            spotifyId: 'edward.zhang',
+            country: 'NZ',
+            email: 'ez.zhang1999@gmail.com',
+            thumbnail: 'true',
+            profileUrl: 'https://open.spotify.com/user/edward.zhang',
+            accessToken:
+              'BQADU5BghhBa78v1Ap-kVYLxycHpWLQg8fq2ADGyFrBNYSQP1nQ3YAOaUbdx-gBJUzkQ57BVddcBl1ckGFhMty7bClHClcd-xvn876yrgRZNKDoaHLcR3gpcElw0bXk509rfez7Y2HMjbepd5G9Q-ZC8YKUFU4CSKPOPGZNdpr5ZCl4DmxvB_NG11SIvc7kMjTPiRmNzDyDpWPhrJV2KnqHzHNvMlvO6TmDhz0Rv2HzxMQ3X3McsbWbxGLW-y869GS8',
+            refreshToken:
+              'AQCEte0uXRfdacGqfnJAfs2cYqTiy4iY22-vdOcjKvQ3Q7lzVXIOhHYKUp_fLEnVYnCI04J7oxFa4Hd25fHwzaTmxKU3gnKmdHREgM33X3-FmzbQ8AGqzuc_nTRCkTEcJDI',
+            __v: 0,
+          },
+        ],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser
+          .delete('/lobbies/' + lobbyRes.id + '/users')
+          .send({ id: '5e8994de73370a61e83e1695' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(200);
+            // expect(res.body).to.have.length(0);
+            done();
+          });
+      });
+    });
+    it('it should not DELETE a user given the lobby id is incorrect', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Edward',
+        code: 'hi',
+        songs: [],
+        users: [
+          {
+            _id: '5e8994de73370a61e83e1695',
+            username: 'edward.zhang',
+            displayName: 'edward.zhang',
+            spotifyId: 'edward.zhang',
+            country: 'NZ',
+            email: 'ez.zhang1999@gmail.com',
+            thumbnail: 'true',
+            profileUrl: 'https://open.spotify.com/user/edward.zhang',
+            accessToken:
+              'BQADU5BghhBa78v1Ap-kVYLxycHpWLQg8fq2ADGyFrBNYSQP1nQ3YAOaUbdx-gBJUzkQ57BVddcBl1ckGFhMty7bClHClcd-xvn876yrgRZNKDoaHLcR3gpcElw0bXk509rfez7Y2HMjbepd5G9Q-ZC8YKUFU4CSKPOPGZNdpr5ZCl4DmxvB_NG11SIvc7kMjTPiRmNzDyDpWPhrJV2KnqHzHNvMlvO6TmDhz0Rv2HzxMQ3X3McsbWbxGLW-y869GS8',
+            refreshToken:
+              'AQCEte0uXRfdacGqfnJAfs2cYqTiy4iY22-vdOcjKvQ3Q7lzVXIOhHYKUp_fLEnVYnCI04J7oxFa4Hd25fHwzaTmxKU3gnKmdHREgM33X3-FmzbQ8AGqzuc_nTRCkTEcJDI',
+            __v: 0,
+          },
+        ],
+      });
+      lobby.save(() => {
+        authenticatedUser
+          .delete('/lobbies/123/users')
+          .send({ id: '5e8994de73370a61e83e1695' })
+          .end((_err, res) => {
+            expect(res.statusCode).to.be.equal(400);
+            expect(res.body).to.have.property('message');
+            // expect(res.body).to.have.length(0);
+            done();
+          });
+      });
+    });
+  });
+
+  describe('/GET/:id song current', () => {
+    it('it should GET the current song given the lobby id', done => {
+      const lobby = new Lobby({
+        name: 'test',
+        isPublic: true,
+        createdBy: 'Edward',
+        code: 'hi',
+        songs: [
+          {
+            _id: '5eca03e4b9985009f81aab5c',
+            title: 'Concierto de Aranjuez for Guitar and Orchestra: 2. Adagio',
+            artist: 'Joaquín Rodrigo',
+            addedBy: '5e8994de73370a61e83e1695',
+            spotifySongId: '0DvLcwb4v0rPmJ8S8R9thy',
+          },
+          {
+            _id: '5eca03efb9985009f81aab5d',
+            title: 'Egmont Overture, Op. 84 - Remastered',
+            artist: 'Ludwig van Beethoven',
+            addedBy: '5e8994de73370a61e83e1695',
+            spotifySongId: '1EjfCGPicAauZwnbFrTczK',
+          },
+        ],
+        users: [],
+      });
+      lobby.save((err, lobbyRes) => {
+        authenticatedUser.get('/lobbies/' + lobbyRes.id + '/songs/current').end((_err, res) => {
+          expect(res.statusCode).to.be.equal(200);
+          expect(res.body).to.be.a('object');
+          expect(res.body._id).to.be.equal('5eca03e4b9985009f81aab5c');
+          expect(res.body.title).to.be.equal(
+            'Concierto de Aranjuez for Guitar and Orchestra: 2. Adagio',
+          );
+          expect(res.body.artist).to.be.equal('Joaquín Rodrigo');
+          expect(res.body.spotifySongId).to.be.equal('0DvLcwb4v0rPmJ8S8R9thy');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Authentication check', () => {
+    it('should return 200 response when user is logged in', done => {
+      authenticatedUser.get('/account').end((req, res) => {
+        expect(res.statusCode).to.be.equal(200);
+        expect('Location', '/');
+        done();
+      });
+    });
+    it('should return 302 response unauthenticated user accesses /account', done => {
+      unauthenticatedUser.get('/account').end((req, res) => {
+        expect(res.statusCode).to.be.equal(302);
+        expect('Location', '/');
+        done();
+      });
+    });
+    it('should return 200 response when authenticated user goes on landing page', done => {
+      authenticatedUser.get('/').end((req, res) => {
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+    it('should return 200 response when unauthenticated user goes on landing page', done => {
+      unauthenticatedUser.get('/').end((req, res) => {
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+    it('should return 200 response when authenticated user accesses lobbies', done => {
+      authenticatedUser.get('/lobbies').end((req, res) => {
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+    it('should return 302 response when unauthenticated user accesses lobbies', done => {
+      unauthenticatedUser.get('/lobbies').end((req, res) => {
+        expect(res.statusCode).to.be.equal(302);
+        done();
+      });
+    });
+  });
+
+  after(async () => {
+    mongoose.connection.close();
+  });
 });
