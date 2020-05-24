@@ -9,7 +9,6 @@ const initialState = {
 const musicReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.updateCurrentSong:
-      console.log(action.song);
       return {
         ...state,
         currentSong: action.song.error ? null : action.song,

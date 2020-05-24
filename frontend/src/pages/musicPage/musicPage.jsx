@@ -46,6 +46,7 @@ const MusicPage = props => {
     socket.emit('onLobbyJoin', id);
 
     socket.on('joinMessage', data => {
+      // eslint-disable-next-line no-console
       console.log(data);
     });
     return () => {

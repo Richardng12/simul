@@ -109,8 +109,6 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    console.log(currentQueue);
-    console.log('currentSongs');
     if (currentQueue.length === 0 && seenTracks > 0) {
       pausePlayback(accessToken, deviceId);
       setIsPlaying(false);
@@ -171,9 +169,6 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
-    console.log(currentSongs);
-    console.log(currentQueue);
-    console.log(deviceId);
     if (currentSongs.length > 0 && deviceId !== null) {
       const timeStampToStartPlayingFrom = Math.floor(
         new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
@@ -186,7 +181,6 @@ const MusicPlayer = props => {
         setStartProgress(true);
         setTimeStamp();
       } else {
-        console.log(isPlaying);
         if (!isPlaying) {
           // startPlayback(accessToken, deviceId, currentSongs, 200000);
           // startPlayback(accessToken, deviceId, currentSongs, 0);
@@ -235,7 +229,6 @@ const MusicPlayer = props => {
 
       // set current time stamp when playing
       // api call one
-      console.log('call');
     }
   };
 

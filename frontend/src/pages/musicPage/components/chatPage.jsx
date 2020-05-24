@@ -56,7 +56,6 @@ const ChatPage = props => {
 
   // send this data to backend
   const submitChatMessage = e => {
-    console.log('submitted');
     e.preventDefault();
 
     const userId = user._id;

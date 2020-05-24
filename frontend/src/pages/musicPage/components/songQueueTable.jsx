@@ -30,15 +30,6 @@ const SongQueueTable = props => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   // get all chats for a lobby
-  //   // rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
-  //   socket.on('updateQueue', () => {
-  //     console.log('queue frontend');
-  //     rows = currentQueue.map(song => createData(song._id, song.title, song.artist, song.addedBy));
-  //   });
-  // }, []);
-
   return (
     <div className={styles.table}>
       <div className={classNames(styles.row, styles.topRow)}>

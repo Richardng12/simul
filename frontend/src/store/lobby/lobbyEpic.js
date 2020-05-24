@@ -52,7 +52,6 @@ const getSingleLobby = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.getSingleLobby),
     mergeMap(async action => {
-      console.log('get single lobby gets called');
       const id = store.value.lobbyReducer.lobbyId;
       const lobby = await fetch(`${LOBBY}/${id}`, {
         method: 'GET',
@@ -117,7 +116,6 @@ const setSongTimeStamp = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.setSongTimeStamp),
     mergeMap(async action => {
-      console.log('set current song timestamp gets called');
       const id = store.value.lobbyReducer.lobbyId;
       const timestamp = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
         method: 'PUT',
@@ -155,8 +153,6 @@ const addSongToQueue = (action$, store) =>
 
       const queue = await response.json();
       socket.emit('addToQueue', id);
-      console.log('ADDED TO QUEUE');
-      console.log(queue);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),
     catchError(err =>
