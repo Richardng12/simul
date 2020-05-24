@@ -77,21 +77,28 @@ const MusicPlayer = props => {
       },
     });
 
-    player.addListener('player_state_changed', state => {
-      const previousTracks = state.track_window.previous_tracks;
-      // console.log(previousTracks);
-      if (seenTracks < previousTracks.length) {
-        setCurrentTime(state.position);
-        // Remove the previous track from the list
-        if (currentQueue.length > 0) {
-          console.log('removed');
-          removeSong(currentQueue[0]._id);
-        }
+    // player.addListener('player_state_changed', state => {
+    //   const previousTracks = state.track_window.previous_tracks;
+    //   // console.log(previousTracks);
+    //   if (seenTracks < previousTracks.length) {
+    //     setCurrentTime(state.position);
+    //     // Remove the previous track from the list
+    //     if (currentQueue.length > 0) {
+    //       console.log('removed');
+    //       removeSong(currentQueue[0]._id);
+    //     }
+    //
+    //     updateTrackNumber(previousTracks.length);
+    //     updateSong(state.track_window.current_track);
+    //   }
+    // });
 
-        updateTrackNumber(previousTracks.length);
-        updateSong(state.track_window.current_track);
-      }
-    });
+    // player.on('playback_error', ({ message }) => {
+    //   pausePlayback(accessToken, deviceId);
+    //   setIsPlaying(false);
+    //   updateSong({ error: 'no songs' });
+    //   setSeenTracks(0);
+    // });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
@@ -118,28 +125,24 @@ const MusicPlayer = props => {
     }
 
     // console.log('hahaha');
-    // if (webPlayer) {
-    //   webPlayer.removeListener('player_state_changed');
-    //   console.log(webPlayer);
-    //
-    //   webPlayer.addListener('player_state,changed', state => {
-    //     console.log('gets called');
-    //     const previousTracks = state.track_window.previous_tracks;
-    //     // console.log(previousTracks);
-    //     if (seenTracks < previousTracks.length) {
-    //       setCurrentTime(state.position);
-    //       console.log(currentQueue);
-    //       // Remove the previous track from the list
-    //       if (currentQueue.length > 0) {
-    //         console.log('removed');
-    //         removeSong(currentQueue[0]._id);
-    //       }
-    //
-    //       updateTrackNumber(previousTracks.length);
-    //       updateSong(state.track_window.current_track);
-    //     }
-    //   });
-    // }
+    if (webPlayer) {
+      webPlayer.removeListener('player_state_changed');
+
+      webPlayer.addListener('player_state_changed', state => {
+        const previousTracks = state.track_window.previous_tracks;
+        // console.log(previousTracks);
+        if (seenTracks < previousTracks.length) {
+          setCurrentTime(state.position);
+          // Remove the previous track from the list
+          if (currentQueue.length > 0) {
+            removeSong(currentQueue[0]._id);
+          }
+
+          updateTrackNumber(previousTracks.length);
+          updateSong(state.track_window.current_track);
+        }
+      });
+    }
   }, [currentQueue]);
 
   useEffect(() => {
@@ -168,6 +171,9 @@ const MusicPlayer = props => {
   };
 
   useEffect(() => {
+    console.log(currentSongs);
+    console.log(currentQueue);
+    console.log(deviceId);
     if (currentSongs.length > 0 && deviceId !== null) {
       const timeStampToStartPlayingFrom = Math.floor(
         new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
@@ -180,14 +186,15 @@ const MusicPlayer = props => {
         setStartProgress(true);
         setTimeStamp();
       } else {
+        console.log(isPlaying);
         if (!isPlaying) {
-          startPlayback(accessToken, deviceId, currentSongs, 200000);
+          // startPlayback(accessToken, deviceId, currentSongs, 200000);
           // startPlayback(accessToken, deviceId, currentSongs, 0);
-          // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
+          startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
 
           setIsPlaying(true);
           setStartProgress(true);
-          setCurrentTime(200000);
+          setCurrentTime(timeStampToStartPlayingFrom);
         }
         setStartProgress(true);
       }
