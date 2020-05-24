@@ -2,6 +2,9 @@
 
 Simul is a Spotify music syncing application. It allows you to join lobbies to listen to what everyone else is listening to. You can add songs to the song queue for the lobby and everyone listening to that queue will have their music in sync.
 
+![FrontPage](https://user-images.githubusercontent.com/37729449/82751848-3ab6a300-9e0e-11ea-9aa7-fa696893f29d.png)
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing.
@@ -24,7 +27,7 @@ npm install
 
 There are two separate projects. One is for the server, and another for the frontend. After installing dependencies, run `npm start` on both the server and frontend directories. Errors will be thrown if npm dependencies have not been installed.
 
-The server should start up on `localhost:8888`, and the frontend should start up on `localhost:3000`.
+The server should start up on `localhost:8888`, and the frontend should start up on `localhost:3000` in your web browser. This may take a long time due.
 
 ### Running the tests
 
@@ -42,7 +45,8 @@ npx eslint src
 
 After successfully logging into the application with Spotify. The user will be greeted with the lobby selection page. The user can enter a lobby that has been created by another user, or they can create their own lobby, where other users can join.
 
-![Image of Lobbies](https://scontent-syd2-1.xx.fbcdn.net/v/t1.15752-9/100541078_285828885775632_7418720370707922944_n.png?_nc_cat=106&_nc_sid=b96e70&_nc_oc=AQmNBE_h8ULwP-TqzaC02YILmCRPT8IqLlrflQnfPhgq2ytDdaN3LB45QclemmyH1CA&_nc_ht=scontent-syd2-1.xx&oh=590af68d434177123e223b948fb51ae4&oe=5EEB5ED8)
+![Image of Lobby](https://user-images.githubusercontent.com/37729449/82752276-042e5780-9e11-11ea-8c06-5d4ec27955df.png)
+
 
 A lobby creation pop-up will appear when adding a lobby. The user will be given a choice to create a public lobby, where anyone is allowed to join, or they could create a private lobby where only the people who know the password to that lobby can join. If a user no longer wishes to keep that lobby, they will be allowed to delete the lobby that they have created.
 
@@ -62,7 +66,7 @@ Other song information such as artist, song title and lyrics are displayed on th
 
 The users in the lobby will be allowed to chat to one another.
 
-![Image of music page](https://scontent-syd2-1.xx.fbcdn.net/v/t1.15752-9/99440006_579709936252145_4387129855288803328_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_oc=AQnCar9H3_eIR_Hy8DFBGq_IghhLnmaQWN1bkw-BRFTJlkwDORFbQSG3HHx7wd7a-Vc&_nc_ht=scontent-syd2-1.xx&oh=6cc64792d2317be2fe57c9a44e1ff259&oe=5EEBD0F4)
+![Image of music player](https://user-images.githubusercontent.com/37729449/82752338-769f3780-9e11-11ea-835b-2ae76cf4cdf1.png)
 
 ## Authors
 
