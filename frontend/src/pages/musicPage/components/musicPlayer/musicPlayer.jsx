@@ -251,15 +251,7 @@ const MusicPlayer = props => {
         <div>Loading...</div>
       ) : (
         <div className={style.player}>
-          <div className={style.leftSide}>
-            {/* TODO: remove these buttons */}
-            <button type="button" onClick={() => handleStartClick()}>
-              start
-            </button>
-            <button type="button" onClick={() => pausePlayback(accessToken, deviceId)}>
-              stop
-            </button>
-          </div>
+          <div className={style.leftSide} />
           <div className={style.mainContent}>
             <Progress
               startProgress={startProgress}
