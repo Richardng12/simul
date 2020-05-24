@@ -2,8 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import configureMockStore from 'redux-mock-store';
 import MusicPage from '../pages/musicPage/musicPage';
 import AppBar from '../pages/musicPage/components/appBar';
@@ -13,7 +11,6 @@ import SongQueueTable from '../pages/musicPage/components/songQueueTable';
 import MembersList from '../pages/musicPage/components/membersList';
 import ChatCard from '../pages/musicPage/components/ChatCard';
 import './__mocks__/matchMedia.mock';
-import ChatPage from '../pages/musicPage/components/chatPage';
 
 const mockStore = configureMockStore();
 
