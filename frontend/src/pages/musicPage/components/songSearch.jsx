@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint no-unused-vars: 0 */
 import React, { useState, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { useParams } from 'react-router';
 import { addSongToQueue } from '../../../store/lobby/lobbyActions';
 import { SONGS } from '../../../config/config';
 
@@ -50,6 +52,7 @@ const SongSearch = props => {
 
   const styleClasses = useStyles();
 
+  const { id } = useParams();
   useEffect(() => {
     let active = true;
 
@@ -97,6 +100,8 @@ const SongSearch = props => {
       onChange={(event, value) => {
         if (value !== null) {
           addSong(value.spotifySongId);
+
+          // console.log(`lobby serach id is ${id}`);
         }
       }}
       renderInput={params => (

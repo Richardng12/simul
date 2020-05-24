@@ -1,6 +1,7 @@
 import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { actionTypes } from './lobbyActions';
 import { LOBBY } from '../../config/config';
+import socket from '../../socket';
 
 const getLobbies = action$ =>
   action$.pipe(
@@ -27,7 +28,7 @@ const removeSongFromQueue = (action$, store) =>
     mergeMap(async action => {
       const id = store.value.lobbyReducer.lobbyId;
       const { songId } = action;
-      const queue = await fetch(`${LOBBY}/${id}/songs`, {
+      const response = await fetch(`${LOBBY}/${id}/songs`, {
         method: 'DELETE',
         mode: 'cors',
         credentials: 'include',
@@ -38,7 +39,11 @@ const removeSongFromQueue = (action$, store) =>
         body: JSON.stringify({
           id: songId,
         }),
-      }).then(res => res.json());
+      });
+
+      const queue = await response.json();
+      socket.emit('removeFromQueue', id);
+
       return { ...action, type: actionTypes.removeSongFromQueue_success, queue };
     }),
   );
@@ -63,6 +68,70 @@ const getSingleLobby = (action$, store) =>
     ),
   );
 
+const getCurrentSong = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getCurrentSong),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const currentSong = await fetch(`${LOBBY}/${id}/songs/current`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.getCurrentSong_success, currentSong };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getCurrentSong_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const getTimeStampDifferential = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.getTimeStampDifferential),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const timeStampDifferential = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return {
+        ...action,
+        type: actionTypes.getTimeStampDifferential_success,
+        timeStampDifferential,
+      };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.getTimeStampDifferential_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
+const setSongTimeStamp = (action$, store) =>
+  action$.pipe(
+    filter(action => action.type === actionTypes.setSongTimeStamp),
+    mergeMap(async action => {
+      const id = store.value.lobbyReducer.lobbyId;
+      const timestamp = await fetch(`${LOBBY}/${id}/songs/timestamp`, {
+        method: 'PUT',
+        mode: 'cors',
+        credentials: 'include',
+      }).then(res => res.json());
+      return { ...action, type: actionTypes.setSongTimeStamp_success, timestamp };
+    }),
+    catchError(err =>
+      Promise.resolve({
+        type: actionTypes.setSongTimeStamp_fail,
+        message: err.message,
+      }),
+    ),
+  );
+
 const addSongToQueue = (action$, store) =>
   action$.pipe(
     filter(action => action.type === actionTypes.addSongToQueue),
@@ -81,7 +150,9 @@ const addSongToQueue = (action$, store) =>
           spotifySongId,
         }),
       });
+
       const queue = await response.json();
+      socket.emit('addToQueue', id);
       return { ...action, type: actionTypes.addSongToQueue_success, queue };
     }),
     catchError(err =>
@@ -180,4 +251,7 @@ export {
   setUsers,
   deleteLobby,
   setLobbyQueue,
+  getCurrentSong,
+  setSongTimeStamp,
+  getTimeStampDifferential,
 };

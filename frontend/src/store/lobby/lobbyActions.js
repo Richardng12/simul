@@ -19,6 +19,15 @@ export const actionTypes = {
   deleteLobby_success: 'DELETE_LOBBY_SUCCESS',
   setLobbyQueue: 'SET_LOBBY_QUEUE',
   setLobbyQueue_success: 'SET_LOBBY_QUEUE_SUCCESS',
+  getCurrentSong: 'GET_CURRENT_SONG',
+  getCurrentSong_success: 'GET_CURRENT_SONG_SUCCESS',
+  getCurrentSong_fail: 'GET_CURRENT_SONG_FAIL',
+  setSongTimeStamp: 'SET_SONG_TIME_STAMP',
+  setSongTimeStamp_success: 'SET_SONG_TIME_STAMP_SUCCESS',
+  setSongTimeStamp_fail: 'SET_SONG_TIME_STAMP_FAIL',
+  getTimeStampDifferential: 'GET_TIME_STAMP_DIFFERENTIAL',
+  getTimeStampDifferential_success: 'GET_TIME_STAMP_DIFFERENTIAL_SUCCESS',
+  getTimeStampDifferential_fail: 'GET_TIME_STAMP_DIFFERENTIAL_FAIL',
 };
 
 const getAllLobbies = () => ({
@@ -120,6 +129,47 @@ const setLobbyQueueSuccess = queue => ({
   queue,
 });
 
+const getCurrentSong = () => ({
+  type: actionTypes.getCurrentSong,
+});
+
+const getCurrentSongSuccess = currentSong => ({
+  type: actionTypes.getCurrentSong_success,
+  currentSong,
+});
+
+const getCurrentSongFail = message => ({
+  type: actionTypes.getCurrentSong_fail,
+  message,
+});
+
+const setSongTimeStamp = () => ({
+  type: actionTypes.setSongTimeStamp,
+});
+
+const setSongTimeStampSuccess = timestamp => ({
+  type: actionTypes.setSongTimeStamp_success,
+  timestamp,
+});
+const setSongTimeStampFail = message => ({
+  type: actionTypes.setSongTimeStamp_fail,
+  message,
+});
+
+const getTimeStampDifferential = () => ({
+  type: actionTypes.getTimeStampDifferential,
+});
+
+const getTimeStampDifferentialSuccess = timestampDifferential => ({
+  type: actionTypes.getTimeStampDifferential_success,
+  timestampDifferential,
+});
+
+const getTimeStampDifferentialFail = message => ({
+  type: actionTypes.getTimeStampDifferential_fail,
+  message,
+});
+
 export {
   getAllLobbies,
   getAllLobbiesSuccess,
@@ -141,4 +191,13 @@ export {
   deleteLobbySuccess,
   setLobbyQueue,
   setLobbyQueueSuccess,
+  getCurrentSong,
+  getCurrentSongSuccess,
+  getCurrentSongFail,
+  setSongTimeStamp,
+  setSongTimeStampSuccess,
+  setSongTimeStampFail,
+  getTimeStampDifferential,
+  getTimeStampDifferentialSuccess,
+  getTimeStampDifferentialFail,
 };

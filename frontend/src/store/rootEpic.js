@@ -11,6 +11,8 @@ import getLobbies, {
   setUsers,
   deleteLobby,
   setLobbyQueue,
+  setSongTimeStamp,
+  getTimeStampDifferential,
 } from './lobby/lobbyEpic';
 
 // does nothing
@@ -33,6 +35,8 @@ const rootEpic = combineEpics(
   setUsers,
   deleteLobby,
   setLobbyQueue,
+  setSongTimeStamp,
+  getTimeStampDifferential,
 );
 
 export default rootEpic;
