@@ -91,15 +91,6 @@ router.get('/userinfo', access.ensureAuthenticated, async (req, res) => {
   );
 });
 
-// router.get('/user', access.ensureAuthenticated, async (req, res) => {
-//   try {
-//     const result = await User.findById(req.user._id);
-//     res.status(200).send(result);
-//   } catch (err) {
-//     res.status(400);
-//   }
-// });
-
 // search songs
 router.get('/songs', access.ensureAuthenticated, async (req, res) => {
   const apiCall = async () => {

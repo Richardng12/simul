@@ -59,7 +59,6 @@ if (process.env.NODE_ENV === 'test') {
   // connect to socket io connection on frontend
   io.on('connection', socket => {
     // when message is receive from backend
-    console.log(`${socket.client.conn.server.clientsCount} users connected`);
     socket.on('Input Chat Message', msg => {
       connect.then(() => {
         try {
@@ -73,6 +72,7 @@ if (process.env.NODE_ENV === 'test') {
           // save chat msg to db
           chat.save((err, doc) => {
             if (err) {
+              // eslint-disable-next-line no-console
               console.log(err);
             }
             // find that particular id, and the sender's info who sent it
@@ -80,11 +80,11 @@ if (process.env.NODE_ENV === 'test') {
               .populate('sender')
               .exec((err, doc) => {
                 // send message back to frontend
-                console.log(doc);
                 return io.emit('Output Chat Message', doc);
               });
           });
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       });
@@ -93,14 +93,13 @@ if (process.env.NODE_ENV === 'test') {
     // will be called once a user joins a lobby
     socket.on('onLobbyJoin', lobbyId => {
       socket.join(lobbyId);
-      console.log('user has joined lobby');
       io.sockets.in(lobbyId).emit('joinMessage', `${lobbyId} has joined global room`);
     });
 
     socket.on('addToQueue', id => {
-      console.log('added to queue gets called');
       io.in(id).clients((err, clients) => {
         // clients will be array of socket ids , currently available in given room
+        // eslint-disable-next-line no-console
         console.log(clients);
       });
       socket.to(id).emit('updateQueue');
@@ -109,14 +108,14 @@ if (process.env.NODE_ENV === 'test') {
     socket.on('removeFromQueue', id => {
       socket.to(id).emit('updateQueue');
     });
-    // will be called when a song has been queued, need to tell everyone to play song, need to also keep track of timestamp somehow...
+    // will be called when a song has been queued
+    // need to tell everyone to play song, need to also keep track of timestamp somehow...
     socket.on('playMusic', id => {
       io.sockets.in(id).emit('sendMessageToPlay');
     });
 
     io.sockets.on('disconnect', () => {
       // handle disconnect
-      console.log('left the room');
       io.sockets.disconnect();
       io.sockets.close();
     });

@@ -21,14 +21,11 @@ import {
 const MusicPlayer = props => {
   const {
     accessToken,
-    lobby,
     addDeviceId,
     currentSong,
     updateSong,
     currentQueue,
-    currentTimeStamp,
     setTimeStamp,
-    getTimeStampDifference,
     songStartTimeStamp,
     deviceId,
     seenTracks,
@@ -38,35 +35,13 @@ const MusicPlayer = props => {
   const startingTime = 0;
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [webPlayer, setWebPlayer] = useState(null);
-  // const [deviceId, setDeviceId] = useState(null);
-  // const [currentSong, setCurrentSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(startingTime);
   const [volume, setVolume] = useState(90);
   const [startProgress, setStartProgress] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  // const [timeStampDifferential, setTimeStampDifferential] = useState(null);
   const { id } = useParams();
   const currentSongs = currentQueue.map(song => `spotify:track:${song.spotifySongId}`);
-  // const currentSongs = lobby.songs.map(song => `spotify:track:${song.spotifySongId}`);
-
-  // todo: replace with call to API
-
-  // const currentSongs = [
-  //   'spotify:track:24zYR2ozYbnhhwulk2NLD4',
-  //   'spotify:track:2O9KgUsmuon6Gycdmagc6t',
-  // ];
-
-  // const setTimeDiff = () => {
-  //   const timeStampToStartPlayingFrom = Math.floor(
-  //     new Date(JSON.parse(JSON.stringify(new Date()))) - new Date(songStartTimeStamp),
-  //   );
-  //   setTimeStampDifferential(timeStampToStartPlayingFrom);
-
-  //   console.log(JSON.parse(JSON.stringify(new Date())));
-  //   console.log(songStartTimeStamp);
-  //   console.log(timeStampToStartPlayingFrom);
-  // };
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
@@ -80,7 +55,6 @@ const MusicPlayer = props => {
     // set up initial state
     player.addListener('player_state_changed', state => {
       const previousTracks = state.track_window.previous_tracks;
-      // console.log(previousTracks);
       if (seenTracks < previousTracks.length) {
         setCurrentTime(state.position);
         // Remove the previous track from the list
@@ -93,12 +67,6 @@ const MusicPlayer = props => {
       }
     });
 
-    // player.on('playback_error', ({ message }) => {
-    //   pausePlayback(accessToken, deviceId);
-    //   setIsPlaying(false);
-    //   updateSong({ error: 'no songs' });
-    //   setSeenTracks(0);
-    // });
     // eslint-disable-next-line camelcase
     player.addListener('ready', ({ device_id }) => {
       addDeviceId(device_id);
@@ -122,13 +90,11 @@ const MusicPlayer = props => {
       });
     }
 
-    // console.log('hahaha');
     if (webPlayer) {
       webPlayer.removeListener('player_state_changed');
 
       webPlayer.addListener('player_state_changed', state => {
         const previousTracks = state.track_window.previous_tracks;
-        // console.log(previousTracks);
         if (seenTracks < previousTracks.length) {
           setCurrentTime(state.position);
           // Remove the previous track from the list
@@ -151,12 +117,9 @@ const MusicPlayer = props => {
     let initialSong;
     if (currentSongs.length > 0) {
       initialSong = currentSongs.shift().substring(14);
-      // setTimeDiff();
     }
 
-    // TODO: move this outside of the music player
     getSongInfo(accessToken, initialSong).then(res => {
-      // setCurrentSong(res);
       updateSong(res);
     });
   }, []);
@@ -173,14 +136,11 @@ const MusicPlayer = props => {
         setIsPlaying(true);
         setCurrentTime(0);
         startPlayback(accessToken, deviceId, currentSongs, 0);
-        // socket.emit('playMusic', id);
         setStartProgress(true);
         setTimeStamp();
       } else {
         if (!isPlaying) {
           startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
-          // startPlayback(accessToken, deviceId, currentSongs, 0);
-          // startPlayback(accessToken, deviceId, currentSongs, timeStampToStartPlayingFrom);
 
           setIsPlaying(true);
           setStartProgress(true);
@@ -206,12 +166,10 @@ const MusicPlayer = props => {
   }, [deviceId]);
 
   const onError = () => {
-    // todo
     // eslint-disable-next-line no-console
     console.log('Error');
   };
 
-  // todo: the song will auto play but for now do an onclick
   const handleStartClick = () => {
     if (currentSongs.length === 0) {
       // eslint-disable-next-line no-console
@@ -227,7 +185,6 @@ const MusicPlayer = props => {
       webPlayer.setVolume(newValue / 100);
       setVolume(newValue);
     }
-    // changeVolume(accessToken, volume);
   };
 
   const handleVolumeIcon = () => {
@@ -297,7 +254,6 @@ const mapStateToProps = state => ({
   deviceId: state.musicReducer.currentDevice,
   currentSong: state.musicReducer.currentSong,
   currentQueue: state.lobbyReducer.currentQueue,
-  // timeStampDifferential: state.lobbyReducer.timeStampDifferential,
   songStartTimeStamp: state.lobbyReducer.currentLobby.songStartTimeStamp,
   seenTracks: state.musicReducer.currentTracks,
 });

@@ -241,25 +241,6 @@ describe('Lobbies', () => {
 
   // Test the /PATCH/:id Song route
   describe('/PATCH/:id Song', () => {
-    // it('it should add a song to a lobby given the id', done => {
-    //   const lobby = new Lobby({
-    //     name: 'test',
-    //     isPublic: true,
-    //     createdBy: 'Richard',
-    //     code: 'ABC',
-    //     users: [],
-    //   });
-    //   lobby.save((err, lobbyRes) => {
-    //     authenticatedUser
-    //       .patch('/lobbies/' + lobbyRes.id + '/songs')
-    //       .send({ spotifyId: '2hnxrRNzF74mdDzpQZQukQ' })
-    //       .end((_err, res) => {
-    //         expect(res.statusCode).to.be.equal(200);
-    //         expect(res.body).to.have.length(1);
-    //         done();
-    //       });
-    //   });
-    // });
     it('it should not add a song to a lobby given the wrong id', done => {
       const lobby = new Lobby({
         name: 'test',
@@ -278,24 +259,6 @@ describe('Lobbies', () => {
           });
       });
     });
-    // it('it should not add a song to a lobby given a bad spotifyId', done => {
-    //   const lobby = new Lobby({
-    //     name: 'test',
-    //     isPublic: true,
-    //     createdBy: 'Richard',
-    //     code: 'ABC',
-    //     users: [],
-    //   });
-    //   lobby.save((err, lobbyRes) => {
-    //     authenticatedUser
-    //       .patch('/lobbies/' + lobbyRes.id + '/songs')
-    //       .send({ spotifyId: 'asdfasdf' })
-    //       .end((_err, res) => {
-    //         expect(res.statusCode).to.be.equal(400);
-    //         done();
-    //       });
-    //   });
-    // });
   });
 
   // Test the /DELETE/:id route
@@ -433,7 +396,6 @@ describe('Lobbies', () => {
           .end((_err, res) => {
             expect(res.statusCode).to.be.equal(400);
             expect(res.body).to.have.property('message');
-            // expect(res.body).to.have.length(0);
             done();
           });
       });
